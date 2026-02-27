@@ -1,0 +1,19 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Build outputs
+lib/
+es/
+*.tsbuildinfo
+
+# Test
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp

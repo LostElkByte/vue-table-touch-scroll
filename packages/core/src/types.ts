@@ -1,0 +1,67 @@
+/**
+ * v-table-touch-scroll 指令配置项
+ */
+export interface TableTouchScrollOptions {
+  /**
+   * 是否启用自定义滚动
+   * @default true
+   */
+  enabled?: boolean
+  /**
+   * 判定滚动方向前的位移阈值 (px)
+   * 用于区分轻微抖动点击和有意识的拖拽
+   * @default 5
+   */
+  threshold?: number
+  /**
+   * 目标滚动元素的 CSS 选择器
+   * 适用于 Ant Design Table 等组件，其滚动容器嵌套在深层 DOM 中
+   * 如果未提供，则默认为绑定指令的元素本身
+   */
+  selector?: string
+}
+
+/**
+ * 滚动引擎内部上下文状态
+ * 使用 WeakMap 存储，确保 DOM 销毁时自动进行垃圾回收
+ */
+export interface ScrollContext {
+  /** 实际执行滚动的 DOM 元素 */
+  scrollEl: HTMLElement
+  /** 控制器：用于一键移除所有绑定的事件监听器 */
+  abortController: AbortController
+  /** 原始样式备份：用于指令卸载时恢复元素初始状态 */
+  originalStyles: Map<string, string>
+
+  // 手势追踪
+  touchStartX: number
+  touchStartY: number
+  lastTouchX: number
+  lastTouchY: number
+  lastTouchTime: number
+
+  // 动画与物理状态
+  lastFrameTime: number
+  gestureDirection: 'horizontal' | 'vertical' | null
+  lockedDirection: 'horizontal' | 'vertical' | null
+  velocity: number // 像素/毫秒 (px/ms)
+  rafId: number | null
+
+  // 状态位
+  isTouching: boolean
+  targetScrollLeft: number
+  targetScrollTop: number
+  isMoved: boolean
+
+  /**
+   * 原生滚动接管标记
+   * 为 true 时，当前手势将被 JS 忽略，允许浏览器触发原生行为（如侧滑返回或外层滚动）
+   */
+  isNativeScroll: boolean
+
+  /**
+   * 点击拦截标记
+   * 为 true 时，将拦截接下来的 'click' 事件，防止"急停"时产生误触
+   */
+  shouldBlockClick: boolean
+}

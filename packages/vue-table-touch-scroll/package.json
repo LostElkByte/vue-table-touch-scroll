@@ -1,0 +1,58 @@
+{
+  "name": "vue-table-touch-scroll",
+  "version": "0.0.1",
+  "description": "A Vue 3 directive for touch scrolling in tables",
+  "keywords": [
+    "vue",
+    "vue3",
+    "directive",
+    "table",
+    "touch",
+    "scroll",
+    "mobile"
+  ],
+  "homepage": "https://github.com/yourusername/vue-table-touch-scroll",
+  "bugs": {
+    "url": "https://github.com/yourusername/vue-table-touch-scroll/issues"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./es/index.d.ts",
+      "import": "./es/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./es": {
+      "types": "./es/index.d.ts",
+      "import": "./es/index.mjs"
+    },
+    "./lib": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js"
+    },
+    "./*": "./*"
+  },
+  "unpkg": "dist/index.full.js",
+  "jsdelivr": "dist/index.full.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/vue-table-touch-scroll.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "dependencies": {
+    "@vue-table-touch-scroll/core": "workspace:^",
+    "@vue-table-touch-scroll/utils": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "name": "vue-table-touch-scroll",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.18.2",
+  "description": "A Vue 3 directive for touch scrolling in tables",
+  "keywords": [
+    "vue",
+    "vue3",
+    "directive",
+    "table",
+    "touch",
+    "scroll",
+    "mobile"
+  ],
+  "homepage": "https://github.com/yourusername/vue-table-touch-scroll#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/vue-table-touch-scroll/issues"
+  },
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vue-table-touch-scroll.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "play",
+    "docs"
+  ],
+  "scripts": {
+    "cz": "czg",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "dev": "pnpm -C play dev",
+    "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
+    "clean:dist": "rimraf dist",
+    "build": "pnpm run -C internal/build start",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache --concurrency=auto",
+    "lint:fix": "pnpm run lint --fix",
+    "lint:commit": "commitlint",
+    "typecheck": "pnpm run \"/^typecheck:/\"",
+    "typecheck:web": "vue-tsc -p tsconfig.web.json --composite false --noEmit",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
+    "typecheck:vitest": "vue-tsc -p tsconfig.vitest.json --composite false --noEmit",
+    "docs:dev": "pnpm run -C docs dev",
+    "docs:build": "pnpm run -C docs build",
+    "stub": "pnpm run -r --parallel stub",
+    "gen:version": "tsx scripts/gen-version.ts",
+    "update:version": "tsx scripts/update-version.ts",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "pnpm build && pnpm test && pnpm changelog",
+    "prepare": "husky",
+    "postinstall": "pnpm stub"
+  },
+  "dependencies": {
+    "@vue-table-touch-scroll/core": "workspace:*",
+    "@vue-table-touch-scroll/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/logger": "^4.0.0",
+    "@pnpm/types": "^8.4.0",
+    "@types/jsdom": "^28.0.0",
+    "@types/node": "^22.9.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
+    "@vue-table-touch-scroll/build": "workspace:^0.0.1",
+    "@vue-table-touch-scroll/build-utils": "workspace:^0.0.1",
+    "@vue-table-touch-scroll/eslint-config": "workspace:*",
+    "@vue/test-utils": "catalog:",
+    "consola": "^2.15.3",
+    "conventional-changelog-cli": "^5.0.0",
+    "cz-git": "^1.11.1",
+    "czg": "^1.11.1",
+    "eslint": "^9.37.0",
+    "happy-dom": "^20.7.0",
+    "husky": "^9.0.11",
+    "jsdom": "^28.1.0",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.6.2",
+    "rimraf": "^4.4.1",
+    "tinyglobby": "^0.2.15",
+    "tsx": "^4.19.3",
+    "typescript": "~5.5.4",
+    "unbuild": "^2.0.0",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.16",
+    "vue": "^3.5.22",
+    "vue-tsc": "^2.1.10"
+  },
+  "engines": {
+    "node": ">= 20"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx,md,json}": [
+      "eslint --fix --concurrency=auto",
+      "prettier --write"
+    ]
+  }
+}

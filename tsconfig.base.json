@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es2018",
+    "module": "esnext",
+    "baseUrl": ".",
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "rootDir": ".",
+    "types": [],
+    "paths": {
+      "@vue-table-touch-scroll/core": ["packages/core"],
+      "@vue-table-touch-scroll/core/*": ["packages/core/*"],
+      "@vue-table-touch-scroll/utils": ["packages/utils"],
+      "@vue-table-touch-scroll/utils/*": ["packages/utils/*"],
+      "vue-table-touch-scroll": ["packages/vue-table-touch-scroll"]
+    },
+    "preserveSymlinks": true
+  }
+}

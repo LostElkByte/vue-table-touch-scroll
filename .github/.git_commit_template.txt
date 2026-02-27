@@ -1,0 +1,6 @@
+# [TYPE](SCOPE): DESCRIPTION #[ISSUE]
+# example: feat(core): add threshold option #123
+# example: fix(directive): resolve edge detection bug #456
+#
+# TYPE: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+# SCOPE: core, directive, utils, docs, ci, build, test

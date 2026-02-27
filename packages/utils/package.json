@@ -1,0 +1,13 @@
+{
+  "name": "@vue-table-touch-scroll/utils",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts",
+  "peerDependencies": {
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "vue": "catalog:"
+  }
+}

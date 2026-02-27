@@ -1,0 +1,35 @@
+{
+  "name": "@vue-table-touch-scroll/build",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Build toolchain for vue-table-touch-scroll",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "start": "gulp --require tsx/cjs -f gulpfile.ts",
+    "dev": "pnpm run stub",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@vue-table-touch-scroll/build-constants": "workspace:*",
+    "@vue-table-touch-scroll/build-utils": "workspace:*",
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@vitejs/plugin-vue": "catalog:",
+    "consola": "^2.15.3",
+    "esbuild": "^0.27.2",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "rollup": "^4.55.1",
+    "rollup-plugin-esbuild": "^4.9.1",
+    "tinyglobby": "^0.2.15"
+  },
+  "devDependencies": {
+    "@pnpm/types": "^8.4.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/gulp": "^4.0.9",
+    "tsx": "^4.19.3",
+    "unbuild": "^2.0.0"
+  }
+}

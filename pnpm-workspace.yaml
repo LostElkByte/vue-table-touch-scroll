@@ -1,0 +1,28 @@
+packages:
+  - packages/*
+  - docs
+  - play
+  - internal/*
+
+catalog:
+  '@vitejs/plugin-vue': ^5.1.4
+  '@vue/test-utils': ^2.4.6
+  '@vueuse/core': ^10.11.0
+  vue: ^3.5.22
+
+onlyBuiltDependencies:
+  - esbuild
+  - fsevents
+
+overrides:
+  typescript: $typescript
+
+peerDependencyRules:
+  ignoreMissing:
+    - vite
+
+shamefullyHoist: true
+
+shellEmulator: true
+
+strictPeerDependencies: false

@@ -1,0 +1,128 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "needs triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this bug!
+        
+        Please fill out the information below to help us diagnose the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: When I do X, Y happens instead of Z...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of vue-table-touch-scroll are you using?
+      placeholder: e.g., 0.0.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: vue-version
+    attributes:
+      label: Vue Version
+      options:
+        - Vue 3.3.x
+        - Vue 3.4.x
+        - Vue 3.5.x
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Mobile Safari (iOS)
+        - Chrome Mobile (Android)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Please provide relevant environment information
+      value: |
+        - OS: [e.g., macOS 13.0, Windows 11, iOS 16]
+        - Node.js: [e.g., 20.0.0]
+        - Package Manager: [e.g., pnpm 10.0.0]
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-link
+    attributes:
+      label: Reproduction Link
+      description: |
+        Please provide a minimal reproduction link (StackBlitz, CodeSandbox, etc.)
+        This will help us fix the issue faster!
+      placeholder: https://stackblitz.com/...
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (screenshots, error logs, etc.)
+
+  - type: checkboxes
+    id: validations
+    attributes:
+      label: Validations
+      description: Before submitting, please confirm the following
+      options:
+        - label: I have searched for existing issues
+          required: true
+        - label: I have provided all the required information
+          required: true
+        - label: This is a bug, not a feature request
+          required: true

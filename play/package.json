@@ -1,0 +1,18 @@
+{
+  "name": "play",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@vue-table-touch-scroll/core": "workspace:*",
+    "element-plus": "^2.13.2",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vite": "^5.4.11"
+  }
+}
