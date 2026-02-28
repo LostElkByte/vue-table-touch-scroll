@@ -3,25 +3,33 @@
   "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@10.18.2",
-  "description": "A Vue 3 directive for touch scrolling in tables",
+  "description": "vue-table-touch-scroll is specifically designed to solve mobile scrolling issues for Vue PC Table components. It brings a native-like touch experience to desktop UI libraries such as Element Plus (el-table), Ant Design Vue (a-table), and Naive UI.",
   "keywords": [
-    "vue",
-    "vue3",
-    "directive",
-    "table",
-    "touch",
-    "scroll",
-    "mobile"
+    "mobile-table",
+    "vue-table-mobile",
+    "touch-scroll-table",
+    "horizontal-scroll-fix",
+    "table-inertia-scroll",
+    "mobile-data-table",
+    "vue-directive-scroll",
+    "element-plus-table-mobile",
+    "ant-design-vue-table-mobile",
+    "el-table-touch",
+    "axis-lock-scroll",
+    "v-table-touch-scroll"
   ],
-  "homepage": "https://github.com/yourusername/vue-table-touch-scroll#readme",
+  "homepage": "https://github.com/LostElkByte/vue-table-touch-scroll#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/vue-table-touch-scroll/issues"
+    "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
   },
   "license": "MIT",
-  "author": "",
+  "author": {
+    "name": "LostElk",
+    "url": "https://github.com/LostElkByte"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/vue-table-touch-scroll.git"
+    "url": "https://github.com/LostElkByte/vue-table-touch-scroll.git"
   },
   "workspaces": [
     "packages/*",
