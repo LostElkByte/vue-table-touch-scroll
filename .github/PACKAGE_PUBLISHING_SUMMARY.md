@@ -1,6 +1,6 @@
 # 包发布配置总结
 
-已完成包发布配置的完善，解决了所有高优先级问题。
+vue-table-touch-scroll 项目的完整包发布配置文档。
 
 ## ✅ 已解决的问题
 
@@ -143,11 +143,14 @@ git push origin main --tags
 - 从环境变量或 package.json 读取版本
 - 生成 `version.ts` 文件
 - 用于构建时嵌入版本信息
+- 使用构建工具路径常量，代码更简洁
 
 ### 3. `scripts/update-version.ts`
-- 批量更新所有包的版本号
+- 动态发现工作区中的所有包
+- 智能过滤私有包和构建工具包
+- 使用 pnpm 标准 API 更新版本
 - 支持 TAG_VERSION 和 GIT_HEAD 环境变量
-- 确保版本一致性
+- 确保多包项目版本一致性
 
 ### 4. `.github/RELEASE_GUIDE.md`
 - 完整的发布指南
@@ -220,37 +223,22 @@ git push origin main --tags
 # NPM: https://www.npmjs.com/package/vue-table-touch-scroll
 ```
 
-## 🎯 与 Element Plus 对比
-
-| 配置项 | Element Plus | vue-table-touch-scroll | 状态 |
-|--------|--------------|------------------------|------|
-| Monorepo 结构 | ✅ | ✅ | 完成 |
-| 版本管理脚本 | ✅ | ✅ | 完成 |
-| CHANGELOG | ✅ | ✅ | 完成 |
-| 自动发布 | ✅ | ✅ | 完成 |
-| GitHub Release | ✅ | ✅ | 完成 |
-| NPM 发布 | ✅ | ✅ | 完成 |
-| 语义化版本 | ✅ | ✅ | 完成 |
-| Changesets | ❌ | ❌ | 未使用 |
-
-**说明**: Element Plus 使用自定义脚本而非 Changesets，我们采用了相同的方案。
-
 ## 📚 相关文档
 
-- [RELEASE_GUIDE.md](./.github/RELEASE_GUIDE.md) - 详细发布指南
+- [RELEASE_GUIDE.md](./RELEASE_GUIDE.md) - 详细发布指南
 - [CHANGELOG.md](../CHANGELOG.md) - 项目变更日志
-- [CI_CD_GUIDE.md](./.github/CI_CD_GUIDE.md) - CI/CD 使用指南
-- [CONTRIBUTING.md](./.github/CONTRIBUTING.md) - 贡献指南
+- [CI_CD_GUIDE.md](./CI_CD_GUIDE.md) - CI/CD 使用指南
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - 贡献指南
 
-## ✅ 总结
+## ✅ 配置完成状态
 
-所有包发布配置问题已解决：
+所有包发布配置已完成：
 
 1. ✅ **Monorepo 结构正确** - 根包 private，子包可发布
 2. ✅ **仓库信息完整** - homepage, bugs, repository 全部配置
 3. ✅ **CHANGELOG 完善** - 手动+自动生成支持
-4. ✅ **版本管理自动化** - 脚本化版本更新
+4. ✅ **版本管理自动化** - 动态包发现，智能版本更新
 5. ✅ **发布流程自动化** - GitHub Actions 一键发布
 6. ✅ **文档完整** - 发布指南、故障排查、最佳实践
 
-现在你的项目拥有了专业的包发布配置，参照 Element Plus 的最佳实践！
+现在你的项目拥有了完整的专业包发布配置！
