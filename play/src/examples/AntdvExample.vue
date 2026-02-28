@@ -1,0 +1,43 @@
+<script setup lang="ts">
+import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
+import { useTableData } from '../composables/useTableData'
+import { useTableColumns } from '../composables/useTableColumns'
+import { Table as ATable, theme, ConfigProvider } from 'ant-design-vue'
+import 'ant-design-vue/dist/reset.css'
+import '../styles/common.css'
+import { computed } from 'vue'
+
+const { darkAlgorithm, compactAlgorithm } = theme;
+const darkTheme = computed(() => ({
+ algorithm: [darkAlgorithm, compactAlgorithm],
+}))
+
+const tableData = useTableData(30)
+const columns = useTableColumns()
+</script>
+
+<template>
+  <config-provider :theme="darkTheme">
+    <div class="example-container">
+      <h2>Ant Design Vue</h2>
+      <p class="description">
+        Enterprise-level UI design language and Vue implementation with rich table features
+      </p>
+
+      <div
+        v-table-touch-scroll="{ selector: '.ant-table-body' }"
+        class="table-wrapper"
+      >
+        <a-table
+          :columns="columns"
+          :data-source="tableData"
+          :scroll="{ x: 1200, y: 400 }"
+          :pagination="false"
+          row-key="id"
+          size="small"
+          bordered
+        />
+      </div>
+    </div>
+  </config-provider>
+</template>

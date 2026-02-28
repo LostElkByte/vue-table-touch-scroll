@@ -1,0 +1,11 @@
+/* UnoCSS 会自动注入样式，这里只需要一些全局样式 */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

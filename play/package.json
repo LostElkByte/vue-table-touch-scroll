@@ -7,12 +7,23 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@arco-design/web-vue": "^2.56.2",
+    "@primeuix/themes": "^2.0.3",
     "@vue-table-touch-scroll/core": "workspace:*",
+    "ant-design-vue": "^4.2.6",
     "element-plus": "^2.13.2",
-    "vue": "catalog:"
+    "naive-ui": "^2.40.1",
+    "primevue": "^4.5.4",
+    "vue": "catalog:",
+    "vuetify": "^3.7.5",
+    "vxe-table": "^4.9.5",
+    "vxe-table-plugin-element": "^4.0.4",
+    "xe-utils": "^3.5.30"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",
-    "vite": "^5.4.11"
+    "unocss": "^66.6.2",
+    "vite": "^7.3.1",
+    "vite-plugin-vuetify": "^2.0.4"
   }
 }

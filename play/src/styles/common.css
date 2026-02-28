@@ -1,0 +1,35 @@
+.example-container {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+.example-container h2 {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.example-container .description {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.example-container h3 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+}
