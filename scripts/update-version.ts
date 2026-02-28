@@ -1,19 +1,66 @@
-import { readFile, writeFile } from 'fs/promises'
-import { fileURLToPath } from 'url'
-import path from 'path'
+/**
+ * 版本号批量更新脚本
+ *
+ * 功能说明：
+ * - 批量更新项目中所有包的版本号
+ * - 可选添加 Git HEAD 信息到 package.json
+ * - 用于发布流程中的版本同步
+ * - 动态发现工作区中的所有包
+ *
+ * 使用场景：
+ * - CI/CD 发布流程中更新版本号
+ * - 手动发布时同步所有包版本
+ * - 确保多包项目版本一致性
+ *
+ * 环境变量：
+ * - TAG_VERSION: 目标版本号（必需）
+ * - GIT_HEAD: Git 提交哈希值（可选）
+ *
+ * 更新的包：
+ * - 自动发现并更新工作区中的所有包
+ * - 包括 vue-table-touch-scroll、core、utils 等
+ */
+
 import chalk from 'chalk'
 import consola from 'consola'
+import {
+  errorAndExit,
+  getWorkspacePackages,
+} from '@vue-table-touch-scroll/build-utils'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const projRoot = path.resolve(__dirname, '..')
+import type { Project } from '@pnpm/find-workspace-packages'
 
-async function main() {
+/**
+ * 主函数：批量更新包版本号
+ *
+ * 执行流程：
+ * 1. 验证必需的环境变量
+ * 2. 动态获取工作区中的所有包
+ * 3. 更新各个包的 package.json
+ * 4. 输出更新结果
+ *
+ * 错误处理：
+ * - 缺少必需环境变量时使用标准化错误处理退出
+ * - 文件操作失败时输出错误信息并退出
+ *
+ * 改进点：
+ * - 使用 getWorkspacePackages 动态发现包，无需硬编码
+ * - 使用 project.writeProjectManifest 标准化写入
+ * - 使用 errorAndExit 统一错误处理
+ */
+async function main(): Promise<void> {
   const tagVersion = process.env.TAG_VERSION
   const gitHead = process.env.GIT_HEAD
 
+  // 验证必需的环境变量
   if (!tagVersion) {
-    consola.error('No TAG_VERSION environment variable found')
-    process.exit(1)
+    errorAndExit(
+      new Error(
+        'No TAG_VERSION environment variable found.\n' +
+          'Please set TAG_VERSION before running this script.\n' +
+          'Example: TAG_VERSION=1.0.0 pnpm run update:version'
+      )
+    )
   }
 
   consola.log(chalk.cyan('Start updating version'))
@@ -22,37 +69,75 @@ async function main() {
     consola.log(chalk.cyan(`GIT_HEAD: ${gitHead}`))
   }
 
-  // Update main package version
-  const mainPkgPath = path.resolve(
-    projRoot,
-    'packages/vue-table-touch-scroll/package.json'
-  )
-  const corePkgPath = path.resolve(projRoot, 'packages/core/package.json')
-  const utilsPkgPath = path.resolve(projRoot, 'packages/utils/package.json')
+  consola.debug(chalk.yellow('Fetching workspace packages...'))
 
-  const updatePackageVersion = async (pkgPath: string) => {
-    const content = await readFile(pkgPath, 'utf-8')
-    const pkg = JSON.parse(content)
-    pkg.version = tagVersion
+  /**
+   * 更新单个包的版本号
+   *
+   * @param project - pnpm 工作区包项目对象
+   *
+   * 功能说明：
+   * - 使用 pnpm 标准 API 更新 package.json
+   * - 更新 version 字段
+   * - 可选添加 gitHead 字段
+   * - 自动格式化并写回文件
+   */
+  const writeVersion = async (project: Project): Promise<void> => {
+    await project.writeProjectManifest({
+      ...project.manifest,
+      version: tagVersion,
+      ...(gitHead ? { gitHead } : {}),
+    } as any)
 
-    if (gitHead) {
-      pkg.gitHead = gitHead
-    }
-
-    await writeFile(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
-    consola.success(chalk.green(`Updated ${path.basename(pkgPath)}`))
+    consola.success(
+      chalk.green(
+        `Updated ${project.manifest.name || 'package'} to ${tagVersion}`
+      )
+    )
   }
 
   try {
-    await updatePackageVersion(mainPkgPath)
-    await updatePackageVersion(corePkgPath)
-    await updatePackageVersion(utilsPkgPath)
+    // 动态获取工作区中的所有包
+    const packages = await getWorkspacePackages()
 
-    consola.success(chalk.green('All package versions updated successfully'))
+    // 过滤出需要更新版本的包（排除私有包和构建工具包）
+    const packagesToUpdate = packages.filter((pkg) => {
+      const name = pkg.manifest.name || ''
+      const isPrivate = pkg.manifest.private === true
+      const isBuildTool =
+        name.includes('/build') || name.includes('/eslint-config')
+
+      return !isPrivate && !isBuildTool
+    })
+
+    if (packagesToUpdate.length === 0) {
+      consola.warn(chalk.yellow('No packages found to update'))
+      return
+    }
+
+    consola.info(
+      chalk.cyan(`Found ${packagesToUpdate.length} package(s) to update`)
+    )
+
+    // 批量更新所有包的版本号
+    await Promise.all(packagesToUpdate.map(writeVersion))
+
+    consola.success(
+      chalk.green(
+        `All ${packagesToUpdate.length} package(s) updated successfully to version ${tagVersion}`
+      )
+    )
+
+    if (gitHead) {
+      consola.success(chalk.green(`Git HEAD set to ${gitHead}`))
+    }
   } catch (err: any) {
-    consola.error(chalk.red('Failed to update versions:'), err)
-    process.exit(1)
+    errorAndExit(err)
   }
 }
 
-main()
+// 执行主函数
+main().catch((err) => {
+  errorAndExit(err)
+  process.exit(1)
+})
