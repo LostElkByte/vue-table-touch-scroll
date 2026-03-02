@@ -1,3 +1,5 @@
+import type { UILibraryPreset } from './presets'
+
 /**
  * v-table-touch-scroll 指令配置项
  */
@@ -14,9 +16,30 @@ export interface TableTouchScrollOptions {
    */
   threshold?: number
   /**
+   * UI 库预设名称
+   * 使用预设可以自动应用对应 UI 库的滚动容器选择器
+   * 支持的 UI 库: 'element-plus' | 'ant-design-vue' | 'arco-design' | 'naive-ui' | 'primevue' | 'vuetify' | 'vxe-table'
+   *
+   * @example
+   * ```vue
+   * <div v-table-touch-scroll="{ uiLibrary: 'element-plus' }">
+   *   <el-table />
+   * </div>
+   * ```
+   */
+  uiLibrary?: UILibraryPreset
+  /**
    * 目标滚动元素的 CSS 选择器
-   * 适用于 Ant Design Table 等组件，其滚动容器嵌套在深层 DOM 中
-   * 如果未提供，则默认为绑定指令的元素本身
+   * 适用于自定义组件或需要精确控制的场景
+   * 如果同时提供了 uiLibrary 和 selector，selector 优先级更高
+   * 如果都未提供，则默认为绑定指令的元素本身
+   *
+   * @example
+   * ```vue
+   * <div v-table-touch-scroll="{ selector: '.custom-scroll-container' }">
+   *   <CustomTable />
+   * </div>
+   * ```
    */
   selector?: string
 }

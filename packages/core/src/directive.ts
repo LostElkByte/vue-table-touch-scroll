@@ -11,6 +11,8 @@
  * - 帧率归一化物理引擎：通过 Delta Time (dt) 计算，确保在 60Hz/90Hz/120Hz 等不同刷新率屏幕上具有一致的惯性体感。
  */
 
+import { getSelectorByPreset } from './presets'
+
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 import type { ScrollContext, TableTouchScrollOptions } from './types'
 
@@ -43,7 +45,8 @@ export const vTableTouchScroll: ObjectDirective<
     const { value, oldValue } = binding
     if (
       value?.enabled !== oldValue?.enabled ||
-      value?.selector !== oldValue?.selector
+      value?.selector !== oldValue?.selector ||
+      value?.uiLibrary !== oldValue?.uiLibrary
     ) {
       initOrUpdate(el, binding)
     }
@@ -83,8 +86,16 @@ function initOrUpdate(
  * @param options - 指令配置选项
  */
 function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
+  // 优先级: selector > uiLibrary > 默认(el 本身)
+  let targetSelector: string | undefined
+  if (options.selector) {
+    targetSelector = options.selector
+  } else if (options.uiLibrary) {
+    targetSelector = getSelectorByPreset(options.uiLibrary)
+  }
+
   const scrollEl = (
-    options.selector ? el.querySelector(options.selector) : el
+    targetSelector ? el.querySelector(targetSelector) : el
   ) as HTMLElement
   if (!scrollEl) return
 
