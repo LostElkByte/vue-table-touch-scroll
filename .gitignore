@@ -21,3 +21,6 @@ es/
 # 忽略 Vite 缓存文件夹
 .vite/
 play/.vite/
+
+# Archive folder for unused documentation
+.github-archive/
