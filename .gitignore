@@ -17,3 +17,7 @@ es/
 # Temporary files
 *.tmp
 *.temp
+
+# 忽略 Vite 缓存文件夹
+.vite/
+play/.vite/
