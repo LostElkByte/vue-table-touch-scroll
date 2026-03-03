@@ -87,7 +87,7 @@
     "@vue-table-touch-scroll/build-utils": "workspace:^0.0.1",
     "@vue-table-touch-scroll/eslint-config": "workspace:*",
     "@vue/test-utils": "catalog:",
-    "consola": "^2.15.3",
+    "consola": "^3.4.2",
     "conventional-changelog-cli": "^5.0.0",
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",
