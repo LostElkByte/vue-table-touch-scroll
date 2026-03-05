@@ -1,0 +1,29 @@
+{
+  "name": "docs-template",
+  "type": "module",
+  "description": "A modern documentation template built with Nuxt 3 and shadcn-docs-nuxt.",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "nuxt generate",
+    "dev": "nuxt dev --port 3099",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@vueuse/shared": "^14.1.0",
+    "highlight.js": "^11.11.1",
+    "nuxt": "^3.20.2",
+    "shadcn-docs-nuxt": "1.1.7",
+    "tailwindcss": "^4.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/lucide": "^1.2.78",
+    "@iconify-json/simple-icons": "^1.2.61",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

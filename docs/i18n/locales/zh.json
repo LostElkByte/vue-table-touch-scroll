@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "docs": "文档",
+    "components": "组件",
+    "links": "链接",
+    "getting_started": "开始使用",
+    "getting_started_desc": "学习如何使用此文档模板",
+    "components_desc": "探索可用的组件和示例"
+  },
+  "home": {
+    "title": "文档模板",
+    "description": "使用 Nuxt 和 shadcn-vue 构建的现代化、美观的文档模板。",
+    "get_started": "开始使用",
+    "view_components": "查看组件"
+  },
+  "guide": {
+    "introduction": {
+      "title": "介绍",
+      "description": "欢迎使用文档模板。"
+    },
+    "configuration": {
+      "title": "配置",
+      "description": "学习如何配置模板。"
+    }
+  },
+  "components": {
+    "overview": {
+      "title": "概览",
+      "description": "可用组件的概览。"
+    },
+    "demo_preview": {
+      "title": "演示预览",
+      "description": "预览和测试组件。"
+    }
+  },
+  "common": {
+    "search": "搜索",
+    "menu": "菜单",
+    "previous": "上一页",
+    "next": "下一页",
+    "on_this_page": "本页内容",
+    "table_of_contents": "目录",
+    "edit_page": "编辑此页",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "系统"
+  }
+}

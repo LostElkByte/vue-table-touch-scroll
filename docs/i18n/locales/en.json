@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "docs": "Docs",
+    "components": "Components",
+    "links": "Links",
+    "getting_started": "Getting Started",
+    "getting_started_desc": "Learn how to use this documentation template",
+    "components_desc": "Explore available components and examples"
+  },
+  "home": {
+    "title": "Documentation Template",
+    "description": "A modern, beautiful documentation template built with Nuxt and shadcn-vue.",
+    "get_started": "Get Started",
+    "view_components": "View Components"
+  },
+  "guide": {
+    "introduction": {
+      "title": "Introduction",
+      "description": "Welcome to the documentation template."
+    },
+    "configuration": {
+      "title": "Configuration",
+      "description": "Learn how to configure the template."
+    }
+  },
+  "components": {
+    "overview": {
+      "title": "Overview",
+      "description": "Overview of available components."
+    },
+    "demo_preview": {
+      "title": "Demo Preview",
+      "description": "Preview and test components."
+    }
+  },
+  "common": {
+    "search": "Search",
+    "menu": "Menu",
+    "previous": "Previous",
+    "next": "Next",
+    "on_this_page": "On this page",
+    "table_of_contents": "Table of Contents",
+    "edit_page": "Edit this page",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}
