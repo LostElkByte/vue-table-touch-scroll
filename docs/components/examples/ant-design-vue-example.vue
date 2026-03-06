@@ -15,7 +15,7 @@ const columns = useTableColumns().map(col => ({
 <template>
   <div class="p-4">
     <div
-      v-table-touch-scroll="{ uiLibrary: 'ant-design-vue' }"
+      v-table-touch-scroll="{ preset: 'ant-design-vue' }"
       class="border rounded-lg overflow-hidden"
     >
       <a-table

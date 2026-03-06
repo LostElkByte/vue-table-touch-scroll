@@ -16,10 +16,10 @@ const columns = useTableColumns()
     <h2>Element Plus</h2>
     <p class="description">Enterprise-level UI component library with rich table features</p>
 
-    <!-- 使用 uiLibrary 预设方式（推荐） -->
+    <!-- 使用 preset 预设方式（推荐） -->
     <!-- 也可以使用 selector 方式: { selector: '.el-scrollbar__wrap' } -->
     <div
-      v-table-touch-scroll="{ uiLibrary: 'element-plus' }"
+      v-table-touch-scroll="{ preset: 'element-plus' }"
       class="table-wrapper"
     >
       <el-table

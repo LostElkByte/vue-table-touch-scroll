@@ -8,7 +8,7 @@ const columns = useTableColumns()
 
 <template>
   <div
-    v-table-touch-scroll="{ uiLibrary: 'element-plus' }"
+    v-table-touch-scroll="{ preset: 'element-plus' }"
     class="border rounded-lg overflow-hidden"
   >
     <el-table :data="tableData" height="390" border stripe size="small">

@@ -1,4 +1,4 @@
-import type { UILibraryPreset } from './presets'
+import type { TablePreset } from './presets'
 
 /**
  * v-table-touch-scroll 指令配置项
@@ -22,16 +22,16 @@ export interface TableTouchScrollOptions {
    *
    * @example
    * ```vue
-   * <div v-table-touch-scroll="{ uiLibrary: 'element-plus' }">
+   * <div v-table-touch-scroll="{ preset: 'element-plus' }">
    *   <el-table />
    * </div>
    * ```
    */
-  uiLibrary?: UILibraryPreset
+  preset?: TablePreset
   /**
    * 目标滚动元素的 CSS 选择器
    * 适用于自定义组件或需要精确控制的场景
-   * 如果同时提供了 uiLibrary 和 selector，selector 优先级更高
+   * 如果同时提供了 preset 和 selector，selector 优先级更高
    * 如果都未提供，则默认为绑定指令的元素本身
    *
    * @example

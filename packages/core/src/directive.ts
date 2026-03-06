@@ -46,7 +46,7 @@ export const vTableTouchScroll: ObjectDirective<
     if (
       value?.enabled !== oldValue?.enabled ||
       value?.selector !== oldValue?.selector ||
-      value?.uiLibrary !== oldValue?.uiLibrary
+      value?.preset !== oldValue?.preset
     ) {
       initOrUpdate(el, binding)
     }
@@ -86,12 +86,12 @@ function initOrUpdate(
  * @param options - 指令配置选项
  */
 function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
-  // 优先级: selector > uiLibrary > 默认(el 本身)
+  // 优先级: selector > preset > 默认(el 本身)
   let targetSelector: string | undefined
   if (options.selector) {
     targetSelector = options.selector
-  } else if (options.uiLibrary) {
-    targetSelector = getSelectorByPreset(options.uiLibrary)
+  } else if (options.preset) {
+    targetSelector = getSelectorByPreset(options.preset)
   }
 
   const scrollEl = (

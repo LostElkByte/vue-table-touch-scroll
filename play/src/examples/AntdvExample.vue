@@ -24,10 +24,10 @@ const columns = useTableColumns()
         Enterprise-level UI design language and Vue implementation with rich table features
       </p>
 
-      <!-- 使用 uiLibrary 预设方式（推荐） -->
+      <!-- 使用 preset 预设方式（推荐） -->
       <!-- 也可以使用 selector 方式: { selector: '.ant-table-body' } -->
       <div
-        v-table-touch-scroll="{ uiLibrary: 'ant-design-vue' }"
+        v-table-touch-scroll="{ preset: 'ant-design-vue' }"
         class="table-wrapper"
       >
         <a-table

@@ -8,7 +8,7 @@
 /**
  * 支持的 UI 库预设类型
  */
-export type UILibraryPreset =
+export type TablePreset =
   | 'element-plus'
   | 'ant-design-vue'
   | 'arco-design'
@@ -29,7 +29,7 @@ export type UILibraryPreset =
  * - vuetify: Vuetify 表格组件的滚动容器
  * - vxe-table: VxeTable 表格组件的滚动容器
  */
-export const UI_LIBRARY_SELECTORS: Record<UILibraryPreset, string> = {
+export const UI_LIBRARY_SELECTORS: Record<TablePreset, string> = {
   'element-plus': '.el-scrollbar__wrap',
   'ant-design-vue': '.ant-table-body',
   'arco-design': '.arco-table-body',
@@ -51,8 +51,6 @@ export const UI_LIBRARY_SELECTORS: Record<UILibraryPreset, string> = {
  * // 返回: '.el-scrollbar__wrap'
  * ```
  */
-export function getSelectorByPreset(
-  preset: UILibraryPreset
-): string | undefined {
+export function getSelectorByPreset(preset: TablePreset): string | undefined {
   return UI_LIBRARY_SELECTORS[preset]
 }

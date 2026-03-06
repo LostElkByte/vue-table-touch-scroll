@@ -18,7 +18,7 @@ const columns: DataTableColumns<TableRow> = rawColumns.map((col) => ({
 <template>
   <div class="p-4">
     <div
-      v-table-touch-scroll="{ uiLibrary: 'naive-ui' }"
+      v-table-touch-scroll="{ preset: 'naive-ui' }"
       class="border rounded-lg overflow-hidden"
     >
       <n-data-table
