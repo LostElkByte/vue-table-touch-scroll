@@ -133,6 +133,8 @@ function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
     velocity: 0,
     rafId: null,
     friction: options.friction ?? DEFAULT_FRICTION,
+    onScrollStart: options.onScrollStart,
+    onScrollEnd: options.onScrollEnd,
     isTouching: false,
     targetScrollLeft: 0,
     targetScrollTop: 0,
@@ -187,6 +189,9 @@ function cleanup(el: HTMLElement) {
   const ctx = contexts.get(el)
   if (!ctx) return
 
+  // 如果组件卸载时正在滚动，需要触发 onScrollEnd 回调
+  const wasScrolling = ctx.rafId !== null
+
   if (ctx.rafId) cancelAnimationFrame(ctx.rafId)
   ctx.abortController.abort() // 一键注销所有事件
 
@@ -196,6 +201,11 @@ function cleanup(el: HTMLElement) {
   })
 
   contexts.delete(el)
+
+  // 在清理完成后触发 onScrollEnd，避免回调中访问已销毁的资源
+  if (wasScrolling && ctx.onScrollEnd) {
+    ctx.onScrollEnd()
+  }
 }
 
 /**
@@ -255,11 +265,13 @@ function animationStep(ctx: ScrollContext) {
  * @param ctx - 滚动上下文
  */
 function stopAnimation(ctx: ScrollContext) {
+  const hadAnimation = ctx.rafId !== null
+
   if (ctx.rafId) {
     cancelAnimationFrame(ctx.rafId)
     ctx.rafId = null
 
-    // 智能急停逻辑：如果速度过快，视为“刹车”而非“点击按钮”
+    // 智能急停逻辑：如果速度过快，视为"刹车"而非"点击按钮"
     if (Math.abs(ctx.velocity) > SAFE_CLICK_VELOCITY) {
       ctx.shouldBlockClick = true
     } else {
@@ -269,8 +281,14 @@ function stopAnimation(ctx: ScrollContext) {
     ctx.shouldBlockClick = false
   }
 
+  // 先清理内部状态
   ctx.velocity = 0
   ctx.lastFrameTime = 0
+
+  // 再触发回调，此时回调函数读取到的是"已停止"的状态
+  if (hadAnimation && ctx.onScrollEnd) {
+    ctx.onScrollEnd()
+  }
 }
 
 /**
@@ -347,6 +365,9 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext, dragThreshold: number) {
       ctx.lockedDirection = ctx.gestureDirection
       ctx.isMoved = true
       ctx.lastFrameTime = performance.now()
+
+      // 调用 onScrollStart 生命周期钩子
+      ctx.onScrollStart?.()
 
       if (!ctx.rafId) {
         ctx.rafId = requestAnimationFrame(() => animationStep(ctx))

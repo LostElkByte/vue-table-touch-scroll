@@ -23,6 +23,18 @@ export interface TableTouchScrollOptions {
    */
   friction?: number
   /**
+   * 滚动开始时的回调函数
+   * 触发时机：用户开始拖拽滚动时（超过 dragThreshold 阈值后）
+   * 使用场景：关闭浮层、记录开始时间等
+   */
+  onScrollStart?: () => void
+  /**
+   * 滚动结束时的回调函数
+   * 触发时机：惯性动画完全停止后
+   * 使用场景：触发埋点、加载更多数据、同步状态等
+   */
+  onScrollEnd?: () => void
+  /**
    * UI 库预设名称
    * 使用预设可以自动应用对应 UI 库的滚动容器选择器
    * 支持的 UI 库: 'element-plus' | 'ant-design-vue' | 'arco-design' | 'naive-ui' | 'primevue' | 'vuetify' | 'vxe-table'
@@ -77,6 +89,10 @@ export interface ScrollContext {
   velocity: number // 像素/毫秒 (px/ms)
   rafId: number | null
   friction: number // 摩擦力/衰减率
+
+  // 生命周期回调
+  onScrollStart?: () => void
+  onScrollEnd?: () => void
 
   // 状态位
   isTouching: boolean
