@@ -16,6 +16,13 @@ export interface TableTouchScrollOptions {
    */
   dragThreshold?: number
   /**
+   * 摩擦力/衰减率
+   * 控制惯性滚动的物理体感，值越大滚动越丝滑（衰减慢），值越小即停感越强（衰减快）
+   * 建议范围: 0.8 - 0.99
+   * @default 0.95
+   */
+  friction?: number
+  /**
    * UI 库预设名称
    * 使用预设可以自动应用对应 UI 库的滚动容器选择器
    * 支持的 UI 库: 'element-plus' | 'ant-design-vue' | 'arco-design' | 'naive-ui' | 'primevue' | 'vuetify' | 'vxe-table'
@@ -69,6 +76,7 @@ export interface ScrollContext {
   lockedDirection: 'horizontal' | 'vertical' | null
   velocity: number // 像素/毫秒 (px/ms)
   rafId: number | null
+  friction: number // 摩擦力/衰减率
 
   // 状态位
   isTouching: boolean

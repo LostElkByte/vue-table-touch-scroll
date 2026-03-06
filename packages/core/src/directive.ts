@@ -17,7 +17,7 @@ import type { DirectiveBinding, ObjectDirective } from 'vue'
 import type { ScrollContext, TableTouchScrollOptions } from './types'
 
 // 物理引擎参数配置
-const DECAY = 0.95 // 摩擦力/衰减率 (值越低摩擦力越大)
+const DEFAULT_FRICTION = 0.95 // 默认摩擦力/衰减率 (值越低摩擦力越大)
 const MIN_VELOCITY = 0.05 // 停止动画的速度阈值
 const MAX_DT = 32 // 最大帧间隔限制，防止掉帧后产生大幅度位移跳变
 const DEFAULT_DRAG_THRESHOLD = 5 // 默认判定阈值
@@ -46,7 +46,8 @@ export const vTableTouchScroll: ObjectDirective<
     if (
       value?.enabled !== oldValue?.enabled ||
       value?.selector !== oldValue?.selector ||
-      value?.preset !== oldValue?.preset
+      value?.preset !== oldValue?.preset ||
+      value?.friction !== oldValue?.friction
     ) {
       initOrUpdate(el, binding)
     }
@@ -131,6 +132,7 @@ function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
     lockedDirection: null,
     velocity: 0,
     rafId: null,
+    friction: options.friction ?? DEFAULT_FRICTION,
     isTouching: false,
     targetScrollLeft: 0,
     targetScrollTop: 0,
@@ -220,7 +222,7 @@ function animationStep(ctx: ScrollContext) {
     shouldContinue = true
   } else {
     // 阶段二：惯性模拟
-    const adjustedDecay = DECAY ** (dt / 16.67)
+    const adjustedDecay = ctx.friction ** (dt / 16.67)
     ctx.velocity *= adjustedDecay
     const delta = ctx.velocity * dt
 
