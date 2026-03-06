@@ -132,7 +132,7 @@ describe('vTableTouchScroll Directive', () => {
     it('should lock to Horizontal and ignore Y axis / 水平偏移优先时应锁定水平轴，忽略垂直移动', async () => {
       vTableTouchScroll.mounted!(
         el,
-        createBinding({ threshold: 5 }),
+        createBinding({ dragThreshold: 5 }),
         {} as any,
         null
       )

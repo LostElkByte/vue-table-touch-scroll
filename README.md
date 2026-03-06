@@ -98,7 +98,7 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
   <div 
     v-table-touch-scroll="{
       scrollSpeed: 1.5,
-      threshold: 5,
+      dragThreshold: 5,
       cursor: 'grab',
       onScrollStart: () => console.log('Started'),
       onScrollEnd: () => console.log('Ended')
@@ -118,7 +118,7 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 |--------|------|---------|-------------|
 | `enabled` | `boolean` | `true` | Enable/disable the directive |
 | `scrollSpeed` | `number` | `1` | Scroll speed multiplier |
-| `threshold` | `number` | `5` | Minimum pixels to move before scrolling starts |
+| `dragThreshold` | `number` | `5` | Minimum pixels to move before scrolling starts |
 | `cursor` | `'grab' \| 'move' \| 'default'` | `'grab'` | Cursor style when hovering |
 | `onScrollStart` | `() => void` | `undefined` | Callback when scrolling starts |
 | `onScrollEnd` | `() => void` | `undefined` | Callback when scrolling ends |

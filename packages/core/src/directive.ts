@@ -20,7 +20,7 @@ import type { ScrollContext, TableTouchScrollOptions } from './types'
 const DECAY = 0.95 // 摩擦力/衰减率 (值越低摩擦力越大)
 const MIN_VELOCITY = 0.05 // 停止动画的速度阈值
 const MAX_DT = 32 // 最大帧间隔限制，防止掉帧后产生大幅度位移跳变
-const DEFAULT_THRESHOLD = 5 // 默认判定阈值
+const DEFAULT_DRAG_THRESHOLD = 5 // 默认判定阈值
 const INERTIA_STOP_DELAY = 80 // 惯性保护延迟：手指停顿超过此时间再松开，则不触发惯性
 const CLICK_BLOCK_DELAY = 10 // 缓冲时间：用于在触摸结束后捕获并拦截点击事件
 const SAFE_CLICK_VELOCITY = 0.5 // 安全点击速度阈值 (px/ms) 作用于用户点击正在滚动的列表进行“刹车”时
@@ -141,14 +141,14 @@ function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
 
   contexts.set(el, ctx)
 
-  const threshold = options.threshold ?? DEFAULT_THRESHOLD
+  const dragThreshold = options.dragThreshold ?? DEFAULT_DRAG_THRESHOLD
 
   // 3. 事件绑定：必须关闭 passive 模式以允许 preventDefault 拦截原生滚动
   el.addEventListener('touchstart', (e) => onTouchStart(e, ctx), {
     passive: false,
     signal,
   })
-  el.addEventListener('touchmove', (e) => onTouchMove(e, ctx, threshold), {
+  el.addEventListener('touchmove', (e) => onTouchMove(e, ctx, dragThreshold), {
     passive: false,
     signal,
   })
@@ -301,9 +301,9 @@ function onTouchStart(e: TouchEvent, ctx: ScrollContext) {
  * touchmove 处理器：管理方向锁定、边缘检测决策以及输入平滑处理
  * @param e - 触摸事件
  * @param ctx - 滚动上下文
- * @param threshold - 触摸移动阈值
+ * @param dragThreshold - 触摸移动阈值
  */
-function onTouchMove(e: TouchEvent, ctx: ScrollContext, threshold: number) {
+function onTouchMove(e: TouchEvent, ctx: ScrollContext, dragThreshold: number) {
   // 如果已决定交由原生处理，则完全静默
   if (ctx.isNativeScroll || !ctx.isTouching || !e.touches.length) return
 
@@ -314,7 +314,7 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext, threshold: number) {
 
   // 1. 初始方向锁定判定
   if (!ctx.gestureDirection) {
-    if (Math.abs(dx) > threshold || Math.abs(dy) > threshold) {
+    if (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold) {
       const isHorizontal = Math.abs(dx) > Math.abs(dy)
       const el = ctx.scrollEl
 

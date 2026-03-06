@@ -14,7 +14,7 @@ export interface TableTouchScrollOptions {
    * 用于区分轻微抖动点击和有意识的拖拽
    * @default 5
    */
-  threshold?: number
+  dragThreshold?: number
   /**
    * UI 库预设名称
    * 使用预设可以自动应用对应 UI 库的滚动容器选择器
