@@ -17,19 +17,13 @@ withDefaults(defineProps<Props>(), {
   <div class="my-4 w-full space-y-8">
     <ClientOnly>
       <CodeGroup>
-        <div
-          :label="label || componentName"
-          icon="lucide:laptop-minimal"
-        >
+        <div :label="label || componentName" icon="lucide:laptop-minimal">
           <div class="h-[400px] overflow-auto p-1">
             <ComponentViewer :component-name="componentName" />
           </div>
         </div>
 
-        <CodeViewerTab
-          v-bind="$props"
-          label="Code"
-        />
+        <CodeViewerTab v-bind="$props" label="Code" />
       </CodeGroup>
     </ClientOnly>
   </div>

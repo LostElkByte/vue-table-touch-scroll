@@ -17,7 +17,9 @@ const defaultTab = tabs[0].name
   <ClientOnly>
     <div class="my-4 w-full rounded-lg border">
       <UiTabs :default-value="defaultTab">
-        <UiTabsList class="w-full justify-start rounded-none border-b bg-muted/50 p-0">
+        <UiTabsList
+          class="w-full justify-start rounded-none border-b bg-muted/50 p-0"
+        >
           <UiTabsTrigger
             v-for="tab in tabs"
             :key="tab.name"

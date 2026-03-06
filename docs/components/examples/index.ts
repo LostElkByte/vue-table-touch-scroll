@@ -1,2 +1,3 @@
-export { default as DemoExample1 } from './demo-example-1.vue'
-export { default as DemoExample2 } from './demo-example-2.vue'
+export { default as ElementPlusExample } from './element-plus-example.vue'
+export { default as AntDesignVueExample } from './ant-design-vue-example.vue'
+export { default as NaiveUIExample } from './naive-ui-example.vue'

@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/no-v-html -->
 <script setup lang="ts">
-import hljs from "highlight.js"
-import { computed, onMounted, ref } from "vue"
-import "~/assets/css/code-theme.css"
+import { computed, onMounted, ref } from 'vue'
+import hljs from 'highlight.js'
+import '~/assets/css/code-theme.css'
 
 interface Props {
   componentName?: string
@@ -14,38 +14,38 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icon: "lucide:square-terminal",
-  extension: "vue",
+  icon: 'lucide:square-terminal',
+  extension: 'vue',
 })
-const rawString = ref("")
-const codeHtml = ref("")
+const rawString = ref('')
+const codeHtml = ref('')
 
 // Create a map of all possible components using import.meta.glob
 const rawComponents = import.meta.glob(
-  "/components/examples/**/*.{vue,ts,js}",
+  '/components/examples/**/*.{vue,ts,js}',
   {
-    query: "?raw",
-    import: "default",
-  },
+    query: '?raw',
+    import: 'default',
+  }
 )
 
 // helper to convert componentName to a filename in kebab-case
 function toFileName(name?: string, ext?: string) {
-  if (!name) throw new Error("componentName is required")
+  if (!name) throw new Error('componentName is required')
 
   const kebab = name
-    .replace(/([a-z])([A-Z0-9])/g, "$1-$2")
-    .replace(/(\d)([A-Z])/g, "$1-$2")
-    .replace(/[\s_]+/g, "-")
+    .replace(/([a-z])([A-Z0-9])/g, '$1-$2')
+    .replace(/(\d)([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
     .toLowerCase()
 
-  return `${kebab}.${ext || "vue"}`
+  return `${kebab}.${ext || 'vue'}`
 }
 
 // Compute the component path based on props
 const componentPath = computed(
   () =>
-    `/components/examples/${toFileName(props.componentName, props.extension)}`,
+    `/components/examples/${toFileName(props.componentName, props.extension)}`
 )
 
 // Load and process the component code on mount
@@ -59,14 +59,14 @@ async function loadAndProcessComponentCode() {
     const componentCode = await fetchComponentCode()
     rawString.value = componentCode
     codeHtml.value = hljs.highlightAuto(rawString.value, [
-      "ts",
-      "html",
-      "css",
-      "js",
+      'ts',
+      'html',
+      'css',
+      'js',
     ]).value
   } catch (error: any) {
-    rawString.value = "// Component code not found"
-    codeHtml.value = hljs.highlightAuto(rawString.value, ["ts"]).value
+    rawString.value = '// Component code not found'
+    codeHtml.value = hljs.highlightAuto(rawString.value, ['ts']).value
     console.error(error)
   }
 }
@@ -76,18 +76,18 @@ async function fetchComponentCode() {
   const path = componentPath.value
   // 调试：打印所有可用路径和查找的路径
 
-  console.error("Available paths:", Object.keys(rawComponents))
+  console.error('Available paths:', Object.keys(rawComponents))
 
-  console.error("Looking for path:", path)
+  console.error('Looking for path:', path)
   const loadRawComponent = rawComponents[path]
   if (!loadRawComponent)
     throw new Error(
-      `Component not found: ${path}. Available: ${Object.keys(rawComponents).join(", ")}`,
+      `Component not found: ${path}. Available: ${Object.keys(rawComponents).join(', ')}`
     )
 
   const mod = await loadRawComponent()
-  if (typeof mod !== "string") {
-    throw new TypeError("Raw component code is not a string")
+  if (typeof mod !== 'string') {
+    throw new TypeError('Raw component code is not a string')
   }
   return mod.trim()
 }

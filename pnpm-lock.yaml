@@ -154,6 +154,9 @@ importers:
         specifier: ^4.6.3
         version: 4.6.4(vue@3.5.29(typescript@5.5.4))
     devDependencies:
+      '@element-plus/nuxt':
+        specifier: ^1.1.5
+        version: 1.1.5(@element-plus/icons-vue@2.3.2(vue@3.5.29(typescript@5.5.4)))(element-plus@2.13.3(vue@3.5.29(typescript@5.5.4)))(magicast@0.5.2)
       '@iconify-json/logos':
         specifier: ^1.2.10
         version: 1.2.10
@@ -741,6 +744,12 @@ packages:
     resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
     peerDependencies:
       vue: ^3.2.0
+
+  '@element-plus/nuxt@1.1.5':
+    resolution: {integrity: sha512-ghmwnxAzA8B7OhRm/9ahDHzMCQVk+/urAbQZqUevU7stgCofSNsZ4by6XzwUkPQIIuKQQwgZ7gF6614+KH8ZNw==}
+    peerDependencies:
+      '@element-plus/icons-vue': '>=0.2.6'
+      element-plus: '>=2'
 
   '@emnapi/core@1.8.1':
     resolution: {integrity: sha512-AvT9QFpxK0Zd8J0jopedNm+w/2fIzvtPKPjqyw9jwvBaReTTqPBk9Hixaz7KbjimP+QNz605/XnjFcDAL2pqBg==}
@@ -11590,6 +11599,16 @@ snapshots:
     dependencies:
       vue: 3.5.29(typescript@5.5.4)
 
+  '@element-plus/nuxt@1.1.5(@element-plus/icons-vue@2.3.2(vue@3.5.29(typescript@5.5.4)))(element-plus@2.13.3(vue@3.5.29(typescript@5.5.4)))(magicast@0.5.2)':
+    dependencies:
+      '@element-plus/icons-vue': 2.3.2(vue@3.5.29(typescript@5.5.4))
+      '@nuxt/kit': 4.3.1(magicast@0.5.2)
+      element-plus: 2.13.3(vue@3.5.29(typescript@5.5.4))
+      magic-string: 0.30.21
+      unplugin: 3.0.0
+    transitivePeerDependencies:
+      - magicast
+
   '@emnapi/core@1.8.1':
     dependencies:
       '@emnapi/wasi-threads': 1.1.0
@@ -15536,7 +15555,7 @@ snapshots:
       '@yarnpkg/parsers': 3.0.3
       chalk: 4.1.2
       clipanion: 4.0.0-rc.4(typanion@3.14.0)
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       fast-glob: 3.3.3
       micromatch: 4.0.8
       tslib: 2.8.1

@@ -6,24 +6,24 @@ navigation: false
 ::hero
 ---
 announcement:
-  title: 'Release v1'
+  title: 'Release v0.0.1'
   icon: '🎉'
-  to: https://github.com
+  to: https://github.com/LostElkByte/vue-table-touch-scroll/releases
   target: _blank
 actions:
   - name: Get Started
     to: /guide/introduction
   - name: GitHub
     variant: outline
-    to: https://github.com
+    to: https://github.com/LostElkByte/vue-table-touch-scroll
     leftIcon: 'lucide:github'
 ---
 
 #title
-Welcome to Documentation
+Vue Table Touch Scroll
 
 #description
-Beautifully designed Nuxt Content template built with shadcn-vue. :br Customizable. Compatible. Open Source.
+A lightweight Vue 3 directive for silky-smooth touch scrolling on mobile tables. :br Bridge the gap between desktop and mobile interactions.
 ::
 
 ::div{class="border rounded-lg shadow-md"}

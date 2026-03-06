@@ -6,12 +6,13 @@
   "private": true,
   "scripts": {
     "build": "nuxt generate",
-    "dev": "nuxt dev --port 3099",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3099",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vue-table-touch-scroll/core": "workspace:*",
     "@vueuse/shared": "^14.1.0",
     "highlight.js": "^11.11.1",
     "nuxt": "^3.20.2",
@@ -21,6 +22,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@element-plus/nuxt": "^1.1.5",
     "@iconify-json/logos": "^1.2.10",
     "@iconify-json/lucide": "^1.2.78",
     "@iconify-json/simple-icons": "^1.2.61",
