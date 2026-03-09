@@ -4,7 +4,9 @@
     "composite": true,
     "lib": ["ESNext"],
     "module": "ESNext",
-    "types": ["node"]
+    "types": ["node"],
+    "skipLibCheck": true
   },
-  "include": ["internal/**/*", "scripts/**/*"]
+  "include": ["internal/**/*", "scripts/**/*"],
+  "exclude": ["**/node_modules/**"]
 }
