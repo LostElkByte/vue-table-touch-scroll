@@ -44,5 +44,10 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "viewer": {
+    "pc_mode": "PC",
+    "mobile_mode": "Mobile",
+    "friction": "Friction"
   }
 }

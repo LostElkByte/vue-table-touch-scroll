@@ -44,5 +44,10 @@
     "light": "浅色",
     "dark": "深色",
     "system": "系统"
+  },
+  "viewer": {
+    "pc_mode": "PC端",
+    "mobile_mode": "移动端",
+    "friction": "摩擦力"
   }
 }

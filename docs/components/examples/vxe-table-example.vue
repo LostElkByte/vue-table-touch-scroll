@@ -1,8 +1,20 @@
 <script setup lang="ts">
 import { useTableData } from '../../composables/useTableData'
 import { useTableColumns } from '../../composables/useTableColumns'
+import { VxeColumn, VxeTable } from 'vxe-table'
+import { VxeUI } from 'vxe-pc-ui'
+import 'vxe-table/lib/style.css'
 
-const tableData = useTableData(50)
+const colorMode = useColorMode()
+watch(
+  () => colorMode.value,
+  (mode) => {
+    VxeUI.setTheme(mode === 'dark' ? 'dark' : 'light')
+  },
+  { immediate: true }
+)
+
+const tableData = useTableData(30)
 const columns = useTableColumns()
 
 // Get control bar state from parent component
@@ -16,7 +28,7 @@ const viewerContext = inject<{
 
 // Directive options
 const directiveOptions = computed(() => ({
-  preset: 'element-plus' as const,
+  selector: '.vxe-table--body-inner-wrapper',
   friction: viewerContext.friction.value,
 }))
 </script>
@@ -28,15 +40,15 @@ const directiveOptions = computed(() => ({
     "
     class="border rounded-lg overflow-hidden"
   >
-    <el-table :data="tableData" height="390" border stripe size="small">
-      <el-table-column
+    <vxe-table :data="tableData" border stripe height="390" size="small">
+      <vxe-column
         v-for="col in columns"
         :key="col.key"
-        :prop="col.dataIndex"
-        :label="col.title"
+        :field="col.field"
+        :title="col.title"
         :width="col.width"
         :fixed="col.fixed"
       />
-    </el-table>
+    </vxe-table>
   </div>
 </template>

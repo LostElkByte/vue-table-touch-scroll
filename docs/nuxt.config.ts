@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
 
-  css: [],
+  css: ['element-plus/theme-chalk/dark/css-vars.css'],
 
   mdc: {
     highlight: {
@@ -82,7 +82,13 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 1500,
     },
     optimizeDeps: {
-      include: ['dayjs', '@braintree/sanitize-url', 'mermaid'],
+      include: [
+        'dayjs',
+        '@braintree/sanitize-url',
+        'mermaid',
+        'naive-ui',
+        'vueuc',
+      ],
       exclude: ['shadcn-vue'],
       esbuildOptions: {
         target: 'esnext',
@@ -106,6 +112,6 @@ export default defineNuxtConfig({
 
   // Exclude shadcn-vue from optimization to avoid shebang issues
   build: {
-    transpile: ['shadcn-vue'],
+    transpile: ['shadcn-vue', 'naive-ui', 'vueuc', '@css-render/vue3-ssr'],
   },
 })

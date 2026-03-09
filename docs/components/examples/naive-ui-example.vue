@@ -1,37 +1,52 @@
 <script setup lang="ts">
-import { type TableRow, useTableData } from '../../composables/useTableData'
+import { useTableData } from '../../composables/useTableData'
 import { useTableColumns } from '../../composables/useTableColumns'
+import { NConfigProvider, NDataTable, darkTheme, lightTheme } from 'naive-ui'
 
 import type { DataTableColumns } from 'naive-ui'
 
-const tableData = useTableData(50)
-const rawColumns = useTableColumns()
+const colorMode = useColorMode()
+const naiveTheme = computed(() =>
+  colorMode.value === 'dark' ? darkTheme : lightTheme
+)
 
-const columns: DataTableColumns<TableRow> = rawColumns.map((col) => ({
-  title: col.title,
-  key: col.key,
-  width: col.width,
-  fixed: col.fixed,
+const tableData = useTableData(30)
+// Naive UI reads the fixed property automatically from column config
+const columns: DataTableColumns = useTableColumns()
+
+// Get control bar state from parent component
+const viewerContext = inject<{
+  isMobileMode: Ref<boolean>
+  friction: Ref<number>
+}>('viewerContext', {
+  isMobileMode: ref(true),
+  friction: ref(0.95),
+})
+
+// Directive options
+const directiveOptions = computed(() => ({
+  selector: '.n-scrollbar-container' as const,
+  friction: viewerContext.friction.value,
 }))
 </script>
 
 <template>
-  <div class="p-4">
+  <n-config-provider :theme="naiveTheme">
     <div
-      v-table-touch-scroll="{ preset: 'naive-ui' }"
+      v-table-touch-scroll="
+        viewerContext.isMobileMode.value ? directiveOptions : false
+      "
       class="border rounded-lg overflow-hidden"
     >
       <n-data-table
         :columns="columns"
         :data="tableData"
-        :scroll-x="1300"
-        :max-height="400"
+        :scroll-x="1200"
+        :max-height="340"
+        :bordered="true"
         size="small"
-        bordered
+        striped
       />
     </div>
-    <p class="mt-4 text-sm text-muted-foreground text-center">
-      在移动设备上触摸表格区域，体验流畅的横向滚动（50行数据）
-    </p>
-  </div>
+  </n-config-provider>
 </template>

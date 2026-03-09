@@ -3,18 +3,16 @@
 A Vue 3 directive for adding touch and mouse drag scrolling to tables and scrollable elements.
 
 [![npm version](https://img.shields.io/npm/v/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
-[![CI](https://github.com/yourusername/vue-table-touch-scroll/workflows/CI/badge.svg)](https://github.com/yourusername/vue-table-touch-scroll/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/yourusername/vue-table-touch-scroll/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/vue-table-touch-scroll)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
 - 🚀 **Easy to Use** - Simple directive-based API
-- ⚡️ **Lightweight** - Minimal bundle size with zero dependencies
+- ⚡️ **Lightweight** - Zero dependencies, minimal bundle size
 - 📱 **Touch & Mouse Support** - Works on both mobile and desktop
-- 🎨 **Customizable** - Configure scroll speed, cursor, and callbacks
+- � **UI Library Presets** - Built-in scroll container selectors for popular UI libraries
 - 🔧 **TypeScript** - Full TypeScript support with type definitions
-- 📦 **Tree-shakable** - Modular architecture for optimal bundle size
+- 🎨 **Physics-based Scrolling** - Realistic inertia and friction simulation
 
 ## 📦 Installation
 
@@ -46,7 +44,7 @@ app.mount('#app')
 ### Local Registration
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { vTableTouchScroll } from 'vue-table-touch-scroll'
 </script>
 
@@ -57,58 +55,68 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
     </table>
   </div>
 </template>
-
-<style>
-.table-container {
-  max-width: 800px;
-  overflow: auto;
-}
-</style>
 ```
 
 ## 📖 Usage
 
-### Basic Example
+### With UI Library Presets
 
 ```vue
 <template>
-  <div v-table-touch-scroll class="scrollable">
-    <table>
-      <thead>
-        <tr>
-          <th v-for="i in 20" :key="i">Column {{ i }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in 50" :key="row">
-          <td v-for="col in 20" :key="col">
-            Row {{ row }} - Col {{ col }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Element Plus -->
+  <div v-table-touch-scroll="{ preset: 'element-plus' }">
+    <el-table :data="tableData" height="400">
+      <!-- column config -->
+    </el-table>
+  </div>
+
+  <!-- Ant Design Vue -->
+  <div v-table-touch-scroll="{ preset: 'ant-design-vue' }">
+    <a-table :data-source="tableData" :scroll="{ x: 1300, y: 400 }" />
+  </div>
+
+  <!-- Naive UI -->
+  <div v-table-touch-scroll="{ preset: 'naive-ui' }">
+    <n-data-table :columns="columns" :data="tableData" :scroll-x="1300" />
   </div>
 </template>
 ```
 
-### With Options
+### Custom Selector
 
 ```vue
 <template>
-  <div 
-    v-table-touch-scroll="{
-      scrollSpeed: 1.5,
-      dragThreshold: 5,
-      friction: 0.95,
-      cursor: 'grab',
-      onScrollStart: () => console.log('Started'),
-      onScrollEnd: () => console.log('Ended')
-    }"
-    class="scrollable"
-  >
-    <table>
-      <!-- content -->
-    </table>
+  <div v-table-touch-scroll="{ selector: '.custom-scroll-container' }">
+    <CustomTable />
+  </div>
+</template>
+```
+
+### Full Configuration Example
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { type TableTouchScrollOptions, vTableTouchScroll } from 'vue-table-touch-scroll'
+
+const options: TableTouchScrollOptions = {
+  preset: 'element-plus',
+  dragThreshold: 5,
+  friction: 0.95,
+  disableInertia: false,
+  clickBlockThreshold: 0.5,
+  onScrollStart: () => console.log('Scroll started'),
+  onScrollEnd: () => console.log('Scroll ended'),
+}
+
+const enabled = ref(true)
+</script>
+
+<template>
+  <div v-table-touch-scroll="enabled ? options : false">
+    <el-table :data="tableData" height="400">
+      <!-- column config -->
+    </el-table>
   </div>
 </template>
 ```
@@ -118,22 +126,52 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `enabled` | `boolean` | `true` | Enable/disable the directive |
-| `scrollSpeed` | `number` | `1` | Scroll speed multiplier |
-| `dragThreshold` | `number` | `5` | Minimum pixels to move before scrolling starts |
+| `preset` | `TablePreset` | - | UI library preset name |
+| `selector` | `string` | - | CSS selector for the target scroll element |
+| `dragThreshold` | `number` | `5` | Movement threshold (px) before scroll direction is determined |
 | `friction` | `number` | `0.95` | Friction/decay rate for inertia scrolling (0.8-0.99) |
-| `onScrollStart` | `() => void` | `undefined` | Callback when scrolling starts (after exceeding dragThreshold) |
-| `onScrollEnd` | `() => void` | `undefined` | Callback when inertia animation completely stops |
-| `cursor` | `'grab' \| 'move' \| 'default'` | `'grab'` | Cursor style when hovering |
+| `disableInertia` | `boolean` | `false` | Disable inertia scrolling |
+| `clickBlockThreshold` | `number` | `0.5` | Velocity threshold (px/ms) for blocking clicks after fast scrolling |
+| `onScrollStart` | `() => void` | - | Callback when scrolling starts |
+| `onScrollEnd` | `() => void` | - | Callback when scrolling ends |
+
+### UI Library Presets
+
+| Preset | UI Library | Scroll Container Selector |
+|--------|------------|---------------------------|
+| `'element-plus'` | Element Plus | `.el-scrollbar__wrap` |
+| `'ant-design-vue'` | Ant Design Vue | `.ant-table-body` |
+| `'arco-design'` | Arco Design | `.arco-table-body` |
+| `'naive-ui'` | Naive UI | `.n-scrollbar-container` |
+| `'primevue'` | PrimeVue | `.p-datatable-table-container` |
+| `'vuetify'` | Vuetify | `.v-table__wrapper tbody` |
+| `'vxe-table'` | VxeTable | `.vxe-table--body-inner-wrapper` |
+
+## 📦 Exports
+
+```ts
+// Default export: Vue plugin (for global registration)
+import VueTableTouchScroll from 'vue-table-touch-scroll'
+
+// Named exports
+import {
+  vTableTouchScroll,           // Directive
+  type TableTouchScrollOptions, // Options type
+  type TablePreset,             // Preset type
+  UI_LIBRARY_SELECTORS,         // UI library selector mapping
+  getSelectorByPreset,          // Get selector by preset
+} from 'vue-table-touch-scroll'
+```
 
 ## 🏗️ Development
 
-This project uses a monorepo structure with pnpm workspaces.
+This project uses a pnpm workspaces monorepo structure.
 
 ```bash
 # Install dependencies
 pnpm install
 
-# Run playground for development
+# Run development environment
 pnpm dev
 
 # Build all packages
@@ -155,13 +193,11 @@ pnpm format
 ```
 vue-table-touch-scroll/
 ├── packages/
-│   ├── core/              # Core directive implementation
-│   ├── utils/             # Utility functions
+│   ├── core/                    # Core directive implementation
+│   ├── utils/                   # Utility functions
 │   └── vue-table-touch-scroll/  # Main package entry
-├── internal/
-│   └── build/             # Build toolchain
-├── play/                  # Development playground
-├── docs/                  # VitePress documentation
+├── play/                        # Development playground
+├── docs/                        # Documentation site
 └── README.md
 ```
 
@@ -172,7 +208,3 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 ## 📄 License
 
 [MIT](LICENSE) License © 2024
-
-## 🙏 Acknowledgments
-
-Inspired by [Element Plus](https://github.com/element-plus/element-plus) architecture.
