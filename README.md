@@ -1,18 +1,21 @@
 # Vue Table Touch Scroll
 
-A Vue 3 directive for adding touch and mouse drag scrolling to tables and scrollable elements.
+vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap between desktop tables and mobile touch interactions. With a simple directive, it ensures that any Vue PC table component delivers a native-grade, silky-smooth scrolling and interaction experience on mobile devices. This includes seamless out-of-the-box support for table components in mainstream UI libraries like Element Plus, Ant Design Vue, and Naive UI.
 
 [![npm version](https://img.shields.io/npm/v/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue-table-touch-scroll/ci.yml?branch=main)](https://github.com/LostElkByte/vue-table-touch-scroll/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue-table-touch-scroll)](https://codecov.io/gh/LostElkByte/vue-table-touch-scroll)
 
 ## ✨ Features
 
 - 🚀 **Easy to Use** - Simple directive-based API
 - ⚡️ **Lightweight** - Zero dependencies, minimal bundle size
-- 📱 **Touch & Mouse Support** - Works on both mobile and desktop
-- � **UI Library Presets** - Built-in scroll container selectors for popular UI libraries
+- 📱 **Touch & Mouse Support** - Works on both mobile and desktop devices
+- 🎯 **UI Library Presets** - Built-in scroll container selectors for popular UI libraries
 - 🔧 **TypeScript** - Full TypeScript support with type definitions
 - 🎨 **Physics-based Scrolling** - Realistic inertia and friction simulation
+- 📦 **Zero Configuration** - Works out of the box with sensible defaults
 
 ## 📦 Installation
 
@@ -152,7 +155,6 @@ const enabled = ref(true)
 ```ts
 // Default export: Vue plugin (for global registration)
 import VueTableTouchScroll from 'vue-table-touch-scroll'
-
 // Named exports
 import {
   vTableTouchScroll,           // Directive
@@ -207,4 +209,21 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## 📄 License
 
-[MIT](LICENSE) License © 2024
+[MIT](LICENSE) License © 2024-Present LostElk
+
+## 🌟 Why Choose Vue Table Touch Scroll?
+
+- **Native-like Experience**: Provides a smooth, native-grade scrolling experience on mobile devices
+- **Zero Dependencies**: No external dependencies, keeping your bundle size minimal
+- **Universal Compatibility**: Works with any Vue 3 project and popular UI libraries
+- **Performance Optimized**: Built with performance in mind, using requestAnimationFrame and optimized event handling
+- **TypeScript Support**: Full TypeScript types for better developer experience
+- **Extensible**: Easy to customize and extend with your own scroll container selectors
+
+## 📞 Support
+
+If you have any questions or issues, please open an [issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues) on GitHub.
+
+## 📖 Documentation
+
+For more detailed documentation, please visit our [documentation site](https://vue-table-touch-scroll.lostelk.com).

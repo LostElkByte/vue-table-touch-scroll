@@ -1,9 +1,11 @@
 # Vue Table Touch Scroll
 
-一个为表格和可滚动元素添加触摸/鼠标拖拽滚动功能的 Vue 3 指令。
+vue-table-touch-scroll 是一个轻量级解决方案，专门用于弥合 桌面表格组件 与 移动端触摸交互 之间的体验差距。通过一个简单的指令，它可以让任何 Vue PC 表格组件在移动设备上也能获得 接近原生级、丝滑流畅的滚动与交互体验。该方案开箱即用地支持主流 UI 库中的表格组件，例如：Element Plus、Ant Design Vue、Naive UI，让这些桌面端表格在移动端也能实现顺畅的触摸滚动体验。
 
 [![npm version](https://img.shields.io/npm/v/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue-table-touch-scroll/ci.yml?branch=main)](https://github.com/LostElkByte/vue-table-touch-scroll/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue-table-touch-scroll)](https://codecov.io/gh/LostElkByte/vue-table-touch-scroll)
 
 ## ✨ 特性
 
@@ -13,6 +15,7 @@
 - 🎯 **UI 库预设** - 内置主流 UI 库的滚动容器选择器
 - 🔧 **TypeScript** - 完整的 TypeScript 类型支持
 - 🎨 **物理滚动** - 真实的惯性滚动和摩擦力模拟
+- 📦 **零配置** - 开箱即用，默认配置合理
 
 ## 📦 安装
 
@@ -152,7 +155,6 @@ const enabled = ref(true)
 ```ts
 // 默认导出：Vue 插件（用于全局注册）
 import VueTableTouchScroll from 'vue-table-touch-scroll'
-
 // 命名导出
 import {
   vTableTouchScroll,           // 指令
@@ -207,4 +209,21 @@ vue-table-touch-scroll/
 
 ## 📄 许可证
 
-[MIT](LICENSE) License © 2024
+[MIT](LICENSE) License © 2024-至今 LostElk
+
+## 🌟 为什么选择 Vue Table Touch Scroll？
+
+- **原生般体验**：在移动设备上提供流畅、原生级的滚动体验
+- **零依赖**：无外部依赖，保持你的打包体积最小
+- **通用兼容性**：适用于任何 Vue 3 项目和流行的 UI 库
+- **性能优化**：构建时考虑性能，使用 requestAnimationFrame 和优化的事件处理
+- **TypeScript 支持**：完整的 TypeScript 类型，提供更好的开发体验
+- **可扩展**：易于自定义和扩展，支持添加自己的滚动容器选择器
+
+## 📞 支持
+
+如果你有任何问题或问题，请在 GitHub 上打开 [issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues)。
+
+## 📖 文档
+
+更详细的文档，请访问我们的 [文档站点](https://vue-table-touch-scroll.lostelk.com)。

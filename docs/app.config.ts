@@ -25,23 +25,23 @@ export default defineAppConfig({
         dark: '/logo-dark.svg',
       },
       nav: [
-        {
-          title: 'nav.docs',
-          links: [
-            {
-              title: 'nav.getting_started',
-              to: '/guide/introduction',
-              description: 'nav.getting_started_desc',
-              target: '_self',
-            },
-            {
-              title: 'nav.components',
-              to: '/components',
-              description: 'nav.components_desc',
-              target: '_self',
-            },
-          ],
-        },
+        // {
+        //   title: 'nav.docs',
+        //   links: [
+        //     {
+        //       title: 'nav.getting_started',
+        //       to: '/guide/introduction',
+        //       description: 'nav.getting_started_desc',
+        //       target: '_self',
+        //     },
+        //     {
+        //       title: 'nav.components',
+        //       to: '/components',
+        //       description: 'nav.components_desc',
+        //       target: '_self',
+        //     },
+        //   ],
+        // },
         // {
         //   title: 'nav.links',
         //   links: [
