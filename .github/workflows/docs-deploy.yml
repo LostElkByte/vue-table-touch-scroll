@@ -55,4 +55,8 @@ jobs:
           branch: gh-pages
           folder: docs/.output/public
           clean: true
+          clean-exclude: |
+            .nojekyll
           commit-message: 'docs: deploy documentation'
+          single-commit: true
+          force: true
