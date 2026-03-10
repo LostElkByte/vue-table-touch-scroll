@@ -48,6 +48,17 @@ jobs:
           NODE_ENV: production
           NODE_OPTIONS: --max-old-space-size=4096
 
+      - name: Verify build output
+        run: |
+          echo "=== Checking index.html ==="
+          head -20 docs/.output/public/index.html
+          echo ""
+          echo "=== Checking baseURL in HTML ==="
+          grep -o 'baseURL:"[^"]*"' docs/.output/public/index.html | head -1
+          echo ""
+          echo "=== Checking _nuxt directory ==="
+          ls docs/.output/public/_nuxt/ | head -5
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
