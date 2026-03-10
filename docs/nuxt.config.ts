@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   extends: ['shadcn-docs-nuxt'],
   modules: ['@nuxtjs/i18n', '@element-plus/nuxt'],
 
+  app: {
+    baseURL:
+      process.env.NODE_ENV === 'production' ? '/vue-table-touch-scroll/' : '/',
+  },
+
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => tag.startsWith('media-'),

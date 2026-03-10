@@ -36,6 +36,7 @@ jobs:
       - name: Build docs
         run: pnpm docs:build
         env:
+          NODE_ENV: production
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy to GitHub Pages
