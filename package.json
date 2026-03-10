@@ -73,6 +73,7 @@
     "@vue-table-touch-scroll/utils": "workspace:*"
   },
   "devDependencies": {
+    "@acemir/cssom": "^0.9.31",
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@pnpm/find-workspace-packages": "^4.0.16",
