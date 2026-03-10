@@ -46,8 +46,4 @@ jobs:
           branch: gh-pages
           folder: docs/.output/public
           clean: true
-          clean-exclude: |
-            .nojekyll
           commit-message: 'docs: deploy documentation for ${{ github.event.release.tag_name }}'
-          single-commit: true
-          force: true

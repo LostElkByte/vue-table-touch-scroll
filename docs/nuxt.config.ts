@@ -10,14 +10,6 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      meta: [
-        {
-          name: 'cache-control',
-          content: 'no-cache, no-store, must-revalidate',
-        },
-        { name: 'pragma', content: 'no-cache' },
-        { name: 'expires', content: '0' },
-      ],
     },
   },
 
@@ -30,7 +22,7 @@ export default defineNuxtConfig({
   plugins: ['~/plugins/demo-components'],
 
   experimental: {
-    payloadExtraction: true,
+    payloadExtraction: false,
   },
 
   css: ['element-plus/theme-chalk/dark/css-vars.css'],
