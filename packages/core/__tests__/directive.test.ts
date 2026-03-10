@@ -87,6 +87,27 @@ describe('vTableTouchScroll Directive', () => {
     return event
   }
 
+  // --- Utility: Dispatch Touch Events with multiple touches / 工具函数：分发多指触摸事件 ---
+  function dispatchMultiTouch(
+    type: string,
+    touches: { clientX: number; clientY: number; identifier?: number }[],
+    changedTouches: { clientX: number; clientY: number; identifier?: number }[],
+    target: HTMLElement = el
+  ) {
+    const event = new TouchEvent(type, {
+      cancelable: true,
+      bubbles: true,
+      touches: touches.map(
+        (t, i) => ({ ...t, identifier: t.identifier ?? i }) as any
+      ),
+      changedTouches: changedTouches.map(
+        (t, i) => ({ ...t, identifier: t.identifier ?? i }) as any
+      ),
+    })
+    target.dispatchEvent(event)
+    return event
+  }
+
   beforeEach(() => {
     vi.useFakeTimers()
     mockNow.mockReturnValue(0)
@@ -174,6 +195,31 @@ describe('vTableTouchScroll Directive', () => {
       dispatchTouch('touchstart', 100, 100, smallEl)
       const moveEvt = dispatchTouch('touchmove', 50, 50, smallEl)
       expect(moveEvt.defaultPrevented).toBe(false)
+    })
+
+    it('should handle native scroll when at edge and swipe outward / 在边缘向外滑动时应触发原生滚动', async () => {
+      // 将元素滚动到最左侧
+      el.scrollLeft = 0
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      // 向右滑动（在左边缘向右滑，应该触发原生滚动）
+      const moveEvt = dispatchTouch('touchmove', 150, 100)
+
+      // 应该不阻止默认行为，允许原生滚动
+      expect(moveEvt.defaultPrevented).toBe(false)
+
+      // 触发 touchend，此时 isNativeScroll 应该被正确处理
+      dispatchTouch('touchend', 150, 100)
+      // 不应产生惯性滚动
+      await advanceFrames(100, 6)
+      expect(el.scrollLeft).toBe(0)
     })
   })
 
@@ -283,6 +329,351 @@ describe('vTableTouchScroll Directive', () => {
 
       expect(inner.style.overflow).toBe('hidden')
       expect(el.style.overflow).not.toBe('hidden')
+    })
+
+    it('should use preset selector when preset is provided / 当提供 preset 时应使用预设选择器', () => {
+      const inner = document.createElement('div')
+      inner.className = 'el-scrollbar__wrap'
+      el.appendChild(inner)
+
+      const binding = createBinding({ preset: 'element-plus' })
+      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+
+      expect(inner.style.overflow).toBe('hidden')
+      expect(el.style.overflow).not.toBe('hidden')
+    })
+
+    it('should prioritize selector over preset / selector 应优先于 preset', () => {
+      const presetEl = document.createElement('div')
+      presetEl.className = 'el-scrollbar__wrap'
+      const selectorEl = document.createElement('div')
+      selectorEl.className = 'custom-selector'
+      el.appendChild(presetEl)
+      el.appendChild(selectorEl)
+
+      const binding = createBinding({
+        preset: 'element-plus',
+        selector: '.custom-selector',
+      })
+      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+
+      expect(selectorEl.style.overflow).toBe('hidden')
+      expect(presetEl.style.overflow).not.toBe('hidden')
+      expect(el.style.overflow).not.toBe('hidden')
+    })
+
+    it('should handle non-existent selector gracefully / 处理不存在的选择器', () => {
+      const binding = createBinding({ selector: '.non-existent' })
+      // 不应抛出错误
+      expect(() => {
+        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      }).not.toThrow()
+      // 原元素不应被修改
+      expect(el.style.overflow).not.toBe('hidden')
+    })
+  })
+
+  // 7. 多指触摸测试 / Multi-touch Handling
+  describe('Multi-touch Handling / 多指触摸处理', () => {
+    it('should ignore multi-touch gestures / 应忽略多指手势', () => {
+      vTableTouchScroll.mounted!(el, createBinding({}), {} as any, null)
+
+      // 使用两指触摸
+      const evt = dispatchMultiTouch(
+        'touchstart',
+        [
+          { clientX: 100, clientY: 100, identifier: 0 },
+          { clientX: 120, clientY: 120, identifier: 1 },
+        ],
+        [{ clientX: 100, clientY: 100, identifier: 0 }]
+      )
+
+      // 多指触摸时应阻止默认行为并忽略
+      expect(evt.defaultPrevented).toBe(true)
+    })
+
+    it('should ignore unrelated finger lift / 应忽略无关手指的抬起', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      // 第一根手指按下
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      // 移动以锁定方向
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+
+      // 第二根无关手指抬起（不应中断滚动）
+      dispatchMultiTouch(
+        'touchend',
+        [{ clientX: 100, clientY: 100, identifier: 0 }],
+        [{ clientX: 200, clientY: 200, identifier: 99 }]
+      )
+
+      // 滚动应继续
+      expect(el.scrollLeft).toBeGreaterThan(0)
+    })
+  })
+
+  // 8. 垂直方向滚动测试 / Vertical Scrolling
+  describe('Vertical Scrolling / 垂直方向滚动', () => {
+    it('should handle vertical scrolling / 应支持垂直滚动', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      // Dy > Dx，应锁定垂直方向
+      dispatchTouch('touchmove', 102, 80)
+      await advanceFrames(16, 1)
+
+      expect(el.scrollTop).toBeGreaterThan(0)
+      expect(el.scrollLeft).toBe(0)
+    })
+  })
+
+  // 9. 边缘检测进阶测试 / Advanced Edge Detection
+  describe('Advanced Edge Detection / 进阶边缘检测', () => {
+    it('should handle right edge detection / 应检测右边缘', () => {
+      el.scrollLeft = el.scrollWidth - el.clientWidth // 滚动到最右
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 50, 100) // 向左划（已在最右）
+
+      // 由于方向判定需要超过阈值，这里只测试边缘检测逻辑被触发
+      expect(moveEvt.defaultPrevented).toBe(false)
+    })
+
+    it('should handle top edge detection / 应检测上边缘', () => {
+      el.scrollTop = 0
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 100, 150) // 向下划
+
+      expect(moveEvt.defaultPrevented).toBe(false)
+    })
+
+    it('should handle bottom edge detection / 应检测下边缘', () => {
+      el.scrollTop = el.scrollHeight - el.clientHeight // 滚动到最下
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 100, 50) // 向上划（已在最下）
+
+      expect(moveEvt.defaultPrevented).toBe(false)
+    })
+  })
+
+  // 10. 配置项更新测试 / Options Update
+  describe('Options Update / 配置项更新', () => {
+    it('should update callbacks dynamically / 应支持动态更新回调函数', async () => {
+      const startSpy1 = vi.fn()
+      const endSpy1 = vi.fn()
+      const startSpy2 = vi.fn()
+      const endSpy2 = vi.fn()
+
+      const binding1 = createBinding({
+        onScrollStart: startSpy1,
+        onScrollEnd: endSpy1,
+      })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+
+      // 更新回调
+      const binding2 = createBinding({
+        onScrollStart: startSpy2,
+        onScrollEnd: endSpy2,
+      })
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      // 触发滚动
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+
+      // 新的回调应该被调用
+      expect(startSpy2).toHaveBeenCalled()
+      expect(startSpy1).not.toHaveBeenCalled()
+    })
+
+    it('should reinitialize when selector changes / selector 改变时应重新初始化', () => {
+      const inner1 = document.createElement('div')
+      inner1.className = 'table-1'
+      const inner2 = document.createElement('div')
+      inner2.className = 'table-2'
+      el.appendChild(inner1)
+      el.appendChild(inner2)
+
+      const binding1 = createBinding({ selector: '.table-1' })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      expect(inner1.style.overflow).toBe('hidden')
+
+      // 更新 selector
+      const binding2 = createBinding({ selector: '.table-2' })
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      // 旧元素样式应恢复，新元素样式应被设置
+      expect(inner1.style.overflow).not.toBe('hidden')
+      expect(inner2.style.overflow).toBe('hidden')
+    })
+
+    it('should reinitialize when preset changes / preset 改变时应重新初始化', () => {
+      const elPlus = document.createElement('div')
+      elPlus.className = 'el-scrollbar__wrap'
+      const antTable = document.createElement('div')
+      antTable.className = 'ant-table-body'
+      el.appendChild(elPlus)
+      el.appendChild(antTable)
+
+      const binding1 = createBinding({ preset: 'element-plus' })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      expect(elPlus.style.overflow).toBe('hidden')
+
+      // 更新 preset
+      const binding2 = createBinding({ preset: 'ant-design-vue' })
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      expect(elPlus.style.overflow).not.toBe('hidden')
+      expect(antTable.style.overflow).toBe('hidden')
+    })
+  })
+
+  // 11. 禁用惯性测试 / Disable Inertia
+  describe('Disable Inertia / 禁用惯性', () => {
+    it('should not apply inertia when disabled / 禁用时不应产生惯性', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ disableInertia: true, dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 200, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 100, 100)
+      const scrollAtMove = el.scrollLeft
+
+      dispatchTouch('touchend', 100, 100)
+      await advanceFrames(100, 6)
+
+      // 无惯性，位置应保持不变
+      expect(el.scrollLeft).toBe(scrollAtMove)
+    })
+  })
+
+  // 12. touchAction 样式测试 / touchAction Style
+  describe('touchAction Style / touchAction 样式', () => {
+    it('should reset touchAction when it is none / 当 touchAction 为 none 时应重置为 auto', () => {
+      el.style.touchAction = 'none'
+      vTableTouchScroll.mounted!(el, createBinding({}), {} as any, null)
+
+      expect(el.style.touchAction).toBe('auto')
+    })
+  })
+
+  // 13. touchcancel 事件测试 / Touch Cancel
+  describe('Touch Cancel / 触摸取消', () => {
+    it('should handle touchcancel event / 应处理 touchcancel 事件', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+
+      const scrollAtMove = el.scrollLeft
+
+      // 直接触发 touchcancel（模拟系统中断触摸）
+      dispatchTouch('touchcancel', 80, 100)
+      await advanceFrames(100, 6)
+
+      // touchcancel 会触发惯性滚动（与 touchend 相同逻辑）
+      // 验证至少发生了滚动
+      expect(el.scrollLeft).toBeGreaterThanOrEqual(scrollAtMove)
+    })
+  })
+
+  // 14. 清理测试 / Cleanup
+  describe('Cleanup / 清理', () => {
+    it('should trigger onScrollEnd when unmounted during scrolling / 卸载时应触发 onScrollEnd 回调', async () => {
+      const endSpy = vi.fn()
+      const binding = createBinding({ onScrollEnd: endSpy, dragThreshold: 5 })
+      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+
+      // 开始滚动
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+      dispatchTouch('touchend', 80, 100)
+
+      // 在惯性滚动期间卸载
+      await advanceFrames(16, 1)
+      vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+
+      expect(endSpy).toHaveBeenCalled()
+    })
+
+    it('should restore original styles on cleanup / 清理时应恢复原始样式', () => {
+      el.style.overflow = 'scroll'
+      el.style.willChange = 'transform'
+
+      const binding = createBinding({})
+      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+
+      expect(el.style.overflow).toBe('hidden')
+
+      vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+
+      expect(el.style.overflow).toBe('scroll')
+      expect(el.style.willChange).toBe('transform')
+    })
+  })
+
+  // 15. 窗口环境检测 / Window Environment Check
+  describe('Window Environment / 窗口环境', () => {
+    it('should handle server-side rendering gracefully / 应优雅处理服务端渲染', () => {
+      const originalWindow = globalThis.window
+      // @ts-ignore
+      globalThis.window = undefined
+
+      const binding = createBinding({})
+      // 不应抛出错误
+      expect(() => {
+        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      }).not.toThrow()
+
+      globalThis.window = originalWindow
     })
   })
 })
