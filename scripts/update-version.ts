@@ -22,7 +22,7 @@
  */
 
 import chalk from 'chalk'
-import consola from 'consola'
+import { consola } from 'consola'
 import {
   errorAndExit,
   getWorkspacePackages,
