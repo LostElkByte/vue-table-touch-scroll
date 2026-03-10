@@ -27,5 +27,5 @@ vue-table-touch-scroll 是一个轻量级解决方案，专门用于弥合 桌�
 ::
 
 ::div{class="border rounded-lg shadow-md"}
-  :iframe{src="/zh/examples/element-plus" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
+  :iframe{src="./zh/examples/element-plus" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
 ::
