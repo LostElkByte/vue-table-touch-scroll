@@ -39,7 +39,7 @@ We are excited that you are interested in contributing to Vue Table Touch Scroll
 ### 克隆仓库
 
 ```bash
-git clone https://github.com/yourusername/vue-table-touch-scroll.git
+git clone https://github.com/LostElkByte/vue-table-touch-scroll.git
 cd vue-table-touch-scroll
 ```
 
@@ -242,8 +242,8 @@ vue-table-touch-scroll/
 
 ## 需要帮助？
 
-- 📖 查看 [文档](https://github.com/yourusername/vue-table-touch-scroll)
-- 💬 提出 [Issue](https://github.com/yourusername/vue-table-touch-scroll/issues)
+- 📖 查看 [文档](https://github.com/LostElkByte/vue-table-touch-scroll)
+- 💬 提出 [Issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues)
 - 📧 联系维护者
 
 ## 行为准则

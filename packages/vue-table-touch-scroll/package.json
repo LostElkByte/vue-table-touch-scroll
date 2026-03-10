@@ -11,9 +11,9 @@
     "scroll",
     "mobile"
   ],
-  "homepage": "https://github.com/yourusername/vue-table-touch-scroll",
+  "homepage": "https://github.com/LostElkByte/vue-table-touch-scroll",
   "bugs": {
-    "url": "https://github.com/yourusername/vue-table-touch-scroll/issues"
+    "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
   },
   "license": "MIT",
   "main": "lib/index.js",
@@ -39,7 +39,7 @@
   "jsdelivr": "dist/index.full.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/vue-table-touch-scroll.git"
+    "url": "git+https://github.com/LostElkByte/vue-table-touch-scroll.git"
   },
   "publishConfig": {
     "access": "public"

@@ -57,5 +57,5 @@ This project follows [Semantic Versioning](https://semver.org/):
 
 ---
 
-[Unreleased]: https://github.com/yourusername/vue-table-touch-scroll/compare/v0.0.1...HEAD
-[0.0.1]: https://github.com/yourusername/vue-table-touch-scroll/releases/tag/v0.0.1
+[Unreleased]: https://github.com/LostElkByte/vue-table-touch-scroll/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/LostElkByte/vue-table-touch-scroll/releases/tag/v0.0.1

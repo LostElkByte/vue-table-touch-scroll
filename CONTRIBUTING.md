@@ -7,7 +7,7 @@ Thank you for your interest in contributing to Vue Table Touch Scroll!
 1. **Fork and clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/vue-table-touch-scroll.git
+git clone https://github.com/LostElkByte/vue-table-touch-scroll.git
 cd vue-table-touch-scroll
 ```
 
