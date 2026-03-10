@@ -7,6 +7,10 @@ export default defineNuxtConfig({
   app: {
     baseURL:
       process.env.NODE_ENV === 'production' ? '/vue-table-touch-scroll/' : '/',
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+    },
   },
 
   vue: {
@@ -78,7 +82,8 @@ export default defineNuxtConfig({
   sourcemap: false,
 
   routeRules: {
-    '/**': { prerender: true },
+    '/**': { prerender: true, isr: false },
+    '/api/**': { cors: true },
   },
 
   vite: {
@@ -104,11 +109,13 @@ export default defineNuxtConfig({
     },
   },
 
+  ssr: true,
+
   nitro: {
     prerender: {
       crawlLinks: true,
-      autoSubfolderIndex: false,
-      failOnError: true,
+      autoSubfolderIndex: true,
+      failOnError: false,
     },
     storage: {
       cache: { driver: 'memory' },

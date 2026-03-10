@@ -27,5 +27,5 @@ vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap b
 ::
 
 ::div{class="border rounded-lg shadow-md"}
-  :iframe{src="/examples/element-plus" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
+  :iframe{src="./examples/element-plus" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
 ::
