@@ -226,4 +226,4 @@ vue-table-touch-scroll/
 
 ## 📖 文档
 
-更详细的文档，请访问我们的 [文档站点](https://vue-table-touch-scroll.lostelk.com)。
+更详细的文档，请访问我们的 [文档站点](https://lostelkbyte.github.io/vue-table-touch-scroll/)。

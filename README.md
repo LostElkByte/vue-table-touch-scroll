@@ -226,4 +226,4 @@ If you have any questions or issues, please open an [issue](https://github.com/L
 
 ## 📖 Documentation
 
-For more detailed documentation, please visit our [documentation site](https://vue-table-touch-scroll.lostelk.com).
+For more detailed documentation, please visit our [documentation site](https://lostelkbyte.github.io/vue-table-touch-scroll/).
