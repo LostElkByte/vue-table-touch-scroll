@@ -1,0 +1,1 @@
+import{bb as t,aw as a,aE as r,aG as o}from"./DrzQkR1i.js";const s={},c={class:"grid grid-cols-[repeat(auto-fit,_minmax(270px,_1fr))] gap-6 [&:not(:first-child)]:mt-5"};function n(e,d){return a(),r("div",c,[o(e.$slots,"default")])}const _=t(s,[["render",n]]);export{_ as default};
