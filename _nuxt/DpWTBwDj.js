@@ -1,1 +1,0 @@
-import{bb as r,aw as t,aE as s,aG as o}from"./DqrikGUS.js";const a={},c={class:"even:bg-muted/50 m-0 border-t p-0"};function n(e,_){return t(),s("tr",c,[o(e.$slots,"default")])}const l=r(a,[["render",n]]);export{l as default};
