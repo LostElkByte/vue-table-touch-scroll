@@ -1,1 +1,0 @@
-import{s as t,b as r,a,S as s}from"./CgPbGDFa.js";import{_ as i}from"./C9MSsobU.js";import"./D6FiqoNp.js";import"./CwUhrH8h.js";var l={parser:a,get db(){return new s(2)},renderer:r,styles:t,init:i(e=>{e.state||(e.state={}),e.state.arrowMarkerAbsolute=e.arrowMarkerAbsolute},"init")};export{l as diagram};
