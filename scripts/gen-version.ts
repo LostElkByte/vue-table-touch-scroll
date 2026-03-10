@@ -20,7 +20,7 @@
 
 import { writeFile } from 'fs/promises'
 import path from 'path'
-import consola from 'consola'
+import { consola } from 'consola'
 import {
   vueTableTouchScrollPackage,
   vueTableTouchScrollRoot,

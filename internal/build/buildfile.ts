@@ -23,25 +23,22 @@ const processPackageJson = async () => {
   const packageJsonContent = await readFile(packageJsonPath, 'utf-8')
   const packageJson = JSON.parse(packageJsonContent)
 
-  // 替换 workspace 依赖
+  // 删除 workspace 依赖（因为这些代码已经打包到主包中了）
   const dependencies = packageJson.dependencies || {}
-  const devDependencies = packageJson.devDependencies || {}
 
-  // 替换 workspace 依赖为当前版本
-  const currentVersion = packageJson.version
-
-  // 处理 dependencies
-  for (const [key, value] of Object.entries(dependencies)) {
-    if (typeof value === 'string' && value.startsWith('workspace:')) {
-      dependencies[key] = currentVersion
+  // 删除所有 workspace 依赖
+  for (const key of Object.keys(dependencies)) {
+    if (
+      typeof dependencies[key] === 'string' &&
+      dependencies[key].startsWith('workspace:')
+    ) {
+      delete dependencies[key]
     }
   }
 
-  // 处理 devDependencies
-  for (const [key, value] of Object.entries(devDependencies)) {
-    if (typeof value === 'string' && value.startsWith('workspace:')) {
-      devDependencies[key] = currentVersion
-    }
+  // 如果 dependencies 为空对象，则删除整个 dependencies 字段
+  if (Object.keys(dependencies).length === 0) {
+    delete packageJson.dependencies
   }
 
   // 写回处理后的 package.json
