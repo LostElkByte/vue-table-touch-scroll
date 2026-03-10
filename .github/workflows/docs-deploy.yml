@@ -59,6 +59,11 @@ jobs:
           echo "=== Checking baseURL in HTML ==="
           grep -o 'baseURL:"[^"]*"' docs/.output/public/index.html || echo "baseURL not found in inline script"
 
+      - name: Create version file
+        run: |
+          echo "{\"version\": \"$(date +%s)\"}" > docs/.output/public/version.json
+          echo "Build timestamp: $(date)" >> docs/.output/public/version.txt
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
