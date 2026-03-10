@@ -1,1 +1,0 @@
-import{bb as s,aw as e,aE as o,aG as c}from"./0kUTJnlA.js";const l={},r={class:"ml-6 list-disc [&:not(:first-child)]:mt-6 [&:not(:last-child)]:mb-6 [&>li:not(:first-child)]:mt-2"};function a(t,n){return e(),o("ul",r,[c(t.$slots,"default")])}const d=s(l,[["render",a]]);export{d as default};
