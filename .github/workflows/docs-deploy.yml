@@ -52,6 +52,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: docs/.vitepress/dist
+          folder: docs/.output/public
           clean: true
           commit-message: 'docs: deploy documentation'

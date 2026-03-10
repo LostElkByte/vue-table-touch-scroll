@@ -443,8 +443,6 @@ export default defineConfig([
       'docs/.nuxt',
       'docs/.output',
       'docs/dist',
-      'docs/.vitepress/cache/*',
-      'docs/.vitepress/dist/*',
       'docs/tailwind.config.js',
       'README.md',
       'README.zh-CN.md',

@@ -25,7 +25,7 @@ play/.vite/
 # Archive folder for unused documentation
 .github-archive/
 
-# VitePress build cache
-docs/.vitepress/dist/
-docs/.vitepress/cache/
-docs/.vitepress/temp/
+# Nuxt build cache
+docs/.nuxt/
+docs/.output/
+docs/dist/
