@@ -1,6 +1,6 @@
 {
   "name": "@vue-table-touch-scroll/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Core directive for vue-table-touch-scroll",
   "keywords": [
     "vue",
