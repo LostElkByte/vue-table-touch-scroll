@@ -1,0 +1,1 @@
+import{bx as f}from"./DqrikGUS.js";export{f as default};
