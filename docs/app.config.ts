@@ -4,7 +4,7 @@ export default defineAppConfig({
       name: 'Vue Table Touch Scroll',
       description:
         'A lightweight Vue 3 directive that provides silky-smooth touch scrolling for mobile tables.',
-      ogImage: '/lostElk.png',
+      ogImage: '/cover.png',
     },
     theme: {
       customizable: true,
