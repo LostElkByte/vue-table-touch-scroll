@@ -17,6 +17,10 @@ vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap b
 - 🎨 **Physics-based Scrolling** - Realistic inertia and friction simulation
 - 📦 **Zero Configuration** - Works out of the box with sensible defaults
 
+## 📖 Documentation
+
+For more detailed documentation, please visit [vue-table-touch-scroll documentation](https://lostelkbyte.github.io/vue-table-touch-scroll/).
+
 ## 📦 Installation
 
 ```bash
@@ -223,7 +227,3 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 ## 📞 Support
 
 If you have any questions or issues, please open an [issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues) on GitHub.
-
-## 📖 Documentation
-
-For more detailed documentation, please visit our [documentation site](https://lostelkbyte.github.io/vue-table-touch-scroll/).
