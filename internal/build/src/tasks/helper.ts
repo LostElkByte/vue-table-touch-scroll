@@ -7,5 +7,5 @@ export const buildHelper = () => {
   // Helper function for building component documentation
   // This is a placeholder implementation
   const { name, version } = getPackageManifest(vueTableTouchScrollPackage)
-  console.log(`Building helper for ${name} v${version}`)
+  return { name, version }
 }

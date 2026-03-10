@@ -2,10 +2,10 @@ import path from 'path'
 import { copyFile, cp, mkdir, rm } from 'fs/promises'
 import {
   buildOutput,
-  vueTableTouchScrollOutput,
-  vueTableTouchScrollPackage,
   execCommand,
   projRoot,
+  vueTableTouchScrollOutput,
+  vueTableTouchScrollPackage,
 } from '@vue-table-touch-scroll/build-utils'
 import {
   buildConfig,

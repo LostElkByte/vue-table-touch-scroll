@@ -2,11 +2,11 @@ import path from 'path'
 import { glob } from 'tinyglobby'
 import {
   buildOutput,
-  vueTableTouchScrollPackage,
   excludeFiles,
   getPackageDependencies,
   pkgRoot,
   projRoot,
+  vueTableTouchScrollPackage,
 } from '@vue-table-touch-scroll/build-utils'
 import { build } from 'rolldown'
 import { dts } from 'rolldown-plugin-dts'
