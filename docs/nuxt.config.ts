@@ -12,7 +12,9 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
     },
   },
-
+  alias: {
+    'vue-table-touch-scroll': '../packages/vue-table-touch-scroll/index.ts',
+  },
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => tag.startsWith('media-'),

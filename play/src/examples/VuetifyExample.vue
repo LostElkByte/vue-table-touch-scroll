@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
+import { vTableTouchScroll } from 'vue-table-touch-scroll'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { computed } from 'vue'

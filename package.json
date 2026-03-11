@@ -68,10 +68,7 @@
     "prepare": "husky",
     "postinstall": "pnpm stub"
   },
-  "dependencies": {
-    "@vue-table-touch-scroll/core": "workspace:*",
-    "@vue-table-touch-scroll/utils": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@acemir/cssom": "^0.9.31",
     "@commitlint/cli": "^20.2.0",

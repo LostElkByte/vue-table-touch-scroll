@@ -9,12 +9,12 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.56.2",
     "@primeuix/themes": "^2.0.3",
-    "@vue-table-touch-scroll/core": "workspace:*",
     "ant-design-vue": "^4.2.6",
     "element-plus": "^2.13.2",
     "naive-ui": "^2.40.1",
     "primevue": "^4.5.4",
     "vue": "catalog:",
+    "vue-table-touch-scroll": "workspace:*",
     "vuetify": "^3.7.5",
     "vxe-table": "^4.9.5",
     "vxe-table-plugin-element": "^4.0.4",

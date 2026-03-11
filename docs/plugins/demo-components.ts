@@ -1,4 +1,4 @@
-import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
+import { vTableTouchScroll } from 'vue-table-touch-scroll'
 import CodeViewerTab from '~/components/CodeViewerTab.vue'
 import ComponentLoader from '~/components/ComponentLoader.vue'
 import DemoTabs from '~/components/DemoTabs.vue'

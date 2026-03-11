@@ -49,6 +49,6 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "vue": "catalog:"
+    "vue": "^3.5.0"
   }
 }

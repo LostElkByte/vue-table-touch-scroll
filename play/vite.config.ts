@@ -12,13 +12,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@vue-table-touch-scroll/core': path.resolve(
+      'vue-table-touch-scroll': path.resolve(
         __dirname,
-        '../packages/core'
-      ),
-      '@vue-table-touch-scroll/utils': path.resolve(
-        __dirname,
-        '../packages/utils'
+        '../packages/vue-table-touch-scroll'
       ),
     },
   },

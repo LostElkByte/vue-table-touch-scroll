@@ -10,8 +10,6 @@
  * 用于工作空间包的命名空间
  *
  * @example
- * '@vue-table-touch-scroll/core'
- * '@vue-table-touch-scroll/utils'
  */
 export const PKG_PREFIX = '@vue-table-touch-scroll'
 

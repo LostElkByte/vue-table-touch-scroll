@@ -16,10 +16,6 @@
     "rootDir": ".",
     "types": [],
     "paths": {
-      "@vue-table-touch-scroll/core": ["packages/core"],
-      "@vue-table-touch-scroll/core/*": ["packages/core/*"],
-      "@vue-table-touch-scroll/utils": ["packages/utils"],
-      "@vue-table-touch-scroll/utils/*": ["packages/utils/*"],
       "vue-table-touch-scroll": ["packages/vue-table-touch-scroll"]
     },
     "preserveSymlinks": true
