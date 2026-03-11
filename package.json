@@ -1,6 +1,6 @@
 {
   "name": "vue-table-touch-scroll",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.18.2",
   "description": "vue-table-touch-scroll is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
