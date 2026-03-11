@@ -27,6 +27,17 @@ import { getSelectorByPreset } from './presets'
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 import type { ScrollContext, TableTouchScrollOptions } from './types'
 
+/**
+ * v-table-touch-scroll 指令类型
+ * 接受 TableTouchScrollOptions 配置对象
+ * @example
+ * v-table-touch-scroll="{ preset: 'element-plus', friction: 0.95 }"
+ */
+export type VTableTouchScrollDirective = ObjectDirective<
+  HTMLElement,
+  TableTouchScrollOptions
+>
+
 /** 物理引擎默认参数配置 */
 const DEFAULT_FRICTION = 0.95 // 默认摩擦力/衰减率 (值越低摩擦力越大)
 const MIN_VELOCITY = 0.05 // 停止动画的速度阈值
@@ -46,10 +57,7 @@ const contexts = new WeakMap<HTMLElement, ScrollContext>()
  * @example
  * <div v-table-touch-scroll="{ selector: '.table-body', friction: 0.9 }"></div>
  */
-export const vTableTouchScroll: ObjectDirective<
-  HTMLElement,
-  TableTouchScrollOptions
-> = {
+export const vTableTouchScroll: VTableTouchScrollDirective = {
   mounted(el, binding) {
     initOrUpdate(el, binding)
   },

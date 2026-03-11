@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   },
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) => tag.startsWith('media-'),
+      isCustomElement: (tag: string) => tag.startsWith('media-'),
     },
   },
 

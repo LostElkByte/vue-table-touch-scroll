@@ -21,19 +21,12 @@ export default installer
 declare module 'vue' {
   export interface GlobalDirectives {
     /**
-     * Touch scroll directive for tables
-     * @example <div v-table-touch-scroll="{ ...options }"></div>
+     * Touch scroll directive for tables.
+     * Use in template as: <div v-table-touch-scroll="{...}"></div>
      */
     'table-touch-scroll': ObjectDirective<
       HTMLElement,
       TableTouchScrollOptions | undefined
     >
-  }
-}
-
-// 兼容性扩展：确保在一些特殊场景下，组件实例能识别该指令
-declare module '@vue/runtime-core' {
-  export interface ComponentCustomProperties {
-    vTableTouchScroll: typeof vTableTouchScroll
   }
 }

@@ -310,7 +310,7 @@ importers:
         specifier: '*'
         version: 22.19.13
       vue:
-        specifier: ^3.5.0
+        specifier: 'catalog:'
         version: 3.5.29(typescript@5.5.4)
 
   play:

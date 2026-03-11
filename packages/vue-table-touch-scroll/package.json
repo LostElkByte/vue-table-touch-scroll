@@ -1,17 +1,28 @@
 {
   "name": "vue-table-touch-scroll",
   "version": "1.0.1",
-  "description": "A Vue 3 directive for touch scrolling in tables",
+  "description": "vue-table-touch-scroll is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
   "keywords": [
     "vue",
     "vue3",
-    "directive",
-    "table",
-    "touch",
-    "scroll",
-    "mobile"
+    "vue-table",
+    "touch-scroll",
+    "inertia-scroll",
+    "element-plus",
+    "ant-design-vue",
+    "naive-ui",
+    "el-table",
+    "a-table",
+    "n-table",
+    "vxe-table",
+    "vue-directive",
+    "mobile-friendly",
+    "horizontal-scroll",
+    "smooth-scroll",
+    "table-scroll",
+    "data-table"
   ],
-  "homepage": "https://github.com/LostElkByte/vue-table-touch-scroll",
+  "homepage": "https://lostelkbyte.github.io/vue-table-touch-scroll",
   "bugs": {
     "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
   },
@@ -49,6 +60,6 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "vue": "^3.5.0"
+    "vue": "catalog:"
   }
 }
