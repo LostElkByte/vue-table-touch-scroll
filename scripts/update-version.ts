@@ -141,14 +141,15 @@ async function main(): Promise<void> {
     // 动态获取工作区中的所有包
     const packages = await getWorkspacePackages()
 
-    // 过滤出需要更新版本的包（排除私有包和构建工具包）
+    // 过滤出需要更新版本的包（排除私有包和构建工具包，但保留根目录的 package.json）
     const packagesToUpdate = packages.filter((pkg) => {
       const name = pkg.manifest.name || ''
       const isPrivate = pkg.manifest.private === true
       const isBuildTool =
         name.includes('/build') || name.includes('/eslint-config')
+      const isRootPackage = pkg.dir === process.cwd()
 
-      return !isPrivate && !isBuildTool
+      return (!isPrivate || isRootPackage) && !isBuildTool
     })
 
     if (packagesToUpdate.length === 0) {
