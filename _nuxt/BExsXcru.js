@@ -1,0 +1,1 @@
+import{bb as s,aw as e,aE as o,aG as l}from"./DKJWMTEq.js";const c={},a={class:"ml-6 list-decimal [&:not(:first-child)]:mt-6 [&:not(:last-child)]:mb-6 [&>li:not(:first-child)]:mt-2"};function r(t,n){return e(),o("ol",a,[l(t.$slots,"default")])}const d=s(c,[["render",r]]);export{d as default};
