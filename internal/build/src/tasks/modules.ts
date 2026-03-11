@@ -1,7 +1,10 @@
 import vue from '@vitejs/plugin-vue'
 import { glob } from 'tinyglobby'
 import { rolldown } from 'rolldown'
-import { excludeFiles, pkgRoot } from '@vue-table-touch-scroll/build-utils'
+import {
+  excludeFiles,
+  vueTableTouchScrollRoot,
+} from '@vue-table-touch-scroll/build-utils'
 import { generateExternal, writeBundles } from '../utils'
 import { buildConfigEntries } from '../build-info'
 
@@ -12,7 +15,7 @@ const plugins = [vue()]
 export async function buildModules() {
   const input = excludeFiles(
     await glob(['**/*.ts', '!**/*.d.ts'], {
-      cwd: pkgRoot,
+      cwd: vueTableTouchScrollRoot,
       absolute: true,
       onlyFiles: true,
     })
@@ -32,7 +35,7 @@ export async function buildModules() {
         dir: config.output.path,
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: pkgRoot,
+        preserveModulesRoot: vueTableTouchScrollRoot,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       }

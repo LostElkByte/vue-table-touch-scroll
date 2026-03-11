@@ -1,8 +1,11 @@
-import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
+import { vTableTouchScroll } from './src/directive'
 
 import type { App, Plugin } from 'vue'
 
-export * from '@vue-table-touch-scroll/core'
+export * from './src/directive'
+export type { TableTouchScrollOptions } from './src/types'
+export type { TablePreset } from './src/presets'
+export { UI_LIBRARY_SELECTORS, getSelectorByPreset } from './src/presets'
 
 const installer: Plugin = {
   install(app: App) {

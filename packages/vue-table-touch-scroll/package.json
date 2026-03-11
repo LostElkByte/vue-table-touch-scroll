@@ -47,10 +47,6 @@
   "peerDependencies": {
     "vue": "^3.3.0"
   },
-  "dependencies": {
-    "@vue-table-touch-scroll/core": "workspace:^",
-    "@vue-table-touch-scroll/utils": "workspace:^"
-  },
   "devDependencies": {
     "@types/node": "*",
     "vue": "catalog:"

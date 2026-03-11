@@ -1,5 +1,5 @@
 import path from 'path'
-import { copyFile, cp, mkdir, readFile, rm, writeFile } from 'fs/promises'
+import { copyFile, cp, mkdir, rm } from 'fs/promises'
 import {
   buildOutput,
   execCommand,
@@ -17,38 +17,12 @@ import {
 
 import type { Module } from './src'
 
-const processPackageJson = async () => {
-  // 读取原始 package.json
-  const packageJsonPath = vueTableTouchScrollPackage
-  const packageJsonContent = await readFile(packageJsonPath, 'utf-8')
-  const packageJson = JSON.parse(packageJsonContent)
-
-  // 删除 workspace 依赖（因为这些代码已经打包到主包中了）
-  const dependencies = packageJson.dependencies || {}
-
-  // 删除所有 workspace 依赖
-  for (const key of Object.keys(dependencies)) {
-    if (
-      typeof dependencies[key] === 'string' &&
-      dependencies[key].startsWith('workspace:')
-    ) {
-      delete dependencies[key]
-    }
-  }
-
-  // 如果 dependencies 为空对象，则删除整个 dependencies 字段
-  if (Object.keys(dependencies).length === 0) {
-    delete packageJson.dependencies
-  }
-
-  // 写回处理后的 package.json
-  const outputPath = path.join(vueTableTouchScrollOutput, 'package.json')
-  await writeFile(outputPath, JSON.stringify(packageJson, null, 2))
-}
-
 const copyFiles = () =>
   Promise.all([
-    processPackageJson(),
+    copyFile(
+      vueTableTouchScrollPackage,
+      path.join(vueTableTouchScrollOutput, 'package.json')
+    ),
     copyFile(
       path.resolve(projRoot, 'README.md'),
       path.resolve(vueTableTouchScrollOutput, 'README.md')

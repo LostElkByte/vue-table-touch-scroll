@@ -2,8 +2,6 @@ import { resolve } from 'path'
 
 export const projRoot = resolve(__dirname, '..', '..', '..')
 export const pkgRoot = resolve(projRoot, 'packages')
-export const coreRoot = resolve(pkgRoot, 'core')
-export const utilRoot = resolve(pkgRoot, 'utils')
 export const vueTableTouchScrollRoot = resolve(
   pkgRoot,
   'vue-table-touch-scroll'
@@ -18,8 +16,6 @@ export const vueTableTouchScrollOutput = resolve(
   'vue-table-touch-scroll'
 )
 export const projPackage = resolve(projRoot, 'package.json')
-export const corePackage = resolve(coreRoot, 'package.json')
-export const utilPackage = resolve(utilRoot, 'package.json')
 export const vueTableTouchScrollPackage = resolve(
   vueTableTouchScrollRoot,
   'package.json'

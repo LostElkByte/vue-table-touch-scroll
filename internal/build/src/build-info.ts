@@ -14,7 +14,6 @@ export interface BuildInfo {
     name: string
     path: string
   }
-
   bundle: {
     path: string
   }
