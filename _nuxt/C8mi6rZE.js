@@ -1,1 +1,0 @@
-import{bb as e,aw as t,aE as c}from"./Ou0AXncI.js";const r={},s={class:"[&:not(:first-child)]:mt-6"};function o(n,a){return t(),c("hr",s)}const f=e(r,[["render",o]]);export{f as default};
