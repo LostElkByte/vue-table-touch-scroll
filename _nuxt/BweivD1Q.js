@@ -1,1 +1,0 @@
-import{bb as o,aw as n,aE as t,aG as a}from"./Ci2WeOuk.js";const r={},c={class:"inline-code bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono"};function s(e,d){return n(),t("code",c,[a(e.$slots,"default",{},void 0,!0)])}const l=o(r,[["render",s],["__scopeId","data-v-9460a2ea"]]);export{l as default};
