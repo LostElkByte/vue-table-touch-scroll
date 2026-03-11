@@ -4,6 +4,7 @@
  * 功能说明：
  * - 批量更新项目中所有包的版本号
  * - 可选添加 Git HEAD 信息到 package.json
+ * - 自动更新文档中的版本号
  * - 用于发布流程中的版本同步
  * - 动态发现工作区中的所有包
  *
@@ -19,8 +20,12 @@
  * 更新的包：
  * - 自动发现并更新工作区中的所有包
  * - 包括 vue-table-touch-scroll、core、utils 等
+ *
+ * 更新的文档：
+ * - docs/content/index.md 中的公告版本号
  */
 
+import { readFile, writeFile } from 'fs/promises'
 import chalk from 'chalk'
 import { consola } from 'consola'
 import {
@@ -96,6 +101,42 @@ async function main(): Promise<void> {
     )
   }
 
+  /**
+   * 更新文档中的版本号
+   *
+   * 功能说明：
+   * - 更新 docs/content/index.md 中的公告版本号
+   * - 使用正则表达式匹配并替换版本号
+   *
+   * 匹配模式：
+   * - title: 'Release v{version}'
+   *
+   * @param version - 目标版本号（如 1.0.0）
+   */
+  const updateDocsVersion = async (version: string): Promise<void> => {
+    const docsIndexPath = 'docs/content/index.md'
+
+    try {
+      const content = await readFile(docsIndexPath, 'utf-8')
+      const versionPattern = /title: 'Release v\d+\.\d+\.\d+'/
+      const newContent = content.replace(
+        versionPattern,
+        `title: 'Release v${version}'`
+      )
+
+      if (content === newContent) {
+        consola.warn(chalk.yellow('No version found in docs/content/index.md'))
+        return
+      }
+
+      await writeFile(docsIndexPath, newContent, 'utf-8')
+      consola.success(chalk.green(`Updated docs version to v${version}`))
+    } catch (err: any) {
+      consola.error(chalk.red(`Failed to update docs version: ${err.message}`))
+      throw err
+    }
+  }
+
   try {
     // 动态获取工作区中的所有包
     const packages = await getWorkspacePackages()
@@ -127,6 +168,9 @@ async function main(): Promise<void> {
         `All ${packagesToUpdate.length} package(s) updated successfully to version ${tagVersion}`
       )
     )
+
+    // 更新文档中的版本号
+    await updateDocsVersion(tagVersion)
 
     if (gitHead) {
       consola.success(chalk.green(`Git HEAD set to ${gitHead}`))
