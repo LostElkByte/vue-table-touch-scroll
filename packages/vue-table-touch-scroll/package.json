@@ -5,28 +5,33 @@
   "keywords": [
     "vue",
     "vue3",
-    "vue-table",
+    "directive",
+    "mobile-table",
+    "table-scroll",
     "touch-scroll",
     "inertia-scroll",
+    "momentum-scroll",
     "element-plus",
     "ant-design-vue",
-    "naive-ui",
-    "el-table",
-    "a-table",
-    "n-table",
     "vxe-table",
-    "vue-directive",
     "mobile-friendly",
-    "horizontal-scroll",
-    "smooth-scroll",
-    "table-scroll",
-    "data-table"
+    "responsive-table",
+    "typescript",
+    "移动端表格",
+    "手机表格",
+    "表格滚动",
+    "惯性滚动",
+    "适配"
   ],
   "homepage": "https://lostelkbyte.github.io/vue-table-touch-scroll",
   "bugs": {
     "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "LostElk",
+    "url": "https://github.com/LostElkByte"
+  },
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
@@ -54,6 +59,17 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

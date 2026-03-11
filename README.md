@@ -3,9 +3,13 @@
 vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap between desktop tables and mobile touch interactions. With a simple directive, it ensures that any Vue PC table component delivers a native-grade, silky-smooth scrolling and interaction experience on mobile devices. This includes seamless out-of-the-box support for table components in mainstream UI libraries like Element Plus, Ant Design Vue, and Naive UI.
 
 [![npm version](https://img.shields.io/npm/v/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
+[![npm downloads](https://img.shields.io/npm/dm/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/vue-table-touch-scroll)](https://bundlephobia.com/package/vue-table-touch-scroll)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue-table-touch-scroll/ci.yml?branch=main)](https://github.com/LostElkByte/vue-table-touch-scroll/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue-table-touch-scroll)](https://codecov.io/gh/LostElkByte/vue-table-touch-scroll)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![Socket Badge](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.3)](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.3)
 
 ## ✨ Features
 
