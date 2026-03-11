@@ -9,7 +9,7 @@ vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap b
 [![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue-table-touch-scroll/ci.yml?branch=main)](https://github.com/LostElkByte/vue-table-touch-scroll/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue-table-touch-scroll)](https://codecov.io/gh/LostElkByte/vue-table-touch-scroll)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![Socket Badge](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.3)](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.3)
+[![Socket Badge](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.5)](https://badge.socket.dev/npm/package/vue-table-touch-scroll)
 
 ## ✨ Features
 
