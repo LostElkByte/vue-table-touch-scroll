@@ -5,11 +5,7 @@ import vuetify from 'vite-plugin-vuetify'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    Unocss(),
-    vuetify({ autoImport: true }),
-  ],
+  plugins: [vue(), Unocss(), vuetify({ autoImport: true })],
   resolve: {
     alias: {
       'vue-table-touch-scroll': path.resolve(

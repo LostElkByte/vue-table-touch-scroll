@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "vue-table-touch-scroll": ["../packages/vue-table-touch-scroll/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue"]
+}
