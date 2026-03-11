@@ -1,6 +1,6 @@
 {
   "name": "vue-table-touch-scroll",
-  "version": "0.0.4",
+  "version": "5.0.0",
   "description": "A Vue 3 directive for touch scrolling in tables",
   "keywords": [
     "vue",
