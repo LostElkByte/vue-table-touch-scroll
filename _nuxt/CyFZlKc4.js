@@ -1,0 +1,1 @@
+import{bb as o,aw as t,aE as s,aG as c}from"./JsOSTGww.js";const r={},a={class:"border-l-2 pl-6 italic [&:not(:first-child)]:mt-6"};function l(e,n){return t(),s("blockquote",a,[c(e.$slots,"default")])}const d=o(r,[["render",l]]);export{d as default};
