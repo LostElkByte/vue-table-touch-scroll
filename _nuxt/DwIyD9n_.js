@@ -1,0 +1,1 @@
+import{bb as s,aw as t,aE as o,aG as a}from"./Ci2WeOuk.js";const r={},c={class:"leading-7 [&:not(:first-child)]:mt-6"};function n(e,l){return t(),o("p",c,[a(e.$slots,"default")])}const d=s(r,[["render",n]]);export{d as default};
