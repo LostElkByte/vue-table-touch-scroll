@@ -112,6 +112,17 @@
       "path": "./node_modules/cz-git"
     }
   },
+  "pnpm": {
+    "overrides": {
+      "cross-spawn": ">=7.0.5",
+      "tar": ">=7.5.11",
+      "serialize-javascript": ">=7.0.3",
+      "svgo": ">=4.0.1",
+      "esbuild": ">=0.25.0",
+      "dompurify": ">=3.3.2",
+      "@pnpm/cafs": ">=7.0.5"
+    }
+  },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": [
       "eslint --fix --concurrency=auto",
