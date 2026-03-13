@@ -12,25 +12,25 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@vueuse/shared": "^14.1.0",
+    "@vueuse/shared": "^14.2.1",
     "ant-design-vue": "^4.2.6",
     "highlight.js": "^11.11.1",
-    "naive-ui": "^2.43.2",
-    "nuxt": "^3.20.2",
+    "naive-ui": "^2.44.1",
+    "nuxt": "^3.21.2",
     "radix-vue": "^1.9.17",
-    "shadcn-docs-nuxt": "1.1.7",
-    "tailwindcss": "^4.0.0",
+    "shadcn-docs-nuxt": "1.1.9",
+    "tailwindcss": "^4.2.1",
     "vue": "catalog:",
-    "vue-router": "^4.6.3",
+    "vue-router": "^4.6.4",
     "vue-table-touch-scroll": "workspace:*",
-    "vxe-pc-ui": "^4.3.0",
-    "vxe-table": "^4.9.0"
+    "vxe-pc-ui": "^4.13.5",
+    "vxe-table": "^4.18.2"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.1.5",
     "@iconify-json/logos": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.78",
-    "@iconify-json/simple-icons": "^1.2.61",
+    "@iconify-json/lucide": "^1.2.97",
+    "@iconify-json/simple-icons": "^1.2.73",
     "tailwindcss-animate": "^1.0.7"
   }
 }
