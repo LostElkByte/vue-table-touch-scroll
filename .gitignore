@@ -5,6 +5,7 @@ coverage/
 .DS_Store
 .vscode/
 .idea/
+.eslintcache
 
 # Build outputs
 lib/
