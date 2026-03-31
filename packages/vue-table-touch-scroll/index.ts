@@ -4,7 +4,11 @@ import type { App, ObjectDirective, Plugin } from 'vue'
 import type { TableTouchScrollOptions } from './src/types'
 
 export * from './src/directive'
-export type { TableTouchScrollOptions } from './src/types'
+export type {
+  TableTouchScrollOptions,
+  DeviceType,
+  HijackState,
+} from './src/types'
 export type { TablePreset } from './src/presets'
 export { UI_LIBRARY_SELECTORS, getSelectorByPreset } from './src/presets'
 

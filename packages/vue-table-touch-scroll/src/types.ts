@@ -1,6 +1,23 @@
 import type { TablePreset } from './presets'
 
 /**
+ * 设备类型 / Device type
+ * - 'mobile': 纯移动端（手机/平板），粗指针 + 触摸能力 / Pure mobile with coarse pointer + touch
+ * - 'desktop': 纯 PC，无触摸能力 / Pure desktop without touch capability
+ * - 'hybrid': 混合设备（Surface / 触屏笔记本），有触摸但主指针为精细指针 / Hybrid device with touch but fine pointer
+ */
+export type DeviceType = 'mobile' | 'desktop' | 'hybrid'
+
+/**
+ * 懒接管状态机 / Lazy hijacking state machine
+ * - 'dormant': 休眠，纯 PC 设备，不做任何操作 / Dormant: pure PC, no-op
+ * - 'standby': 待命，混合设备默认状态，仅挂哨兵事件 / Standby: hybrid default, sentinel events only
+ * - 'pending-active': 待确认激活，touchstart 后记录坐标但不劫持样式 / Pending: touchstart recorded, no style hijacking yet
+ * - 'active': 激活，劫持样式并绑定全套触摸事件 / Active: styles hijacked, full touch event binding
+ */
+export type HijackState = 'dormant' | 'standby' | 'pending-active' | 'active'
+
+/**
  * v-table-touch-scroll 指令配置项
  * Configuration options for the v-table-touch-scroll directive
  */
@@ -99,6 +116,13 @@ export interface TableTouchScrollOptions {
    * ```
    */
   selector?: string
+  /**
+   * 设备检测模式 / Device detection mode.
+   * - 'auto': 自动检测（默认），混合设备启用懒接管 / Automatic detection, lazy hijacking for hybrids
+   * - 'always': 始终激活触摸处理，忽略设备类型 / Always activate touch handling regardless of device
+   * @default 'auto'
+   */
+  mode?: 'auto' | 'always'
 }
 
 /**
@@ -108,12 +132,29 @@ export interface TableTouchScrollOptions {
  * Stored via WeakMap to ensure automatic garbage collection when the DOM is destroyed.
  */
 export interface ScrollContext {
+  /** 指令绑定的根元素 / Root element bound to the directive */
+  el: HTMLElement
   /** 实际执行滚动的 DOM 元素 / The DOM element where scrolling is performed */
   scrollEl: HTMLElement
-  /** 控制器：用于一键移除所有绑定的事件监听器 / Controller: used to remove all bound event listeners at once */
-  abortController: AbortController
   /** 原始样式备份：用于指令卸载时恢复元素初始状态 / Original styles backup: used to restore initial state on unmount */
   originalStyles: Map<string, string>
+
+  // 懒接管状态 / Lazy hijacking state
+  deviceType: DeviceType
+  hijackState: HijackState
+  /**
+   * 哨兵事件控制器，生命周期与指令一致（unmounted 时才销毁）
+   * Sentinel event controller, lifecycle matches the directive (destroyed on unmount)
+   */
+  sentinelAbort: AbortController
+  /**
+   * Active 状态事件控制器，每次 deactivate 时 abort，每次 activate 时重建
+   * Active-state event controller, abort on deactivate, recreate on activate
+   */
+  activeAbort: AbortController | null
+  /** PendingActive 中间态的起始触摸坐标 / Starting touch coordinates for pending-active state */
+  pendingStartX: number
+  pendingStartY: number
 
   // 手势追踪 / Gesture tracking
   touchStartX: number
@@ -161,4 +202,14 @@ export interface ScrollContext {
    * When true, subsequent 'click' events will be intercepted to prevent accidental triggers during an "emergency stop".
    */
   shouldBlockClick: boolean
+
+  /**
+   * 多指锁定标记
+   * 为 true 时，引擎彻底"装死"，将控制权完全交给浏览器处理原生手势（如缩放）。
+   * 只有当所有手指都离开屏幕后才解除。
+   * Multi-touch lock flag.
+   * When true, the engine goes completely silent, handing full control to the browser
+   * for native gestures (e.g. pinch-to-zoom). Only released when all fingers leave the screen.
+   */
+  isMultiTouching: boolean
 }
