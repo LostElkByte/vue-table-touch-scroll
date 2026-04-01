@@ -6,7 +6,7 @@ coverage/
 .vscode/
 .idea/
 .eslintcache
-
+.cursor/
 # Build outputs
 lib/
 es/
