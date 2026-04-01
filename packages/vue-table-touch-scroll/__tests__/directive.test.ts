@@ -1176,4 +1176,181 @@ describe('vTableTouchScroll Directive', () => {
       })
     })
   })
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // 17. CSS 旋转横屏支持测试 / CSS Rotation Support
+  // ═══════════════════════════════════════════════════════════════════════
+  describe('CSS Rotation Support / CSS 旋转横屏支持', () => {
+    it('rotation=0 时行为不变（回归保护）/ rotation=0 should not change behavior', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: 0 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 110)
+      await advanceFrames(16, 1)
+
+      expect(el.scrollLeft).toBeGreaterThan(0)
+      expect(el.scrollTop).toBe(0)
+    })
+
+    it('rotation=90 时水平触摸映射到垂直滚动 / rotation=90 maps horizontal swipe to vertical scroll', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
+        {} as any,
+        null
+      )
+
+      // rotation=90 变换: x=clientY, y=-clientX
+      // touchStart(100, 100) → { x:100, y:-100 }
+      // touchMove(120, 100)  → { x:100, y:-120 } → dy=-20 (垂直方向)
+      // incY = -120-(-100) = -20 → targetScrollTop = 0 - (-20) = 20
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 120, 100)
+      await advanceFrames(16, 1)
+
+      expect(el.scrollTop).toBeGreaterThan(0)
+      expect(el.scrollLeft).toBe(0)
+    })
+
+    it('rotation=-90 时水平触摸映射到反向垂直滚动 / rotation=-90 maps horizontal swipe to reversed vertical scroll', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: -90 }),
+        {} as any,
+        null
+      )
+
+      // rotation=-90: x=-clientY, y=clientX
+      // touchStart: x=-100, y=100
+      // touchMove:  x=-100, y=80  → dy=-20 (垂直方向)
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+
+      // 水平触摸被映射为垂直滚动（反向）
+      expect(el.scrollTop).toBeGreaterThan(0)
+      expect(el.scrollLeft).toBe(0)
+    })
+
+    it('rotation=180 时触摸方向完全反转 / rotation=180 reverses both axes', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: 180 }),
+        {} as any,
+        null
+      )
+
+      // rotation=180: x=-clientX, y=-clientY
+      // 手指向右滑（clientX 增加）→ x 减少 → dx<0 → scrollLeft 减少
+      // 手指向左滑（clientX 减少）→ x 增加 → dx>0 → scrollLeft 应增加（反转）
+      // 先把 scrollLeft 设到中间位置，再向右滑，scrollLeft 应减少
+      el.scrollLeft = 400
+      const initialScroll = el.scrollLeft
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      // 手指向左滑 → rotation=180 后 dx 为正 → 对 scrollLeft 产生正向位移
+      dispatchTouch('touchmove', 80, 102)
+      await advanceFrames(16, 1)
+
+      expect(el.scrollLeft).toBeLessThan(initialScroll)
+    })
+
+    it('旋转状态下边缘检测仍正确工作 / edge detection works correctly under rotation', () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
+        {} as any,
+        null
+      )
+
+      // rotation=90: x=clientY, y=-clientX
+      // 将 scrollTop 设为 0（顶部边缘）
+      el.scrollTop = 0
+
+      // touchStart(100, 100) → { x:100, y:-100 }
+      // touchMove(80, 100)   → { x:100, y:-80 }  → dy=20 (向正方向, 即向上滑)
+      // scrollTop=0 且 dy>0 → 顶部边缘向上 → 应放行给原生
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 80, 100)
+      expect(moveEvt.defaultPrevented).toBe(false)
+    })
+
+    it('旋转状态下惯性方向正确 / inertia direction is correct under rotation', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
+        {} as any,
+        null
+      )
+
+      // rotation=90: x=clientY, y=-clientX
+      // 快速水平向右滑（clientX 增大）→ y=-clientX 减小 → 垂直方向惯性使 scrollTop 增加
+      dispatchTouch('touchstart', 50, 100)
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchmove', 200, 100)
+
+      mockNow.mockReturnValue(25)
+      dispatchTouch('touchend', 200, 100)
+
+      const scrollAtEnd = el.scrollTop
+      await advanceFrames(100, 6)
+
+      // 惯性应在垂直方向继续
+      expect(el.scrollTop).toBeGreaterThan(scrollAtEnd)
+      expect(el.scrollLeft).toBe(0)
+    })
+
+    it('运行时更新 rotation 值后坐标变换立即生效 / runtime rotation update takes effect immediately', async () => {
+      const binding1 = createBinding({
+        dragThreshold: 5,
+        mode: 'always',
+        rotation: 0,
+      })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+
+      // rotation=0 时，水平滑动应产生水平滚动
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 80, 100)
+      await advanceFrames(16, 1)
+      expect(el.scrollLeft).toBeGreaterThan(0)
+
+      dispatchTouch('touchend', 80, 100)
+      // 等待动画停止
+      mockNow.mockReturnValue(500)
+      vi.advanceTimersByTime(500)
+      await Promise.resolve()
+
+      // 重置位置用于后续验证
+      el.scrollLeft = 0
+      el.scrollTop = 0
+
+      // 动态更新 rotation 为 90
+      const binding2 = createBinding({
+        dragThreshold: 5,
+        mode: 'always',
+        rotation: 90,
+      })
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      // rotation=90: x=clientY, y=-clientX
+      // 手指向右滑（clientX 增大）→ y=-clientX 减小 → scrollTop 增加
+      mockNow.mockReturnValue(600)
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(610)
+      dispatchTouch('touchmove', 120, 100)
+      await advanceFrames(16, 1)
+
+      expect(el.scrollTop).toBeGreaterThan(0)
+    })
+  })
 })
