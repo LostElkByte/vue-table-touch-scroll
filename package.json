@@ -119,7 +119,8 @@
       "serialize-javascript": ">=7.0.5",
       "esbuild": ">=0.25.0",
       "unhead": ">=2.1.11",
-      "@pnpm/cafs": ">=7.0.5"
+      "@pnpm/cafs": ">=7.0.5",
+      "nuxt-og-image": ">=6.2.5"
     }
   },
   "lint-staged": {
