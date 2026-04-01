@@ -123,6 +123,17 @@ export interface TableTouchScrollOptions {
    * @default 'auto'
    */
   mode?: 'auto' | 'always'
+  /**
+   * CSS 旋转角度（度数）。
+   * 当容器通过 CSS transform: rotate() 模拟横屏时，
+   * 指令会对触摸坐标进行逆变换以正确映射滚动方向。
+   * CSS rotation angle (degrees).
+   * When the container uses CSS transform: rotate() to simulate landscape mode,
+   * the directive applies an inverse transform to touch coordinates for correct scroll mapping.
+   * 支持 0 / 90 / -90 / 180。
+   * @default 0
+   */
+  rotation?: 0 | 90 | -90 | 180
 }
 
 /**
@@ -212,4 +223,10 @@ export interface ScrollContext {
    * for native gestures (e.g. pinch-to-zoom). Only released when all fingers leave the screen.
    */
   isMultiTouching: boolean
+
+  /**
+   * CSS 旋转角度，用于对触摸坐标进行逆变换
+   * CSS rotation angle for inverse-transforming touch coordinates
+   */
+  rotation: number
 }

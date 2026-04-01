@@ -78,6 +78,30 @@ const STYLE_PROPS = ['overflow', 'willChange', 'touchAction'] as const // 需要
 /** 全局映射：维护元素与内部滚动上下文的弱引用关系，防止内存泄漏 / Global WeakMap: maintains element-context relationship to prevent memory leaks */
 const contexts = new WeakMap<HTMLElement, ScrollContext>()
 
+/**
+ * 触摸坐标逆变换：将屏幕物理坐标系映射到旋转后的元素坐标系
+ * Inverse-transforms touch coordinates from screen physical space to rotated element space.
+ *
+ * 使用离散角度的轴交换 + 符号翻转，零三角函数开销。
+ * Uses axis swap + sign flip for discrete angles, zero trigonometric overhead.
+ */
+function transformCoords(
+  clientX: number,
+  clientY: number,
+  rotation: number
+): { x: number; y: number } {
+  switch (rotation) {
+    case 90:
+      return { x: clientY, y: -clientX }
+    case -90:
+      return { x: -clientY, y: clientX }
+    case 180:
+      return { x: -clientX, y: -clientY }
+    default:
+      return { x: clientX, y: clientY }
+  }
+}
+
 // ─── 设备检测 / Device Detection ───────────────────────────────────────
 
 /**
@@ -140,6 +164,7 @@ export const vTableTouchScroll: VTableTouchScrollDirective = {
       ctx.disableInertia = value?.disableInertia ?? false
       ctx.clickBlockThreshold =
         value?.clickBlockThreshold ?? SAFE_CLICK_VELOCITY
+      ctx.rotation = value?.rotation ?? 0
 
       // 同步最新的回调函数引用 / Sync latest callback references
       ctx.onScrollStart = value?.onScrollStart
@@ -249,6 +274,7 @@ function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
     isMultiTouching: false,
     activeTouchId: null,
     touchTracker: [],
+    rotation: options.rotation ?? 0,
   }
 
   contexts.set(el, ctx)
@@ -314,8 +340,9 @@ function onSentinelTouchStart(e: TouchEvent, ctx: ScrollContext) {
 
   ctx.hijackState = 'pending-active'
   const t = e.touches[0]
-  ctx.pendingStartX = t.clientX
-  ctx.pendingStartY = t.clientY
+  const { x, y } = transformCoords(t.clientX, t.clientY, ctx.rotation)
+  ctx.pendingStartX = x
+  ctx.pendingStartY = y
 
   // 初始化手势追踪状态，但此时 scrollEl 样式未改变
   // Initialize gesture tracking state, but scrollEl styles remain untouched
@@ -332,8 +359,9 @@ function onSentinelTouchMove(e: TouchEvent, ctx: ScrollContext) {
   const t = e.touches[0]
   if (!t) return
 
-  const dx = Math.abs(t.clientX - ctx.pendingStartX)
-  const dy = Math.abs(t.clientY - ctx.pendingStartY)
+  const { x, y } = transformCoords(t.clientX, t.clientY, ctx.rotation)
+  const dx = Math.abs(x - ctx.pendingStartX)
+  const dy = Math.abs(y - ctx.pendingStartY)
 
   if (dx > ctx.dragThreshold || dy > ctx.dragThreshold) {
     // 确认为真实拖拽 → 劫持样式，正式进入 Active
@@ -618,8 +646,9 @@ function onTouchStart(e: TouchEvent, ctx: ScrollContext) {
   // Record active touch ID to prevent coordinate jumps during finger handover
   ctx.activeTouchId = t.identifier
 
-  ctx.touchStartX = ctx.lastTouchX = t.clientX
-  ctx.touchStartY = ctx.lastTouchY = t.clientY
+  const { x, y } = transformCoords(t.clientX, t.clientY, ctx.rotation)
+  ctx.touchStartX = ctx.lastTouchX = x
+  ctx.touchStartY = ctx.lastTouchY = y
 
   ctx.targetScrollLeft = ctx.scrollEl.scrollLeft
   ctx.targetScrollTop = ctx.scrollEl.scrollTop
@@ -629,7 +658,7 @@ function onTouchStart(e: TouchEvent, ctx: ScrollContext) {
   ctx.gestureDirection = null
 
   // 初始化历史轨迹队列 / Initialize historical trajectory queue
-  ctx.touchTracker = [{ time: ctx.lastTouchTime, x: t.clientX, y: t.clientY }]
+  ctx.touchTracker = [{ time: ctx.lastTouchTime, x, y }]
 }
 
 /**
@@ -655,8 +684,9 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
   if (!t) return
 
   const now = performance.now()
-  const dx = t.clientX - ctx.touchStartX
-  const dy = t.clientY - ctx.touchStartY
+  const { x, y } = transformCoords(t.clientX, t.clientY, ctx.rotation)
+  const dx = x - ctx.touchStartX
+  const dy = y - ctx.touchStartY
 
   // 1. 初始方向锁定判定 / Initial axis locking determination
   if (!ctx.gestureDirection) {
@@ -710,8 +740,8 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
     e.preventDefault()
   }
 
-  const incX = t.clientX - ctx.lastTouchX
-  const incY = t.clientY - ctx.lastTouchY
+  const incX = x - ctx.lastTouchX
+  const incY = y - ctx.lastTouchY
 
   // 3. 计算目标位移增量 (阶段一：手动跟随) / Calculate displacement increment (Phase 1: Manual Follow)
   if (ctx.gestureDirection === 'horizontal') {
@@ -727,7 +757,7 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
 
   // 4. 采用历史轨迹队列法计算真实惯性速度（阶段二：为松手后的惯性做准备）
   // Calculate real inertial velocity (Phase 2: Preparing for release)
-  ctx.touchTracker.push({ time: now, x: t.clientX, y: t.clientY })
+  ctx.touchTracker.push({ time: now, x, y })
   // 仅保留最近 50ms 内的触摸点，过滤掉低端机硬件采样抖动，且无惧 60/120Hz 差异
   // Keep points within 50ms to filter jitter and handle varying refresh rates (60/120Hz)
   ctx.touchTracker = ctx.touchTracker.filter((p) => now - p.time <= 50)
@@ -737,14 +767,14 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
     const historyDt = Math.max(1, now - oldestPoint.time) // 防止除以 0 / Prevent div by zero
 
     if (ctx.gestureDirection === 'horizontal') {
-      ctx.velocity = -(t.clientX - oldestPoint.x) / historyDt
+      ctx.velocity = -(x - oldestPoint.x) / historyDt
     } else {
-      ctx.velocity = -(t.clientY - oldestPoint.y) / historyDt
+      ctx.velocity = -(y - oldestPoint.y) / historyDt
     }
   }
 
-  ctx.lastTouchX = t.clientX
-  ctx.lastTouchY = t.clientY
+  ctx.lastTouchX = x
+  ctx.lastTouchY = y
   ctx.lastTouchTime = now
 }
 
