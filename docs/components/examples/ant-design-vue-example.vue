@@ -16,12 +16,11 @@ const antTheme = computed(() => ({
 const tableData = useTableData(30)
 const columns = useTableColumns()
 
-// Get control bar state from parent component
 const viewerContext = inject<{
-  isMobileMode: Ref<boolean>
+  isEnabled: Ref<boolean>
   friction: Ref<number>
 }>('viewerContext', {
-  isMobileMode: ref(true),
+  isEnabled: ref(true),
   friction: ref(0.95),
 })
 
@@ -36,7 +35,7 @@ const directiveOptions = computed(() => ({
   <ConfigProvider :theme="antTheme">
     <div
       v-table-touch-scroll="
-        viewerContext.isMobileMode.value ? directiveOptions : false
+        viewerContext.isEnabled.value ? directiveOptions : false
       "
       class="border rounded-lg overflow-hidden"
     >

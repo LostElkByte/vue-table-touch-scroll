@@ -46,8 +46,8 @@
     "system": "System"
   },
   "viewer": {
-    "pc_mode": "PC",
-    "mobile_mode": "Mobile",
+    "disabled": "Disabled",
+    "enabled": "Enabled",
     "friction": "Friction"
   }
 }
