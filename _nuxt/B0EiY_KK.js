@@ -1,0 +1,1 @@
+import{bd as o,ay as s,aG as t,aI as r}from"./BW1ftDr9.js";const n={},a={class:"font-semibold"};function c(e,l){return s(),t("strong",a,[r(e.$slots,"default")])}const d=o(n,[["render",c]]);export{d as default};
