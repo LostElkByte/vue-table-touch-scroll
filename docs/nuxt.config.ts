@@ -6,14 +6,14 @@ export default defineNuxtConfig({
 
   app: {
     baseURL:
-      process.env.NODE_ENV === 'production' ? '/vue-table-touch-scroll/' : '/',
+      process.env.NODE_ENV === 'production' ? '/vue3-mobile-table/' : '/',
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
     },
   },
   alias: {
-    'vue-table-touch-scroll': '../packages/vue-table-touch-scroll/index.ts',
+    'vue3-mobile-table': '../packages/vue3-mobile-table/index.ts',
   },
   vue: {
     compilerOptions: {

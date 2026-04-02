@@ -100,7 +100,7 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          cd dist/vue-table-touch-scroll
+          cd dist/vue3-mobile-table
           npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

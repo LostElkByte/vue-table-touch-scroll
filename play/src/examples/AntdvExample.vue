@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { Table as ATable, theme, ConfigProvider } from 'ant-design-vue'
@@ -28,7 +28,7 @@ const columns = useTableColumns()
       <!-- 也可以使用 selector 方式: { selector: '.ant-table-body' } -->
       <div
         v-table-touch-scroll="{ preset: 'ant-design-vue' }"
-        class="table-wrapper"
+        v-mobile-table"
       >
         <a-table
           :columns="columns"

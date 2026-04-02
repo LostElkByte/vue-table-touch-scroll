@@ -1,8 +1,8 @@
-# Vue Table Touch Scroll Contributing Guide
+# Vue3 Mobile Table Contributing Guide
 
-Hi! Thank you for choosing Vue Table Touch Scroll.
+Hi! Thank you for choosing Vue3 Mobile Table.
 
-We are excited that you are interested in contributing to Vue Table Touch Scroll. Before submitting your contribution though, please make sure to take a moment and read through the following guidelines.
+We are excited that you are interested in contributing to Vue3 Mobile Table. Before submitting your contribution though, please make sure to take a moment and read through the following guidelines.
 
 ## Issue Guidelines
 
@@ -10,7 +10,7 @@ We are excited that you are interested in contributing to Vue Table Touch Scroll
 
 - Before submitting an issue, please check if a similar problem has already been reported.
 
-- Please specify which version of `vue-table-touch-scroll` and `Vue` you are using, and provide OS and browser information. A minimal reproduction is recommended.
+- Please specify which version of `vue3-mobile-table` and `Vue` you are using, and provide OS and browser information. A minimal reproduction is recommended.
 
 ## Pull Request Guidelines
 
@@ -39,8 +39,8 @@ We are excited that you are interested in contributing to Vue Table Touch Scroll
 ### Clone the repository
 
 ```bash
-git clone https://github.com/LostElkByte/vue-table-touch-scroll.git
-cd vue-table-touch-scroll
+git clone https://github.com/LostElkByte/vue3-mobile-table.git
+cd vue3-mobile-table
 ```
 
 ### Install dependencies
@@ -169,7 +169,7 @@ Please include:
 
 ### Writing tests
 
-Test files are located in `packages/vue-table-touch-scroll/__tests__/`:
+Test files are located in `packages/vue3-mobile-table/__tests__/`:
 
 ```typescript
 import { describe, expect, it } from 'vitest'
@@ -214,9 +214,9 @@ pnpm format
 ## Project Structure
 
 ```
-vue-table-touch-scroll/
+vue3-mobile-table/
 ├── packages/
-│   └── vue-table-touch-scroll/      # main package (directive, types, presets, tests)
+│   └── vue3-mobile-table/      # main package (directive, types, presets, tests)
 ├── internal/
 │   ├── build/                   # build pipeline and tasks
 │   ├── build-constants/         # shared build constants
@@ -238,8 +238,8 @@ Releases are handled by the maintainers:
 
 ## Need Help?
 
-- 📖 Read the [documentation](https://github.com/LostElkByte/vue-table-touch-scroll)
-- 💬 Open an [Issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues)
+- 📖 Read the [documentation](https://github.com/LostElkByte/vue3-mobile-table)
+- 💬 Open an [Issue](https://github.com/LostElkByte/vue3-mobile-table/issues)
 - 📧 Contact the maintainers
 
 ## Code of Conduct

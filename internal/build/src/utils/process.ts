@@ -1,7 +1,7 @@
 import { spawn } from 'child_process'
 import chalk from 'chalk'
 import consola from 'consola'
-import { projRoot } from '@vue-table-touch-scroll/build-utils'
+import { projRoot } from '@vue3-mobile-table/build-utils'
 
 export const run = async (command: string, cwd: string = projRoot) =>
   new Promise<void>((resolve, reject) => {

@@ -4,7 +4,7 @@ import { rolldown } from 'rolldown'
 import {
   excludeFiles,
   vueTableTouchScrollRoot,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 import { generateExternal, writeBundles } from '../utils'
 import { buildConfigEntries } from '../build-info'
 

@@ -7,7 +7,7 @@ import {
   projRoot,
   vueTableTouchScrollPackage,
   vueTableTouchScrollRoot,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 import { build } from 'rolldown'
 import { dts } from 'rolldown-plugin-dts'
 import { target } from '../build-info'

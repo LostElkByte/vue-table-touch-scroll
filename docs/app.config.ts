@@ -1,7 +1,7 @@
 export default defineAppConfig({
   shadcnDocs: {
     site: {
-      name: 'Vue Table Touch Scroll',
+      name: 'Vue3 Mobile Table',
       description:
         'A lightweight Vue 3 directive that provides silky-smooth touch scrolling for mobile tables.',
       ogImage: '/cover.png',
@@ -12,7 +12,7 @@ export default defineAppConfig({
       radius: 0.5,
     },
     header: {
-      title: 'Vue Table Touch Scroll',
+      title: 'Vue3 Mobile Table',
       showTitle: true,
       darkModeToggle: true,
       languageSwitcher: {
@@ -64,7 +64,7 @@ export default defineAppConfig({
       links: [
         {
           icon: 'lucide:github',
-          to: 'https://github.com/LostElkByte/vue-table-touch-scroll',
+          to: 'https://github.com/LostElkByte/vue3-mobile-table',
           target: '_blank',
         },
       ],
@@ -96,7 +96,7 @@ export default defineAppConfig({
       links: [
         {
           icon: 'lucide:github',
-          to: 'https://github.com/LostElkByte/vue-table-touch-scroll',
+          to: 'https://github.com/LostElkByte/vue3-mobile-table',
           target: '_blank',
         },
       ],

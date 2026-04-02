@@ -1,15 +1,15 @@
-# Vue Table Touch Scroll
+# Vue3 Mobile Table
 
-vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap between desktop tables and mobile touch interactions. With a simple directive, it ensures that any Vue PC table component delivers a native-grade, silky-smooth scrolling and interaction experience on mobile devices. This includes seamless out-of-the-box support for table components in mainstream UI libraries like Element Plus, Ant Design Vue, and Naive UI.
+vue3-mobile-table is a lightweight solution dedicated to bridging the gap between desktop tables and mobile touch interactions. With a simple directive, it ensures that any Vue PC table component delivers a native-grade, silky-smooth scrolling and interaction experience on mobile devices. This includes seamless out-of-the-box support for table components in mainstream UI libraries like Element Plus, Ant Design Vue, and Naive UI.
 
-[![npm version](https://img.shields.io/npm/v/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
-[![npm downloads](https://img.shields.io/npm/dm/vue-table-touch-scroll.svg)](https://www.npmjs.com/package/vue-table-touch-scroll)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/vue-table-touch-scroll)](https://bundlephobia.com/package/vue-table-touch-scroll)
+[![npm version](https://img.shields.io/npm/v/vue3-mobile-table.svg)](https://www.npmjs.com/package/vue3-mobile-table)
+[![npm downloads](https://img.shields.io/npm/dm/vue3-mobile-table.svg)](https://www.npmjs.com/package/vue3-mobile-table)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/vue3-mobile-table)](https://bundlephobia.com/package/vue3-mobile-table)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue-table-touch-scroll/ci.yml?branch=main)](https://github.com/LostElkByte/vue-table-touch-scroll/actions)
-[![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue-table-touch-scroll)](https://codecov.io/gh/LostElkByte/vue-table-touch-scroll)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/LostElkByte/vue3-mobile-table/ci.yml?branch=main)](https://github.com/LostElkByte/vue3-mobile-table/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/LostElkByte/vue3-mobile-table)](https://codecov.io/gh/LostElkByte/vue3-mobile-table)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![Socket Badge](https://badge.socket.dev/npm/package/vue-table-touch-scroll/1.0.5)](https://badge.socket.dev/npm/package/vue-table-touch-scroll)
+[![Socket Badge](https://badge.socket.dev/npm/package/vue3-mobile-table/1.0.5)](https://badge.socket.dev/npm/package/vue3-mobile-table)
 
 ## ✨ Features
 
@@ -26,19 +26,19 @@ vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap b
 
 ## 📖 Documentation
 
-For more detailed documentation, please visit [vue-table-touch-scroll documentation](https://lostelkbyte.github.io/vue-table-touch-scroll/).
+For more detailed documentation, please visit [vue3-mobile-table documentation](https://lostelkbyte.github.io/vue3-mobile-table/).
 
 ## 📦 Installation
 
 ```bash
 # npm
-npm install vue-table-touch-scroll
+npm install vue3-mobile-table
 
 # pnpm
-pnpm add vue-table-touch-scroll
+pnpm add vue3-mobile-table
 
 # yarn
-yarn add vue-table-touch-scroll
+yarn add vue3-mobile-table
 ```
 
 ## 🚀 Quick Start
@@ -47,7 +47,7 @@ yarn add vue-table-touch-scroll
 
 ```ts
 import { createApp } from 'vue'
-import VueTableTouchScroll from 'vue-table-touch-scroll'
+import VueTableTouchScroll from 'vue3-mobile-table'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -59,11 +59,11 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 </script>
 
 <template>
-  <div v-table-touch-scroll class="table-container">
+  <div v-mobile-table class="table-container">
     <table>
       <!-- your table content -->
     </table>
@@ -78,19 +78,19 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 ```vue
 <template>
   <!-- Element Plus -->
-  <div v-table-touch-scroll="{ preset: 'element-plus' }">
+  <div v-mobile-table="{ preset: 'element-plus' }">
     <el-table :data="tableData" height="400">
       <!-- column config -->
     </el-table>
   </div>
 
   <!-- Ant Design Vue -->
-  <div v-table-touch-scroll="{ preset: 'ant-design-vue' }">
+  <div v-mobile-table="{ preset: 'ant-design-vue' }">
     <a-table :data-source="tableData" :scroll="{ x: 1300, y: 400 }" />
   </div>
 
   <!-- Naive UI -->
-  <div v-table-touch-scroll="{ preset: 'naive-ui' }">
+  <div v-mobile-table="{ preset: 'naive-ui' }">
     <n-data-table :columns="columns" :data="tableData" :scroll-x="1300" />
   </div>
 </template>
@@ -100,7 +100,7 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 
 ```vue
 <template>
-  <div v-table-touch-scroll="{ selector: '.custom-scroll-container' }">
+  <div v-mobile-table="{ selector: '.custom-scroll-container' }">
     <CustomTable />
   </div>
 </template>
@@ -111,7 +111,7 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type TableTouchScrollOptions, vTableTouchScroll } from 'vue-table-touch-scroll'
+import { type TableTouchScrollOptions, vTableTouchScroll } from 'vue3-mobile-table'
 
 const options: TableTouchScrollOptions = {
   preset: 'element-plus',
@@ -127,7 +127,7 @@ const enabled = ref(true)
 </script>
 
 <template>
-  <div v-table-touch-scroll="enabled ? options : false">
+  <div v-mobile-table="enabled ? options : false">
     <el-table :data="tableData" height="400">
       <!-- column config -->
     </el-table>
@@ -168,7 +168,7 @@ const enabled = ref(true)
 
 ```ts
 // Default export: Vue plugin (for global registration)
-import VueTableTouchScroll from 'vue-table-touch-scroll'
+import VueTableTouchScroll from 'vue3-mobile-table'
 // Named exports
 import {
   vTableTouchScroll,           // Directive
@@ -179,7 +179,7 @@ import {
   UI_LIBRARY_SELECTORS,         // UI library selector mapping
   getSelectorByPreset,          // Get selector by preset
   detectDeviceType,             // Detect current device type
-} from 'vue-table-touch-scroll'
+} from 'vue3-mobile-table'
 ```
 
 ## 🏗️ Development
@@ -210,9 +210,9 @@ pnpm format
 ## 📁 Project Structure
 
 ```
-vue-table-touch-scroll/
+vue3-mobile-table/
 ├── packages/
-│   └── vue-table-touch-scroll/  # Core directive package
+│   └── vue3-mobile-table/  # Core directive package
 │       └── src/
 │           ├── directive.ts     # Scroll engine implementation
 │           ├── types.ts         # TypeScript type definitions
@@ -231,7 +231,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 [MIT](LICENSE) License © 2024-Present LostElk
 
-## 🌟 Why Choose Vue Table Touch Scroll?
+## 🌟 Why Choose Vue3 Mobile Table?
 
 - **Native-like Experience**: Provides a smooth, native-grade scrolling experience on mobile devices
 - **Zero Dependencies**: No external dependencies, keeping your bundle size minimal
@@ -242,4 +242,4 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## 📞 Support
 
-If you have any questions or issues, please open an [issue](https://github.com/LostElkByte/vue-table-touch-scroll/issues) on GitHub.
+If you have any questions or issues, please open an [issue](https://github.com/LostElkByte/vue3-mobile-table/issues) on GitHub.

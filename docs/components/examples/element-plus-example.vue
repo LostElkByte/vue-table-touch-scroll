@@ -22,9 +22,7 @@ const directiveOptions = computed(() => ({
 
 <template>
   <div
-    v-table-touch-scroll="
-      viewerContext.isEnabled.value ? directiveOptions : false
-    "
+    v-mobile-table="viewerContext.isEnabled.value ? directiveOptions : false"
     class="border rounded-lg overflow-hidden"
   >
     <el-table :data="tableData" height="390" border stripe size="small">

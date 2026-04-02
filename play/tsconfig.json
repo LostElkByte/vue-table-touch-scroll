@@ -14,7 +14,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "vue-table-touch-scroll": ["../packages/vue-table-touch-scroll/index.ts"]
+      "vue3-mobile-table": ["../packages/vue3-mobile-table/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue"]

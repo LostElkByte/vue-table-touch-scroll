@@ -1,6 +1,6 @@
-# Vue Table Touch Scroll - Documentation Site
+# Vue3 Mobile Table - Documentation Site
 
-vue-table-touch-scroll 的官方文档站，基于 Nuxt 3 和 shadcn-docs-nuxt 构建，支持中英文双语。
+vue3-mobile-table 的官方文档站，基于 Nuxt 3 和 shadcn-docs-nuxt 构建，支持中英文双语。
 
 ## Tech Stack
 

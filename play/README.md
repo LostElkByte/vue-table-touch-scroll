@@ -1,6 +1,6 @@
 # Play - UI Library Examples
 
-这是 `vue-table-touch-scroll` 的演示项目，展示了指令在各种主流 Vue UI 组件库中的使用。
+这是 `vue3-mobile-table` 的演示项目，展示了指令在各种主流 Vue UI 组件库中的使用。
 
 ## 🎯 支持的 UI 库
 
@@ -62,7 +62,7 @@ play/
 
 ```vue
 <template>
-  <div v-table-touch-scroll>
+  <div v-mobile-table>
     <el-table :data="tableData">
       <!-- 表格列 -->
     </el-table>
@@ -70,7 +70,7 @@ play/
 </template>
 
 <script setup>
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 </script>
 ```
 
@@ -79,17 +79,17 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 ```vue
 <template>
   <!-- Element Plus -->
-  <div v-table-touch-scroll="{ preset: 'element-plus' }">
+  <div v-mobile-table="{ preset: 'element-plus' }">
     <el-table :data="tableData" height="400" />
   </div>
 
   <!-- Naive UI -->
-  <div v-table-touch-scroll="{ preset: 'naive-ui' }">
+  <div v-mobile-table="{ preset: 'naive-ui' }">
     <n-data-table :columns="columns" :data="tableData" />
   </div>
 
   <!-- VxeTable -->
-  <div v-table-touch-scroll="{ preset: 'vxe-table' }">
+  <div v-mobile-table="{ preset: 'vxe-table' }">
     <vxe-table :data="tableData" height="400" />
   </div>
 </template>
@@ -99,7 +99,7 @@ import { vTableTouchScroll } from 'vue-table-touch-scroll'
 
 ```vue
 <template>
-  <div v-table-touch-scroll="{
+  <div v-mobile-table="{
     preset: 'element-plus',
     dragThreshold: 10,
     friction: 0.92,

@@ -1,7 +1,7 @@
 import {
   getPackageDependencies,
   vueTableTouchScrollPackage,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 
 import type { OutputOptions, RolldownBuild } from 'rolldown'
 

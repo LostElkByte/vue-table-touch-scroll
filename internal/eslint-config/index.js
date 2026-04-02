@@ -191,7 +191,7 @@ export default defineConfig([
               position: 'before',
             },
             {
-              pattern: '@vue-table-touch-scroll/**',
+              pattern: '@vue3-mobile-table/**',
               group: 'internal',
             },
           ],
@@ -367,8 +367,8 @@ export default defineConfig([
             { name: 'lodash', message: 'Use lodash-unified instead.' },
             { name: 'lodash-es', message: 'Use lodash-unified instead.' },
             {
-              name: 'vue-table-touch-scroll',
-              message: 'Use @vue-table-touch-scroll/* instead.',
+              name: 'vue3-mobile-table',
+              message: 'Use @vue3-mobile-table/* instead.',
             },
           ],
           patterns: [
@@ -377,13 +377,13 @@ export default defineConfig([
               message: 'Use lodash-unified instead.',
             },
             {
-              group: ['vue-table-touch-scroll/*'],
-              message: 'Use @vue-table-touch-scroll/* instead.',
+              group: ['vue3-mobile-table/*'],
+              message: 'Use @vue3-mobile-table/* instead.',
             },
             {
               group: [
-                '@vue-table-touch-scroll/core',
-                '@vue-table-touch-scroll/vue-table-touch-scroll',
+                '@vue3-mobile-table/core',
+                '@vue3-mobile-table/vue3-mobile-table',
               ],
               message: 'Please do not use this dependency in the current file.',
             },
@@ -395,7 +395,7 @@ export default defineConfig([
   {
     files: [
       'packages/core/**/*.{js,jsx,ts,tsx,vue}',
-      'packages/vue-table-touch-scroll/**/*.{js,jsx,ts,tsx,vue}',
+      'packages/vue3-mobile-table/**/*.{js,jsx,ts,tsx,vue}',
     ],
     rules: {
       'no-restricted-imports': [
@@ -405,8 +405,8 @@ export default defineConfig([
             { name: 'lodash', message: 'Use lodash-unified instead.' },
             { name: 'lodash-es', message: 'Use lodash-unified instead.' },
             {
-              name: 'vue-table-touch-scroll',
-              message: 'Use @vue-table-touch-scroll/* instead.',
+              name: 'vue3-mobile-table',
+              message: 'Use @vue3-mobile-table/* instead.',
             },
           ],
           patterns: [
@@ -415,15 +415,15 @@ export default defineConfig([
               message: 'Use lodash-unified instead.',
             },
             {
-              group: ['vue-table-touch-scroll/*'],
-              message: 'Use @vue-table-touch-scroll/* instead.',
+              group: ['vue3-mobile-table/*'],
+              message: 'Use @vue3-mobile-table/* instead.',
             },
             {
               group: [
-                '@vue-table-touch-scroll/build',
-                '@vue-table-touch-scroll/build-constants',
-                '@vue-table-touch-scroll/build-utils',
-                '@vue-table-touch-scroll/eslint-config',
+                '@vue3-mobile-table/build',
+                '@vue3-mobile-table/build-constants',
+                '@vue3-mobile-table/build-utils',
+                '@vue3-mobile-table/eslint-config',
               ],
               message: 'Please do not use this dependency in the current file.',
             },

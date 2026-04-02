@@ -8,9 +8,9 @@ export default defineConfig({
   plugins: [vue(), Unocss(), vuetify({ autoImport: true })],
   resolve: {
     alias: {
-      'vue-table-touch-scroll': path.resolve(
+      'vue3-mobile-table': path.resolve(
         __dirname,
-        '../packages/vue-table-touch-scroll'
+        '../packages/vue3-mobile-table'
       ),
     },
   },

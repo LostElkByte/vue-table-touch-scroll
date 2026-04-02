@@ -1,4 +1,4 @@
-import { PKG_NAME, PKG_PREFIX } from '@vue-table-touch-scroll/build-constants'
+import { PKG_NAME, PKG_PREFIX } from '@vue3-mobile-table/build-constants'
 
 import type { Plugin } from 'rolldown'
 
@@ -7,7 +7,7 @@ export function VueTableTouchScrollAlias(): Plugin {
   const bundleName = PKG_NAME
 
   return {
-    name: 'vue-table-touch-scroll-alias-plugin',
+    name: 'vue3-mobile-table-alias-plugin',
     resolveId: {
       filter: {
         id: new RegExp(`^${sourcePrefix}`),

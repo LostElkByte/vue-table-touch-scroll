@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { ElTable, ElTableColumn } from 'element-plus'
@@ -14,7 +14,9 @@ const columns = useTableColumns()
 <template>
   <div class="example-container">
     <h2>Element Plus</h2>
-    <p class="description">Enterprise-level UI component library with rich table features</p>
+    <p class="description">
+      Enterprise-level UI component library with rich table features
+    </p>
 
     <!-- 使用 preset 预设方式（推荐） -->
     <!-- 也可以使用 selector 方式: { selector: '.el-scrollbar__wrap' } -->
@@ -22,8 +24,9 @@ const columns = useTableColumns()
       v-table-touch-scroll="{ preset: 'element-plus' }"
       class="table-wrapper"
     >
+      v-mobile-table
       <el-table
-      class="dark"
+        class="dark"
         :data="tableData"
         height="400"
         border

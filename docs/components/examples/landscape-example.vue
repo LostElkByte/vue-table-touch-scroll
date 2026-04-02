@@ -35,7 +35,7 @@ const tableData = Array.from({ length: 50 }, (_, i) => ({
     </div>
 
     <div
-      v-table-touch-scroll="{ preset: 'element-plus' }"
+      v-mobile-table="{ preset: 'element-plus' }"
       class="border rounded-lg overflow-hidden"
     >
       <el-table :data="tableData" height="340" border stripe size="small">
@@ -55,7 +55,7 @@ const tableData = Array.from({ length: 50 }, (_, i) => ({
         <div v-if="isLandscape" class="landscape-overlay">
           <button class="landscape-exit-btn" @click="toggleLandscape">✕</button>
 
-          <div v-table-touch-scroll="scrollOptions" class="landscape-container">
+          <div v-mobile-table="scrollOptions" class="landscape-container">
             <el-table
               :data="tableData"
               height="100%"

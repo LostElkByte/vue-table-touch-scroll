@@ -1,1 +1,1 @@
-export { default } from '@vue-table-touch-scroll/eslint-config'
+export { default } from '@vue3-mobile-table/eslint-config'
