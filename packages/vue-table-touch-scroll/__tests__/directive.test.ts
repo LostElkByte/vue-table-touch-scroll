@@ -209,6 +209,52 @@ describe('vTableTouchScroll Directive', () => {
       expect(moveEvt.defaultPrevented).toBe(false)
     })
 
+    it('should keep hijacking at edge when disableEdgeDetection is true / 禁用边缘检测后在边缘应继续由指令接管', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', disableEdgeDetection: true }),
+        {} as any,
+        null
+      )
+      el.scrollLeft = 0
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      const moveEvt = dispatchTouch('touchmove', 150, 100)
+      await advanceFrames(16, 1)
+
+      expect(moveEvt.defaultPrevented).toBe(true)
+      expect(el.scrollLeft).toBe(0)
+    })
+
+    it('should apply updated disableEdgeDetection option at runtime / 运行时更新 disableEdgeDetection 应立即生效', () => {
+      const binding1 = createBinding({
+        mode: 'always',
+        disableEdgeDetection: false,
+      })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+
+      el.scrollLeft = 0
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt1 = dispatchTouch('touchmove', 150, 100)
+      expect(moveEvt1.defaultPrevented).toBe(false)
+      dispatchTouch('touchend', 150, 100)
+
+      const binding2 = createBinding({
+        mode: 'always',
+        disableEdgeDetection: true,
+      })
+      ;(binding2 as any).oldValue = {
+        mode: 'always',
+        disableEdgeDetection: false,
+      }
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt2 = dispatchTouch('touchmove', 150, 100)
+      expect(moveEvt2.defaultPrevented).toBe(true)
+    })
+
     it('should not take control when content fits container / 内容无需滚动时，不应接管手势', () => {
       const smallEl = createMockElement({
         width: 500,
@@ -1035,6 +1081,25 @@ describe('vTableTouchScroll Directive', () => {
 
         dispatchTouch('touchend', 100, 100)
         expect(el.style.overflow).not.toBe('hidden')
+      })
+
+      it('should reset pending-active tracking on touchend / pending-active 结束时应清理 activeTouchId', () => {
+        vTableTouchScroll.mounted!(
+          el,
+          createBinding({ dragThreshold: 8 }),
+          {} as any,
+          null
+        )
+
+        // 进入 pending-active 但不触发激活
+        dispatchTouch('touchstart', 100, 100)
+        dispatchTouch('touchend', 100, 100)
+
+        // 再次 touchstart/touchmove（低于阈值）应仍可正常工作，侧面验证状态已被清理
+        const moveEvt = dispatchTouch('touchstart', 120, 120)
+        expect(moveEvt.defaultPrevented).toBe(false)
+        const moveEvt2 = dispatchTouch('touchmove', 123, 120)
+        expect(moveEvt2.defaultPrevented).toBe(false)
       })
 
       it('should remain in standby on small movement below threshold / 小幅移动未超阈值不应激活', () => {
