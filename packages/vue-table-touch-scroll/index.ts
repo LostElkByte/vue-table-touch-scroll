@@ -10,6 +10,7 @@ export { UI_LIBRARY_SELECTORS, getSelectorByPreset } from './src/presets'
 
 const installer: Plugin = {
   install(app: App) {
+    console.warn('NOTICE: `vue-table-touch-scroll` is deprecated and no longer maintained. Latest updates are available in `vue3-mobile-table` (update your package.json).')
     app.directive('table-touch-scroll', vTableTouchScroll)
   },
 }

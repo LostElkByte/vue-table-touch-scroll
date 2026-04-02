@@ -1,3 +1,6 @@
+> ⚠️ Deprecated: `vue-table-touch-scroll` has been renamed to `vue3-mobile-table`.
+> This package is no longer maintained. Please install `vue3-mobile-table` to get the latest updates (update your `package.json`).
+
 # Vue Table Touch Scroll
 
 vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap between desktop tables and mobile touch interactions. With a simple directive, it ensures that any Vue PC table component delivers a native-grade, silky-smooth scrolling and interaction experience on mobile devices. This includes seamless out-of-the-box support for table components in mainstream UI libraries like Element Plus, Ant Design Vue, and Naive UI.
