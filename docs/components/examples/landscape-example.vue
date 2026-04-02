@@ -1,23 +1,8 @@
 <script setup lang="ts">
-import { useTableData } from '../../composables/useTableData'
-import { useTableColumns } from '../../composables/useTableColumns'
-
-const tableData = useTableData(50)
-const columns = useTableColumns()
-
 const isLandscape = ref(false)
 
-const viewerContext = inject<{
-  isEnabled: Ref<boolean>
-  friction: Ref<number>
-}>('viewerContext', {
-  isEnabled: ref(true),
-  friction: ref(0.95),
-})
-
-const directiveOptions = computed(() => ({
+const scrollOptions = computed(() => ({
   preset: 'element-plus' as const,
-  friction: viewerContext.friction.value,
   rotation: isLandscape.value ? 90 : 0,
   disableEdgeDetection: isLandscape.value,
 }))
@@ -25,11 +10,21 @@ const directiveOptions = computed(() => ({
 const toggleLandscape = () => {
   isLandscape.value = !isLandscape.value
 }
+
+const tableData = Array.from({ length: 50 }, (_, i) => ({
+  id: i + 1,
+  name: `User ${i + 1}`,
+  age: 20 + (i % 40),
+  email: `user${i + 1}@example.com`,
+  phone: `+1 ${String(i).padStart(3, '0')}-${String(i * 10).padStart(4, '0')}`,
+  department: ['Engineering', 'Design', 'Marketing', 'Sales'][i % 4],
+  address: `No. ${i + 1}, Street ${i % 10}, City ${i % 5}`,
+  date: new Date(2024, i % 12, (i % 28) + 1).toLocaleDateString(),
+}))
 </script>
 
 <template>
   <div class="w-full space-y-3">
-    <!-- 提示信息 + 进入按钮 -->
     <div class="flex items-center gap-3">
       <button
         class="rounded-md border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-muted"
@@ -39,41 +34,28 @@ const toggleLandscape = () => {
       </button>
     </div>
 
-    <!-- 竖屏状态下的正常表格预览 -->
     <div
-      v-table-touch-scroll="
-        viewerContext.isEnabled.value
-          ? { preset: 'element-plus', friction: viewerContext.friction.value }
-          : false
-      "
+      v-table-touch-scroll="{ preset: 'element-plus' }"
       class="border rounded-lg overflow-hidden"
     >
       <el-table :data="tableData" height="340" border stripe size="small">
-        <el-table-column
-          v-for="col in columns"
-          :key="col.key"
-          :prop="col.dataIndex"
-          :label="col.title"
-          :width="col.width"
-          :fixed="col.fixed"
-        />
+        <el-table-column prop="id" label="ID" width="60" fixed="left" />
+        <el-table-column prop="name" label="Name" width="120" />
+        <el-table-column prop="age" label="Age" width="80" />
+        <el-table-column prop="email" label="Email" width="280" />
+        <el-table-column prop="phone" label="Phone" width="180" />
+        <el-table-column prop="department" label="Department" width="120" />
+        <el-table-column prop="address" label="Address" width="280" />
+        <el-table-column prop="date" label="Date" width="120" />
       </el-table>
     </div>
 
-    <!-- 全屏横屏 overlay（Teleport 到 body） -->
     <Teleport to="body">
       <Transition name="landscape-fade">
         <div v-if="isLandscape" class="landscape-overlay">
-          <!-- 退出按钮（固定在旋转前的视口右上角，即旋转后视觉上的左上角区域） -->
           <button class="landscape-exit-btn" @click="toggleLandscape">✕</button>
 
-          <!-- 旋转容器 -->
-          <div
-            v-table-touch-scroll="
-              viewerContext.isEnabled.value ? directiveOptions : false
-            "
-            class="landscape-container"
-          >
+          <div v-table-touch-scroll="scrollOptions" class="landscape-container">
             <el-table
               :data="tableData"
               height="100%"
@@ -81,14 +63,18 @@ const toggleLandscape = () => {
               stripe
               size="small"
             >
+              <el-table-column prop="id" label="ID" width="60" fixed="left" />
+              <el-table-column prop="name" label="Name" width="120" />
+              <el-table-column prop="age" label="Age" width="80" />
+              <el-table-column prop="email" label="Email" width="280" />
+              <el-table-column prop="phone" label="Phone" width="180" />
               <el-table-column
-                v-for="col in columns"
-                :key="col.key"
-                :prop="col.dataIndex"
-                :label="col.title"
-                :width="col.width"
-                :fixed="col.fixed"
+                prop="department"
+                label="Department"
+                width="120"
               />
+              <el-table-column prop="address" label="Address" width="280" />
+              <el-table-column prop="date" label="Date" width="120" />
             </el-table>
           </div>
         </div>
@@ -102,11 +88,6 @@ const toggleLandscape = () => {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: var(--color-background, #fff);
-}
-
-.dark .landscape-overlay {
-  background: var(--color-background, #0a0a0a);
 }
 
 .landscape-exit-btn {
@@ -114,23 +95,20 @@ const toggleLandscape = () => {
   top: calc(12px + env(safe-area-inset-top));
   right: calc(12px + env(safe-area-inset-right));
   z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111827;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
-  transition: background 0.2s;
 }
 
-.landscape-exit-btn:hover {
-  background: hsl(var(--muted));
+.dark .landscape-exit-btn {
+  border-color: #363637;
+  background: #141414;
+  color: #f9fafb;
 }
 
 .landscape-container {
@@ -148,11 +126,11 @@ const toggleLandscape = () => {
     env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-/* Transition */
 .landscape-fade-enter-active,
 .landscape-fade-leave-active {
   transition: opacity 0.25s ease;
 }
+
 .landscape-fade-enter-from,
 .landscape-fade-leave-to {
   opacity: 0;
