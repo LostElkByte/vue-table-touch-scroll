@@ -1,0 +1,1 @@
+import{bd as s,ay as t,aG as o,aI as a}from"./DDFReA90.js";const r={},c={class:"leading-7 [&:not(:first-child)]:mt-6"};function n(e,l){return t(),o("p",c,[a(e.$slots,"default")])}const _=s(r,[["render",n]]);export{_ as default};

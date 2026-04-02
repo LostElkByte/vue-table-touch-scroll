@@ -1,1 +1,0 @@
-import{bd as s,ay as t,aG as o,aI as a}from"./DQKqBZLm.js";const r={},c={class:"[&>ol]:!mt-2 [&>ul]:!mt-2"};function n(e,l){return t(),o("li",c,[a(e.$slots,"default")])}const d=s(r,[["render",n]]);export{d as default};
