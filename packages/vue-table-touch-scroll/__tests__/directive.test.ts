@@ -173,6 +173,22 @@ describe('vTableTouchScroll Directive', () => {
       expect(el.scrollLeft).toBeGreaterThan(0)
       expect(el.scrollTop).toBe(0)
     })
+
+    it('should ignore movement below threshold before direction lock / 未超过阈值前应直接返回不接管', () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 20, mode: 'always' }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 95, 96)
+
+      expect(moveEvt.defaultPrevented).toBe(false)
+      expect(el.scrollLeft).toBe(0)
+      expect(el.scrollTop).toBe(0)
+    })
   })
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -256,6 +272,29 @@ describe('vTableTouchScroll Directive', () => {
       expect(el.scrollLeft).toBeGreaterThan(scrollAtEnd)
     })
 
+    it('should start inertia animation on touchend when no RAF is active / touchend 时若未有 RAF 应启动惯性动画', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 240, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 180, 100)
+
+      // 在抬手前先推进一帧，让手动跟随阶段的 RAF 结束，确保触发 touchend 内的「!ctx.rafId」分支
+      await advanceFrames(16, 1)
+
+      const beforeEnd = el.scrollLeft
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 180, 100)
+
+      await advanceFrames(16, 1)
+      expect(el.scrollLeft).toBeGreaterThan(beforeEnd)
+    })
+
     it('should stop inertia if paused for too long before release / 惯性保护：若停顿超过阈值再松手，不应触发惯性', async () => {
       vTableTouchScroll.mounted!(
         el,
@@ -321,6 +360,35 @@ describe('vTableTouchScroll Directive', () => {
       el.dispatchEvent(
         new MouseEvent('click', { bubbles: true, cancelable: true })
       )
+      expect(clickSpy).not.toHaveBeenCalled()
+    })
+
+    it('should enable brake-click protection and trigger onScrollEnd on second touchstart / 二次 touchstart 刹车应开启点击保护并触发 onScrollEnd', async () => {
+      const clickSpy = vi.fn()
+      const endSpy = vi.fn()
+      el.addEventListener('click', clickSpy)
+
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', onScrollEnd: endSpy }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 240, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 120, 100)
+      dispatchTouch('touchend', 120, 100)
+
+      // 惯性进行中时再次 touchstart，触发刹车逻辑
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchstart', 120, 100)
+
+      el.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true })
+      )
+
+      expect(endSpy).toHaveBeenCalled()
       expect(clickSpy).not.toHaveBeenCalled()
     })
 
