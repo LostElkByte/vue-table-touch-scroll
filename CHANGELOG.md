@@ -1,3 +1,4 @@
+## [1.0.8](https://github.com/LostElkByte/vue-table-touch-scroll/compare/v1.0.7...v1.0.8) (2026-04-02)
 ## [1.0.7](https://github.com/LostElkByte/vue-table-touch-scroll/compare/v1.0.6...v1.0.7) (2026-04-02)
 # Changelog
 
