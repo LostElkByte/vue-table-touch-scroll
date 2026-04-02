@@ -19,12 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
 const { t } = useI18n()
 
 // 控制栏状态
-const isMobileMode = ref(true)
+const isEnabled = ref(true)
 const friction = ref(0.95)
 
 // 提供给示例组件的上下文
 provide('viewerContext', {
-  isMobileMode: readonly(isMobileMode),
+  isEnabled: readonly(isEnabled),
   friction: readonly(friction),
 })
 
@@ -61,9 +61,9 @@ const ExampleComponent = defineAsyncComponent({
       class="flex flex-wrap items-center gap-4 rounded-lg border bg-card p-4 text-card-foreground shadow-sm"
     >
       <div class="flex items-center gap-3">
-        <span class="text-sm font-medium">{{ t('viewer.pc_mode') }}</span>
-        <Switch v-model="isMobileMode" />
-        <span class="text-sm font-medium">{{ t('viewer.mobile_mode') }}</span>
+        <span class="text-sm font-medium">{{ t('viewer.disabled') }}</span>
+        <Switch v-model="isEnabled" />
+        <span class="text-sm font-medium">{{ t('viewer.enabled') }}</span>
       </div>
       <div class="hidden h-8 w-px bg-border sm:block" />
       <div class="flex min-w-[200px] flex-1 items-center gap-3">
@@ -75,7 +75,7 @@ const ExampleComponent = defineAsyncComponent({
           :min="0.8"
           :max="0.99"
           :step="0.01"
-          :disabled="!isMobileMode"
+          :disabled="!isEnabled"
           class="flex-1"
         />
         <span

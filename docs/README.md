@@ -1,16 +1,13 @@
-# Documentation Template
+# Vue Table Touch Scroll - Documentation Site
 
-A beautiful documentation template built with Nuxt and shadcn-docs-nuxt.
+vue-table-touch-scroll 的官方文档站，基于 Nuxt 3 和 shadcn-docs-nuxt 构建，支持中英文双语。
 
-## Features
+## Tech Stack
 
-- 🚀 **Nuxt 3** - The Intuitive Vue Framework
-- 🎨 **Tailwind CSS** - Utility-first CSS framework
-- 📝 **MDC** - Markdown Components for rich content
-- 🌙 **Dark Mode** - Built-in dark mode support
-- 🔍 **Search** - Full-text search powered by Nuxt Content
-- 📱 **Responsive** - Mobile-friendly design
-- 👁️ **Demo Preview** - Interactive component previews with code viewing
+- **Nuxt 3** - The Intuitive Vue Framework
+- **shadcn-docs-nuxt** - Documentation template with Tailwind CSS
+- **Nuxt Content (MDC)** - Markdown Components for rich content
+- **@nuxtjs/i18n** - Internationalization (English + Chinese)
 
 ## Quick Start
 
@@ -28,20 +25,44 @@ pnpm build
 ## Project Structure
 
 ```
-.
-├── components/          # Vue components
-│   ├── examples/        # Demo example components
-│   ├── ComponentLoader.vue
-│   ├── ComponentViewer.vue
+docs/
+├── components/
+│   ├── examples/              # Interactive demo components
+│   │   ├── element-plus-example.vue
+│   │   ├── ant-design-vue-example.vue
+│   │   ├── naive-ui-example.vue
+│   │   ├── vxe-table-example.vue
+│   │   └── index.ts
+│   ├── layout/                # Layout components
+│   │   └── PrevNextButton.vue
+│   ├── ui/                    # UI primitives (slider, switch)
 │   ├── CodeViewerTab.vue
+│   ├── ComponentLoader.vue
 │   └── DemoTabs.vue
-├── content/             # Markdown documentation
-│   ├── 1.guide/         # Guide section
-│   └── 2.components/    # Components section
-├── public/              # Static assets
-├── app.config.ts        # App configuration
-├── nuxt.config.ts       # Nuxt configuration
-└── tailwind.config.js   # Tailwind configuration
+├── content/                   # English documentation (default locale)
+│   ├── 1.guide/
+│   │   ├── 1.introduction.md
+│   │   ├── 2.configuration.md
+│   │   ├── 3.landscape.md
+│   │   └── 4.how-it-works.md
+│   ├── 2.api/
+│   │   └── 1.parameters.md
+│   ├── 3.examples/
+│   │   ├── 1.element-plus.md
+│   │   ├── 2.ant-design-vue.md
+│   │   ├── 3.naive-ui.md
+│   │   ├── 4.vxe-table.md
+│   │   └── 5.other-libraries.md
+│   ├── zh/                    # Chinese documentation
+│   │   ├── 1.guide/
+│   │   ├── 2.api/
+│   │   ├── 3.examples/
+│   │   └── index.md
+│   └── index.md
+├── public/                    # Static assets
+├── app.config.ts              # App configuration (site name, nav, theme)
+├── nuxt.config.ts             # Nuxt configuration (modules, i18n)
+└── package.json
 ```
 
 ## Writing Documentation
@@ -51,8 +72,9 @@ Documentation is written in Markdown with MDC (Markdown Components) support in t
 ### Adding a New Page
 
 1. Create a new `.md` file in the appropriate section folder
-2. Add frontmatter with title and description
+2. Add frontmatter with title, description, and icon
 3. Write your content using Markdown and MDC components
+4. For Chinese translations, mirror the file structure under `content/zh/`
 
 Example:
 
@@ -67,12 +89,12 @@ icon: lucide:star
 
 Your content here...
 
-::alert{type="info"}
-This is an alert!
+::callout{icon="lucide:info" color="blue"}
+This is a callout!
 ::
 ```
 
-### Creating Demo Components
+### Creating Interactive Demo Components
 
 1. Create your component in `components/examples/`
 2. Export it from `components/examples/index.ts`
@@ -85,12 +107,8 @@ This is an alert!
 
 ## Configuration
 
-Edit `app.config.ts` to customize:
-
-- Site name and description
-- Theme colors
-- Navigation links
-- Header and footer settings
+- **app.config.ts** — Site name, description, theme colors, navigation links, header/footer settings
+- **nuxt.config.ts** — Nuxt modules, i18n locales, content configuration
 
 ## License
 

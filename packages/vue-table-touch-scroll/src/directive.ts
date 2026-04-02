@@ -165,6 +165,7 @@ export const vTableTouchScroll: VTableTouchScrollDirective = {
       ctx.clickBlockThreshold =
         value?.clickBlockThreshold ?? SAFE_CLICK_VELOCITY
       ctx.rotation = value?.rotation ?? 0
+      ctx.disableEdgeDetection = value?.disableEdgeDetection ?? false
 
       // 同步最新的回调函数引用 / Sync latest callback references
       ctx.onScrollStart = value?.onScrollStart
@@ -275,6 +276,7 @@ function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
     activeTouchId: null,
     touchTracker: [],
     rotation: options.rotation ?? 0,
+    disableEdgeDetection: options.disableEdgeDetection ?? false,
   }
 
   contexts.set(el, ctx)
@@ -713,7 +715,7 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
         if (atTop || atBottom || noScrollNeeded) isAtEdge = true
       }
 
-      if (isAtEdge) {
+      if (isAtEdge && !ctx.disableEdgeDetection) {
         ctx.isNativeScroll = true
         return
       }

@@ -134,6 +134,17 @@ export interface TableTouchScrollOptions {
    * @default 0
    */
   rotation?: 0 | 90 | -90 | 180
+  /**
+   * 是否禁用边缘检测。
+   * 为 true 时，滚动到达边界后不会交还控制权给浏览器，始终由指令接管。
+   * 适用于全屏覆盖层等不希望触发浏览器原生手势（如 iOS 侧滑返回）的场景。
+   * Whether to disable edge detection.
+   * When true, the directive will not hand control back to the browser when scrolling
+   * reaches the boundary, keeping full control at all times.
+   * Useful for fullscreen overlays where native browser gestures (e.g. iOS swipe-back) are unwanted.
+   * @default false
+   */
+  disableEdgeDetection?: boolean
 }
 
 /**
@@ -229,4 +240,10 @@ export interface ScrollContext {
    * CSS rotation angle for inverse-transforming touch coordinates
    */
   rotation: number
+
+  /**
+   * 是否禁用边缘检测，为 true 时滚动到边界不交还控制权给浏览器
+   * Whether edge detection is disabled; when true, never hands control back at boundaries
+   */
+  disableEdgeDetection: boolean
 }

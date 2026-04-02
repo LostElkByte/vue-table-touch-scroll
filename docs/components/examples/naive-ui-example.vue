@@ -14,12 +14,11 @@ const tableData = useTableData(30)
 // Naive UI reads the fixed property automatically from column config
 const columns: DataTableColumns = useTableColumns()
 
-// Get control bar state from parent component
 const viewerContext = inject<{
-  isMobileMode: Ref<boolean>
+  isEnabled: Ref<boolean>
   friction: Ref<number>
 }>('viewerContext', {
-  isMobileMode: ref(true),
+  isEnabled: ref(true),
   friction: ref(0.95),
 })
 
@@ -34,7 +33,7 @@ const directiveOptions = computed(() => ({
   <n-config-provider :theme="naiveTheme">
     <div
       v-table-touch-scroll="
-        viewerContext.isMobileMode.value ? directiveOptions : false
+        viewerContext.isEnabled.value ? directiveOptions : false
       "
       class="border rounded-lg overflow-hidden"
     >

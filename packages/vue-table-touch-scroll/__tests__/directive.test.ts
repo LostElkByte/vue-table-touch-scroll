@@ -173,6 +173,22 @@ describe('vTableTouchScroll Directive', () => {
       expect(el.scrollLeft).toBeGreaterThan(0)
       expect(el.scrollTop).toBe(0)
     })
+
+    it('should ignore movement below threshold before direction lock / 未超过阈值前应直接返回不接管', () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ dragThreshold: 20, mode: 'always' }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt = dispatchTouch('touchmove', 95, 96)
+
+      expect(moveEvt.defaultPrevented).toBe(false)
+      expect(el.scrollLeft).toBe(0)
+      expect(el.scrollTop).toBe(0)
+    })
   })
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -191,6 +207,52 @@ describe('vTableTouchScroll Directive', () => {
       dispatchTouch('touchstart', 100, 100)
       const moveEvt = dispatchTouch('touchmove', 150, 100)
       expect(moveEvt.defaultPrevented).toBe(false)
+    })
+
+    it('should keep hijacking at edge when disableEdgeDetection is true / 禁用边缘检测后在边缘应继续由指令接管', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', disableEdgeDetection: true }),
+        {} as any,
+        null
+      )
+      el.scrollLeft = 0
+
+      dispatchTouch('touchstart', 100, 100)
+      mockNow.mockReturnValue(10)
+      const moveEvt = dispatchTouch('touchmove', 150, 100)
+      await advanceFrames(16, 1)
+
+      expect(moveEvt.defaultPrevented).toBe(true)
+      expect(el.scrollLeft).toBe(0)
+    })
+
+    it('should apply updated disableEdgeDetection option at runtime / 运行时更新 disableEdgeDetection 应立即生效', () => {
+      const binding1 = createBinding({
+        mode: 'always',
+        disableEdgeDetection: false,
+      })
+      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+
+      el.scrollLeft = 0
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt1 = dispatchTouch('touchmove', 150, 100)
+      expect(moveEvt1.defaultPrevented).toBe(false)
+      dispatchTouch('touchend', 150, 100)
+
+      const binding2 = createBinding({
+        mode: 'always',
+        disableEdgeDetection: true,
+      })
+      ;(binding2 as any).oldValue = {
+        mode: 'always',
+        disableEdgeDetection: false,
+      }
+      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+
+      dispatchTouch('touchstart', 100, 100)
+      const moveEvt2 = dispatchTouch('touchmove', 150, 100)
+      expect(moveEvt2.defaultPrevented).toBe(true)
     })
 
     it('should not take control when content fits container / 内容无需滚动时，不应接管手势', () => {
@@ -254,6 +316,29 @@ describe('vTableTouchScroll Directive', () => {
       const scrollAtEnd = el.scrollLeft
       await advanceFrames(100, 6)
       expect(el.scrollLeft).toBeGreaterThan(scrollAtEnd)
+    })
+
+    it('should start inertia animation on touchend when no RAF is active / touchend 时若未有 RAF 应启动惯性动画', async () => {
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 240, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 180, 100)
+
+      // 在抬手前先推进一帧，让手动跟随阶段的 RAF 结束，确保触发 touchend 内的「!ctx.rafId」分支
+      await advanceFrames(16, 1)
+
+      const beforeEnd = el.scrollLeft
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 180, 100)
+
+      await advanceFrames(16, 1)
+      expect(el.scrollLeft).toBeGreaterThan(beforeEnd)
     })
 
     it('should stop inertia if paused for too long before release / 惯性保护：若停顿超过阈值再松手，不应触发惯性', async () => {
@@ -321,6 +406,35 @@ describe('vTableTouchScroll Directive', () => {
       el.dispatchEvent(
         new MouseEvent('click', { bubbles: true, cancelable: true })
       )
+      expect(clickSpy).not.toHaveBeenCalled()
+    })
+
+    it('should enable brake-click protection and trigger onScrollEnd on second touchstart / 二次 touchstart 刹车应开启点击保护并触发 onScrollEnd', async () => {
+      const clickSpy = vi.fn()
+      const endSpy = vi.fn()
+      el.addEventListener('click', clickSpy)
+
+      vTableTouchScroll.mounted!(
+        el,
+        createBinding({ mode: 'always', onScrollEnd: endSpy }),
+        {} as any,
+        null
+      )
+
+      dispatchTouch('touchstart', 240, 100)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 120, 100)
+      dispatchTouch('touchend', 120, 100)
+
+      // 惯性进行中时再次 touchstart，触发刹车逻辑
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchstart', 120, 100)
+
+      el.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true })
+      )
+
+      expect(endSpy).toHaveBeenCalled()
       expect(clickSpy).not.toHaveBeenCalled()
     })
 
@@ -967,6 +1081,25 @@ describe('vTableTouchScroll Directive', () => {
 
         dispatchTouch('touchend', 100, 100)
         expect(el.style.overflow).not.toBe('hidden')
+      })
+
+      it('should reset pending-active tracking on touchend / pending-active 结束时应清理 activeTouchId', () => {
+        vTableTouchScroll.mounted!(
+          el,
+          createBinding({ dragThreshold: 8 }),
+          {} as any,
+          null
+        )
+
+        // 进入 pending-active 但不触发激活
+        dispatchTouch('touchstart', 100, 100)
+        dispatchTouch('touchend', 100, 100)
+
+        // 再次 touchstart/touchmove（低于阈值）应仍可正常工作，侧面验证状态已被清理
+        const moveEvt = dispatchTouch('touchstart', 120, 120)
+        expect(moveEvt.defaultPrevented).toBe(false)
+        const moveEvt2 = dispatchTouch('touchmove', 123, 120)
+        expect(moveEvt2.defaultPrevented).toBe(false)
       })
 
       it('should remain in standby on small movement below threshold / 小幅移动未超阈值不应激活', () => {

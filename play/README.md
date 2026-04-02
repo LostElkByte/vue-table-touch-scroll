@@ -5,7 +5,7 @@
 ## 🎯 支持的 UI 库
 
 1. **Element Plus** - 企业级 UI 组件库
-2. **VXE Table** - 强大的 Vue 表格组件
+2. **VXE Table** - 强大的 Vue 表格组件（含虚拟滚动 BigData 示例）
 3. **Ant Design Vue** - 企业级 UI 设计语言
 4. **Naive UI** - Vue 3 组件库，完整的 TypeScript 支持
 5. **Vuetify** - Material Design 组件框架
@@ -33,18 +33,27 @@ pnpm dev
 ```
 play/
 ├── src/
-│   ├── examples/          # UI 库示例
+│   ├── examples/              # UI 库示例组件
+│   │   ├── ElementPlusExample.vue
 │   │   ├── VxeTableExample.vue
 │   │   ├── AntdvExample.vue
 │   │   ├── NaiveUIExample.vue
 │   │   ├── VuetifyExample.vue
 │   │   ├── ArcoExample.vue
 │   │   └── PrimeVueExample.vue
-│   ├── App.vue           # 主应用（带导航）
-│   ├── elementPlus.vue   # Element Plus 示例
-│   └── main.ts           # 入口文件
-├── package.json
-└── vite.config.ts
+│   ├── composables/           # 组合式函数
+│   │   ├── useTableColumns.ts
+│   │   └── useTableData.ts
+│   ├── styles/                # 样式文件
+│   │   ├── common.css
+│   │   └── main.css
+│   ├── App.vue               # 主应用（带导航与深色主题切换）
+│   └── main.ts               # 入口文件
+├── assets/                    # 静态资源
+├── uno.config.ts              # UnoCSS 配置
+├── vite.config.ts             # Vite 配置
+├── tsconfig.json
+└── package.json
 ```
 
 ## 💡 使用示例
@@ -61,16 +70,45 @@ play/
 </template>
 
 <script setup>
-import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
+import { vTableTouchScroll } from 'vue-table-touch-scroll'
 </script>
+```
+
+### 使用预设
+
+```vue
+<template>
+  <!-- Element Plus -->
+  <div v-table-touch-scroll="{ preset: 'element-plus' }">
+    <el-table :data="tableData" height="400" />
+  </div>
+
+  <!-- Naive UI -->
+  <div v-table-touch-scroll="{ preset: 'naive-ui' }">
+    <n-data-table :columns="columns" :data="tableData" />
+  </div>
+
+  <!-- VxeTable -->
+  <div v-table-touch-scroll="{ preset: 'vxe-table' }">
+    <vxe-table :data="tableData" height="400" />
+  </div>
+</template>
 ```
 
 ### 自定义配置
 
 ```vue
 <template>
-  <div v-table-touch-scroll="{ threshold: 10, enabled: true }">
-    <a-table :columns="columns" :data-source="data" />
+  <div v-table-touch-scroll="{
+    preset: 'element-plus',
+    dragThreshold: 10,
+    friction: 0.92,
+    mode: 'always',
+    rotation: 0,
+    onScrollStart: () => console.log('滚动开始'),
+    onScrollEnd: () => console.log('滚动结束'),
+  }">
+    <el-table :data="tableData" />
   </div>
 </template>
 ```
@@ -84,6 +122,8 @@ import { vTableTouchScroll } from '@vue-table-touch-scroll/core'
 - ✅ 分页功能
 - ✅ 自定义配置
 - ✅ 响应式设计
+- ✅ 深色主题支持
+- ✅ 虚拟滚动（VxeTable BigData）
 
 ## 📝 注意事项
 
@@ -115,14 +155,6 @@ pnpm install
 - Ant Design Vue: `ant-design-vue/dist/reset.css`
 - Arco Design: `@arco-design/web-vue/dist/arco.css`
 - PrimeVue: `primevue/resources/themes/lara-light-blue/theme.css`
-
-### TypeScript 错误
-
-某些 UI 库可能需要安装类型定义：
-
-```bash
-pnpm add -D @types/[library-name]
-```
 
 ## 📚 相关链接
 

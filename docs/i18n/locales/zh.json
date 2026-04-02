@@ -46,8 +46,8 @@
     "system": "系统"
   },
   "viewer": {
-    "pc_mode": "PC端",
-    "mobile_mode": "移动端",
+    "disabled": "禁用",
+    "enabled": "启用",
     "friction": "摩擦力"
   }
 }

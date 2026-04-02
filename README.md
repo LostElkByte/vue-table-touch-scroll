@@ -15,10 +15,13 @@ vue-table-touch-scroll is a lightweight solution dedicated to bridging the gap b
 
 - 🚀 **Easy to Use** - Simple directive-based API
 - ⚡️ **Lightweight** - Zero dependencies, minimal bundle size
-- 📱 **Touch & Mouse Support** - Works on both mobile and desktop devices
-- 🎯 **UI Library Presets** - Built-in scroll container selectors for popular UI libraries
+- 🎯 **UI Library Presets** - Built-in presets for Element Plus, Ant Design Vue, Naive UI, VxeTable, Arco Design, PrimeVue, Vuetify
+- 🎨 **Physics-based Scrolling** - Delta-Time normalized inertia and friction simulation, consistent across any screen refresh rate
+- 🔒 **Axis Locking** - One-shot gesture direction lock eliminates diagonal jitter
+- 🖐️ **Multi-touch Handling** - Active finger tracking prevents coordinate jumps; multi-finger silencing for native gestures (pinch-to-zoom)
+- 📱 **Hybrid Device Support** - 4-state lazy hijacking state machine: zero interference on pure PC, on-demand activation for hybrid devices (Surface, touchscreen laptops)
+- 🔄 **CSS Rotation Support** - Inverse coordinate transform for CSS `rotate()` landscape mode
 - 🔧 **TypeScript** - Full TypeScript support with type definitions
-- 🎨 **Physics-based Scrolling** - Realistic inertia and friction simulation
 - 📦 **Zero Configuration** - Works out of the box with sensible defaults
 
 ## 📖 Documentation
@@ -143,6 +146,9 @@ const enabled = ref(true)
 | `friction` | `number` | `0.95` | Friction/decay rate for inertia scrolling (0.8-0.99) |
 | `disableInertia` | `boolean` | `false` | Disable inertia scrolling |
 | `clickBlockThreshold` | `number` | `0.5` | Velocity threshold (px/ms) for blocking clicks after fast scrolling |
+| `mode` | `'auto' \| 'always'` | `'auto'` | Device detection mode. `'auto'`: lazy hijacking for hybrid devices; `'always'`: force enable |
+| `rotation` | `0 \| 90 \| -90 \| 180` | `0` | CSS rotation angle for inverse-transforming touch coordinates in landscape mode |
+| `disableEdgeDetection` | `boolean` | `false` | Disable edge detection; when `true`, never hands control back to browser at scroll boundaries |
 | `onScrollStart` | `() => void` | - | Callback when scrolling starts |
 | `onScrollEnd` | `() => void` | - | Callback when scrolling ends |
 
@@ -168,8 +174,11 @@ import {
   vTableTouchScroll,           // Directive
   type TableTouchScrollOptions, // Options type
   type TablePreset,             // Preset type
+  type DeviceType,              // Device type: 'mobile' | 'desktop' | 'hybrid'
+  type HijackState,             // Lazy hijacking state: 'dormant' | 'standby' | 'pending-active' | 'active'
   UI_LIBRARY_SELECTORS,         // UI library selector mapping
   getSelectorByPreset,          // Get selector by preset
+  detectDeviceType,             // Detect current device type
 } from 'vue-table-touch-scroll'
 ```
 
@@ -203,11 +212,14 @@ pnpm format
 ```
 vue-table-touch-scroll/
 ├── packages/
-│   ├── core/                    # Core directive implementation
-│   ├── utils/                   # Utility functions
-│   └── vue-table-touch-scroll/  # Main package entry
-├── play/                        # Development playground
-├── docs/                        # Documentation site
+│   └── vue-table-touch-scroll/  # Core directive package
+│       └── src/
+│           ├── directive.ts     # Scroll engine implementation
+│           ├── types.ts         # TypeScript type definitions
+│           ├── presets.ts       # UI library preset selectors
+│           └── index.ts         # Package entry & exports
+├── play/                        # Development playground (UI library examples)
+├── docs/                        # Documentation site (Nuxt 3 + shadcn-docs-nuxt)
 └── README.md
 ```
 

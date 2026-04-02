@@ -133,7 +133,7 @@ const selectTab = (index: number) => {
             <button
               class="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-lg font-mono text-xs sm:text-sm border-1 border-solid border-white/20 hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
             >
-              <span class="truncate">$ npm i @vue-table-touch-scroll/core</span>
+              <span class="truncate">$ npm i vue-table-touch-scroll</span>
               <svg
                 class="w-4 h-4"
                 fill="none"
