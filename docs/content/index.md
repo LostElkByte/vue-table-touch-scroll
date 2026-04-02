@@ -6,7 +6,7 @@ navigation: false
 ::hero
 ---
 announcement:
-  title: 'Release v1.0.6'
+  title: 'Release v1.0.7'
   icon: '🎉'
   to: https://github.com/LostElkByte/vue-table-touch-scroll/releases
   target: _blank
