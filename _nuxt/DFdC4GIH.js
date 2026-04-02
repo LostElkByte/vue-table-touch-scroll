@@ -1,1 +1,0 @@
-import{at as n,av as e}from"./BiVgJWO8.js";const t=n({name:"DocumentDrivenNotFound",render(){return e("div","Document not found")}});export{t as default};
