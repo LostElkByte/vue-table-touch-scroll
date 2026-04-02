@@ -32,9 +32,7 @@ const directiveOptions = computed(() => ({
 <template>
   <n-config-provider :theme="naiveTheme">
     <div
-      v-table-touch-scroll="
-        viewerContext.isEnabled.value ? directiveOptions : false
-      "
+      v-mobile-table="viewerContext.isEnabled.value ? directiveOptions : false"
       class="border rounded-lg overflow-hidden"
     >
       <n-data-table

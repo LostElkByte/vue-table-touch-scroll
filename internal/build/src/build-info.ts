@@ -1,6 +1,6 @@
 import path from 'path'
-import { PKG_NAME } from '@vue-table-touch-scroll/build-constants'
-import { vueTableTouchScrollOutput } from '@vue-table-touch-scroll/build-utils'
+import { PKG_NAME } from '@vue3-mobile-table/build-constants'
+import { vueTableTouchScrollOutput } from '@vue3-mobile-table/build-utils'
 
 import type { ModuleFormat } from 'rolldown'
 

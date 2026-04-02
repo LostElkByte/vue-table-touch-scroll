@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { computed } from 'vue'
@@ -24,12 +24,15 @@ const headers = computed(() =>
 <template>
   <div class="example-container">
     <h2>Vuetify</h2>
-    <p class="description">Material Design component framework with beautiful UI components</p>
+    <p class="description">
+      Material Design component framework with beautiful UI components
+    </p>
 
     <div
       v-table-touch-scroll="{ selector: '.v-table__wrapper tbody' }"
       class="table-wrapper"
     >
+      v-mobile-table
       <v-data-table
         theme="dark"
         size="small"

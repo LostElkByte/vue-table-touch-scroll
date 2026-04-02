@@ -1,5 +1,5 @@
 {
-  "name": "@vue-table-touch-scroll/eslint-config",
+  "name": "@vue3-mobile-table/eslint-config",
   "version": "0.0.1",
   "type": "module",
   "description": "ESLint Config",

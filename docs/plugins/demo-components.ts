@@ -1,4 +1,4 @@
-import { vTableTouchScroll } from 'vue-table-touch-scroll'
+import { vTableTouchScroll } from 'vue3-mobile-table'
 import CodeViewerTab from '~/components/CodeViewerTab.vue'
 import ComponentLoader from '~/components/ComponentLoader.vue'
 import DemoTabs from '~/components/DemoTabs.vue'
@@ -17,6 +17,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     vueApp.component(name, component)
   })
 
-  // Register v-table-touch-scroll directive
+  // Register v-mobile-table directive
   vueApp.directive('table-touch-scroll', vTableTouchScroll)
 })

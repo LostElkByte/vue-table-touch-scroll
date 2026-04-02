@@ -18,8 +18,8 @@ export type DeviceType = 'mobile' | 'desktop' | 'hybrid'
 export type HijackState = 'dormant' | 'standby' | 'pending-active' | 'active'
 
 /**
- * v-table-touch-scroll 指令配置项
- * Configuration options for the v-table-touch-scroll directive
+ * v-mobile-table 指令配置项
+ * Configuration options for the v-mobile-table directive
  */
 export interface TableTouchScrollOptions {
   /**
@@ -92,7 +92,7 @@ export interface TableTouchScrollOptions {
    *
    * @example
    * ```vue
-   * <div v-table-touch-scroll="{ preset: 'element-plus' }">
+   * <div v-mobile-table="{ preset: 'element-plus' }">
    *   <el-table />
    * </div>
    * ```
@@ -110,7 +110,7 @@ export interface TableTouchScrollOptions {
    *
    * @example
    * ```vue
-   * <div v-table-touch-scroll="{ selector: '.custom-scroll-container' }">
+   * <div v-mobile-table="{ selector: '.custom-scroll-container' }">
    *   <CustomTable />
    * </div>
    * ```

@@ -1,14 +1,14 @@
 name: 🐛 Bug Report
 description: Report a bug or unexpected behavior
-title: "[Bug]: "
-labels: ["bug", "needs triage"]
+title: '[Bug]: '
+labels: ['bug', 'needs triage']
 
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to report this bug!
-        
+
         Please fill out the information below to help us diagnose the issue.
 
   - type: textarea
@@ -53,7 +53,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of vue-table-touch-scroll are you using?
+      description: What version of vue3-mobile-table are you using?
       placeholder: e.g., 0.0.1
     validations:
       required: true

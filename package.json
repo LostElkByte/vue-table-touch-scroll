@@ -1,32 +1,27 @@
 {
-  "name": "vue-table-touch-scroll",
+  "name": "vue3-mobile-table",
   "version": "1.0.6",
   "private": true,
   "packageManager": "pnpm@10.18.2",
-  "description": "vue-table-touch-scroll is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
+  "description": "vue3-mobile-table is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
   "keywords": [
     "vue",
     "vue3",
-    "vue-table",
+    "mobile-table",
     "touch-scroll",
     "inertia-scroll",
+    "scroll-sync",
+    "vue-directive",
     "element-plus",
     "ant-design-vue",
-    "naive-ui",
-    "el-table",
-    "a-table",
-    "n-table",
     "vxe-table",
-    "vue-directive",
-    "mobile-friendly",
-    "horizontal-scroll",
-    "smooth-scroll",
-    "table-scroll",
-    "data-table"
+    "移动端表格",
+    "手机表格",
+    "惯性滚动"
   ],
-  "homepage": "https://lostelkbyte.github.io/vue-table-touch-scroll",
+  "homepage": "https://lostelkbyte.github.io/vue3-mobile-table",
   "bugs": {
-    "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
+    "url": "https://github.com/LostElkByte/vue3-mobile-table/issues"
   },
   "license": "MIT",
   "author": {
@@ -35,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LostElkByte/vue-table-touch-scroll.git"
+    "url": "https://github.com/LostElkByte/vue3-mobile-table.git"
   },
   "workspaces": [
     "packages/*",
@@ -80,10 +75,10 @@
     "@vitejs/plugin-vue": "^5.2.4",
     "@vitest/coverage-v8": "^4.1.2",
     "@vitest/ui": "^4.1.2",
-    "@vue-table-touch-scroll/build": "workspace:^",
-    "@vue-table-touch-scroll/build-utils": "workspace:^",
-    "@vue-table-touch-scroll/eslint-config": "workspace:*",
     "@vue/test-utils": "catalog:",
+    "@vue3-mobile-table/build": "workspace:^",
+    "@vue3-mobile-table/build-utils": "workspace:^",
+    "@vue3-mobile-table/eslint-config": "workspace:*",
     "consola": "^3.4.2",
     "conventional-changelog-cli": "^5.0.0",
     "cz-git": "^1.12.0",

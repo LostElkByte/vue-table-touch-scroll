@@ -19,7 +19,7 @@
  *
  * 更新的包：
  * - 自动发现并更新工作区中的所有包
- * - 包括 vue-table-touch-scroll、core、utils 等
+ * - 包括 vue3-mobile-table、core、utils 等
  *
  * 更新的文档：
  * - docs/content/index.md 中的公告版本号
@@ -31,7 +31,7 @@ import { consola } from 'consola'
 import {
   errorAndExit,
   getWorkspacePackages,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 
 import type { Project } from '@pnpm/find-workspace-packages'
 

@@ -22,7 +22,7 @@
     "tailwindcss": "^4.2.1",
     "vue": "catalog:",
     "vue-router": "^4.6.4",
-    "vue-table-touch-scroll": "workspace:*",
+    "vue3-mobile-table": "workspace:*",
     "vxe-pc-ui": "^4.13.5",
     "vxe-table": "^4.18.2"
   },

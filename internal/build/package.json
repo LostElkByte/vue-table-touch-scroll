@@ -1,8 +1,8 @@
 {
-  "name": "@vue-table-touch-scroll/build",
+  "name": "@vue3-mobile-table/build",
   "version": "0.0.1",
   "private": true,
-  "description": "Build toolchain for vue-table-touch-scroll",
+  "description": "Build toolchain for vue3-mobile-table",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -12,8 +12,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@vue-table-touch-scroll/build-constants": "workspace:*",
-    "@vue-table-touch-scroll/build-utils": "workspace:*",
+    "@vue3-mobile-table/build-constants": "workspace:*",
+    "@vue3-mobile-table/build-utils": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
     "@vitejs/plugin-vue": "catalog:",

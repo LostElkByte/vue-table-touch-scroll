@@ -11,16 +11,16 @@
  *
  * @example
  */
-export const PKG_PREFIX = '@vue-table-touch-scroll'
+export const PKG_PREFIX = '@vue3-mobile-table'
 
 /**
  * 主包名
  * 用于 npm 发布和包管理
  *
  * @example
- * import { vTableTouchScroll } from 'vue-table-touch-scroll'
+ * import { vTableTouchScroll } from 'vue3-mobile-table'
  */
-export const PKG_NAME = 'vue-table-touch-scroll'
+export const PKG_NAME = 'vue3-mobile-table'
 
 /**
  * 驼峰命名格式的包名
@@ -39,4 +39,4 @@ export const PKG_CAMELCASE_NAME = 'VueTableTouchScroll'
  * @example
  * // 在构建文件中作为 banner
  */
-export const PKG_BRAND_NAME = 'Vue Table Touch Scroll'
+export const PKG_BRAND_NAME = 'Vue3 Mobile Table'

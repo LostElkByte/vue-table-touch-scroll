@@ -6,11 +6,11 @@ import {
   getPackageManifest,
   vueTableTouchScrollOutput,
   vueTableTouchScrollRoot,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_NAME,
-} from '@vue-table-touch-scroll/build-constants'
+} from '@vue3-mobile-table/build-constants'
 import { formatBundleFilename, generateExternal, writeBundles } from '../utils'
 
 import type { Plugin } from 'rolldown'

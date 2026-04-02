@@ -16,7 +16,7 @@
     "rootDir": ".",
     "types": [],
     "paths": {
-      "vue-table-touch-scroll": ["packages/vue-table-touch-scroll"]
+      "vue3-mobile-table": ["packages/vue3-mobile-table"]
     },
     "preserveSymlinks": true
   }

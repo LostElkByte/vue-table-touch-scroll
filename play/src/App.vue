@@ -65,7 +65,6 @@ const selectTab = (index: number) => {
   <div class="min-h-screen bg-black">
     <!-- Area 1: Title -->
     <section class="relative pt-12">
-
       <div class="absolute inset-0 flex justify-center pointer-events-none">
         <div class="relative w-full max-w-[1113px] h-full">
           <div class="absolute left-0 top-12 bottom-0 w-px bg-white/10"></div>
@@ -90,7 +89,7 @@ const selectTab = (index: number) => {
             <span
               class="bg-gradient-to-r from-white via-white to-gray-400 bg-clip-text text-transparent"
             >
-              Vue Table Touch Scroll
+              Vue3 Mobile Table
             </span>
           </h1>
         </div>
@@ -116,15 +115,21 @@ const selectTab = (index: number) => {
           </div>
         </div>
       </div>
-      <div class="container mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16 relative z-10">
+      <div
+        class="container mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16 relative z-10"
+      >
         <div class="max-w-[1113px] mx-auto text-center">
-          <p class="text-base md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto mb-6 md:mb-8 px-4 md:px-0">
+          <p
+            class="text-base md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto mb-6 md:mb-8 px-4 md:px-0"
+          >
             Bridge the gap between desktop and mobile with one directive that
             makes Vue PC table components feel like native apps on touch
             devices.
           </p>
 
-          <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
+          <div
+            class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3"
+          >
             <button
               class="w-full sm:w-auto px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm"
             >
@@ -133,7 +138,7 @@ const selectTab = (index: number) => {
             <button
               class="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-lg font-mono text-xs sm:text-sm border-1 border-solid border-white/20 hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
             >
-              <span class="truncate">$ npm i vue-table-touch-scroll</span>
+              <span class="truncate">$ npm i vue3-mobile-table</span>
               <svg
                 class="w-4 h-4"
                 fill="none"
@@ -153,7 +158,9 @@ const selectTab = (index: number) => {
 
     <!-- Area 3: Framework Selection + Demo -->
     <section class="py-6 md:py-8 relative">
-      <div class="absolute inset-0 flex justify-center pointer-events-none hidden md:flex">
+      <div
+        class="absolute inset-0 flex justify-center pointer-events-none hidden md:flex"
+      >
         <div class="relative w-full max-w-[1113px] h-full">
           <div class="absolute left-0 top-0 bottom-0 w-px bg-white/10"></div>
           <div class="absolute right-0 top-0 bottom-0 w-px bg-white/10"></div>
@@ -182,7 +189,9 @@ const selectTab = (index: number) => {
         </div>
       </div>
 
-      <div class="container max-w-[1113px] mx-auto px-4 md:px-6 relative z-10 mt-4 md:mt-8">
+      <div
+        class="container max-w-[1113px] mx-auto px-4 md:px-6 relative z-10 mt-4 md:mt-8"
+      >
         <div class="max-w-[1113px] mx-auto px-0 md:px-12">
           <div class="bg-black overflow-x-auto">
             <component :is="currentComponent" />
@@ -195,12 +204,14 @@ const selectTab = (index: number) => {
     <footer class="border-t border-white/5">
       <div class="container mx-auto px-4 md:px-6">
         <div class="max-w-[1400px] mx-auto py-12 md:py-16 lg:pl-24">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-12"
+          >
             <div class="md:col-span-1">
               <div class="flex items-center gap-2">
                 <img src="/assets/logo-white.png" alt="Logo" class="h-6 w-6" />
                 <span class="text-sm font-semibold text-white"
-                  >Vue Table Touch Scroll</span
+                  >Vue3 Mobile Table</span
                 >
               </div>
             </div>

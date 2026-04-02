@@ -56,10 +56,10 @@ import type {
 } from './types'
 
 /**
- * v-table-touch-scroll 指令类型 / v-table-touch-scroll Directive Type
+ * v-mobile-table 指令类型 / v-mobile-table Directive Type
  * 接受 TableTouchScrollOptions 配置对象 / Accepts TableTouchScrollOptions configuration object
  * @example
- * v-table-touch-scroll="{ preset: 'element-plus', friction: 0.95 }"
+ * v-mobile-table="{ preset: 'element-plus', friction: 0.95 }"
  */
 export type VTableTouchScrollDirective = ObjectDirective<
   HTMLElement,
@@ -131,11 +131,11 @@ export function detectDeviceType(): DeviceType {
 // ─── 指令定义 / Directive Definition ───────────────────────────────────
 
 /**
- * @directive v-table-touch-scroll
+ * @directive v-mobile-table
  * @description 移动端表格滚动增强指令 / Mobile table scrolling enhancement directive.
  *
  * @example
- * <div v-table-touch-scroll="{ selector: '.table-body', friction: 0.9 }"></div>
+ * <div v-mobile-table="{ selector: '.table-body', friction: 0.9 }"></div>
  */
 export const vTableTouchScroll: VTableTouchScrollDirective = {
   mounted(el, binding) {

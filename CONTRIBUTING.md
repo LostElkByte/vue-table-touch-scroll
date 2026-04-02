@@ -1,14 +1,14 @@
 # Contributing Guide
 
-Thank you for your interest in contributing to Vue Table Touch Scroll!
+Thank you for your interest in contributing to Vue3 Mobile Table!
 
 ## Development Setup
 
 1. **Fork and clone the repository**
 
 ```bash
-git clone https://github.com/LostElkByte/vue-table-touch-scroll.git
-cd vue-table-touch-scroll
+git clone https://github.com/LostElkByte/vue3-mobile-table.git
+cd vue3-mobile-table
 ```
 
 2. **Install dependencies**
@@ -27,7 +27,7 @@ pnpm dev
 
 - `packages/core` - Core directive implementation
 - `packages/utils` - Utility functions
-- `packages/vue-table-touch-scroll` - Main package entry
+- `packages/vue3-mobile-table` - Main package entry
 - `internal/build` - Build toolchain
 - `play` - Development playground
 - `docs` - Documentation site

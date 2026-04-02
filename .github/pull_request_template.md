@@ -1,6 +1,6 @@
 Please make sure these boxes are checked before submitting your PR, thank you!
 
-* Make sure you follow the [Contributing Guide](https://github.com/LostElkByte/vue-table-touch-scroll/blob/main/.github/CONTRIBUTING.md)
+* Make sure you follow the [Contributing Guide](https://github.com/LostElkByte/vue3-mobile-table/blob/main/.github/CONTRIBUTING.md)
 * Make sure you are merging your commits to `main` branch
 * Add some descriptions and refer to related issues for your PR
 * Make sure all tests pass (`pnpm test`)

@@ -34,9 +34,7 @@ const directiveOptions = computed(() => ({
 <template>
   <ConfigProvider :theme="antTheme">
     <div
-      v-table-touch-scroll="
-        viewerContext.isEnabled.value ? directiveOptions : false
-      "
+      v-mobile-table="viewerContext.isEnabled.value ? directiveOptions : false"
       class="border rounded-lg overflow-hidden"
     >
       <a-table

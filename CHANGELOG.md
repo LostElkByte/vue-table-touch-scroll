@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial release of vue-table-touch-scroll
+- Initial release of vue3-mobile-table
 - Touch scrolling directive for Vue 3 tables
 - Direction locking (horizontal/vertical)
 - Edge detection and bounce prevention
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD with GitHub Actions
 
 ### Features
-- **Core Directive**: `v-table-touch-scroll` for touch-based table scrolling
+- **Core Directive**: `v-mobile-table` for touch-based table scrolling
 - **Customizable Options**: threshold, enabled state, custom selectors
 - **Performance**: Normalized frame rate physics engine (60 FPS)
 - **Accessibility**: Mouse and touch event support
@@ -57,5 +57,5 @@ This project follows [Semantic Versioning](https://semver.org/):
 
 ---
 
-[Unreleased]: https://github.com/LostElkByte/vue-table-touch-scroll/compare/v0.0.3...HEAD
-[0.0.1]: https://github.com/LostElkByte/vue-table-touch-scroll/releases/tag/v0.0.3
+[Unreleased]: https://github.com/LostElkByte/vue3-mobile-table/compare/v0.0.3...HEAD
+[0.0.1]: https://github.com/LostElkByte/vue3-mobile-table/releases/tag/v0.0.3

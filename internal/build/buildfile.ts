@@ -6,7 +6,7 @@ import {
   projRoot,
   vueTableTouchScrollOutput,
   vueTableTouchScrollPackage,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 import {
   buildConfig,
   buildFullBundle,

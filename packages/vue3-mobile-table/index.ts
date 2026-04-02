@@ -26,7 +26,7 @@ declare module 'vue' {
   export interface GlobalDirectives {
     /**
      * Touch scroll directive for tables.
-     * Use in template as: <div v-table-touch-scroll="{...}"></div>
+     * Use in template as: <div v-mobile-table="{...}"></div>
      */
     'table-touch-scroll': ObjectDirective<
       HTMLElement,

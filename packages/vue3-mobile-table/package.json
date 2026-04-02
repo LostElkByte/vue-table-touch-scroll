@@ -1,31 +1,25 @@
 {
-  "name": "vue-table-touch-scroll",
+  "name": "vue3-mobile-table",
   "version": "1.0.6",
-  "description": "vue-table-touch-scroll is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
+  "description": "vue3-mobile-table is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
   "keywords": [
     "vue",
     "vue3",
-    "directive",
     "mobile-table",
-    "table-scroll",
     "touch-scroll",
     "inertia-scroll",
-    "momentum-scroll",
+    "scroll-sync",
+    "vue-directive",
     "element-plus",
     "ant-design-vue",
     "vxe-table",
-    "mobile-friendly",
-    "responsive-table",
-    "typescript",
     "移动端表格",
     "手机表格",
-    "表格滚动",
-    "惯性滚动",
-    "适配"
+    "惯性滚动"
   ],
-  "homepage": "https://lostelkbyte.github.io/vue-table-touch-scroll",
+  "homepage": "https://lostelkbyte.github.io/vue3-mobile-table",
   "bugs": {
-    "url": "https://github.com/LostElkByte/vue-table-touch-scroll/issues"
+    "url": "https://github.com/LostElkByte/vue3-mobile-table/issues"
   },
   "license": "MIT",
   "author": {
@@ -55,7 +49,7 @@
   "jsdelivr": "dist/index.full.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LostElkByte/vue-table-touch-scroll.git"
+    "url": "git+https://github.com/LostElkByte/vue3-mobile-table.git"
   },
   "publishConfig": {
     "access": "public"

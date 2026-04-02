@@ -28,10 +28,10 @@ git push origin v1.0.0
 
 ```bash
 # 查看 NPM 版本
-npm view vue-table-touch-scroll versions --json
+npm view vue3-mobile-table versions --json
 
 # 安装测试
-npm install vue-table-touch-scroll@latest
+npm install vue3-mobile-table@latest
 ```
 
 ## 手动发布（备用）
@@ -43,7 +43,7 @@ npm install vue-table-touch-scroll@latest
 pnpm build
 
 # 进入构建目录并发布
-cd dist/vue-table-touch-scroll
+cd dist/vue3-mobile-table
 npm publish --access public
 ```
 
@@ -51,7 +51,7 @@ npm publish --access public
 
 使用 **Trusted Publishing**（已配置）：
 
-1. 访问 https://www.npmjs.com/package/vue-table-touch-scroll
+1. 访问 https://www.npmjs.com/package/vue3-mobile-table
 2. Settings → Access → Grant access to GitHub Actions
 3. 配置完成，无需手动设置 Token
 
@@ -66,4 +66,4 @@ pnpm build
 pnpm docs:build
 ```
 
-部署到: https://lostelkbyte.github.io/vue-table-touch-scroll/
+部署到: https://lostelkbyte.github.io/vue3-mobile-table/

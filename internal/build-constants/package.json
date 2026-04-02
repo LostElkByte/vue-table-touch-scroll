@@ -1,9 +1,9 @@
 {
-  "name": "@vue-table-touch-scroll/build-constants",
+  "name": "@vue3-mobile-table/build-constants",
   "version": "0.0.1",
-  "description": "Build constants for vue-table-touch-scroll",
+  "description": "Build constants for vue3-mobile-table",
   "keywords": [
-    "vue-table-touch-scroll"
+    "vue3-mobile-table"
   ],
   "license": "MIT",
   "main": "./dist/index.cjs",

@@ -15,7 +15,7 @@
  * - TAG_VERSION: Git 标签版本号（如 v1.0.0）
  *
  * 输出文件：
- * - packages/vue-table-touch-scroll/version.ts
+ * - packages/vue3-mobile-table/version.ts
  */
 
 import { writeFile } from 'fs/promises'
@@ -24,7 +24,7 @@ import { consola } from 'consola'
 import {
   vueTableTouchScrollPackage,
   vueTableTouchScrollRoot,
-} from '@vue-table-touch-scroll/build-utils'
+} from '@vue3-mobile-table/build-utils'
 
 /**
  * 获取当前版本号

@@ -13,7 +13,7 @@ If you discover a security vulnerability, **please do not** report it in a publi
 Please report security vulnerabilities through one of the following methods:
 
 1. **Send an email**: [security@example.com](mailto:security@example.com)
-2. **Use GitHub Security Advisory**: Visit [GitHub Security Advisories](https://github.com/LostElkByte/vue-table-touch-scroll/security/advisories) to create a new private report
+2. **Use GitHub Security Advisory**: Visit [GitHub Security Advisories](https://github.com/LostElkByte/vue3-mobile-table/security/advisories) to create a new private report
 
 ### What to Include
 
@@ -68,7 +68,7 @@ When a security vulnerability is discovered, we will:
 
 ## Security Resources
 
-- [GitHub Security Advisories](https://github.com/LostElkByte/vue-table-touch-scroll/security/advisories)
+- [GitHub Security Advisories](https://github.com/LostElkByte/vue3-mobile-table/security/advisories)
 - [npm Audit](https://docs.npmjs.com/cli/v7/commands/npm-audit)
 - [Node.js Security](https://nodejs.org/en/docs/guides/security/)
 
