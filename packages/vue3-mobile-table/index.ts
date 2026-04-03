@@ -25,6 +25,6 @@ declare module 'vue' {
      * Mobile table scroll enhancement directive.
      * 模板用法 / Template: <div v-mobile-table="{...}"></div>
      */
-    'mobile-table': ObjectDirective<HTMLElement, MobileTableOptions | undefined>
+    vMobileTable: ObjectDirective<HTMLElement, MobileTableOptions | undefined>
   }
 }
