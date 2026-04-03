@@ -27,5 +27,5 @@ vue3-mobile-table is a lightweight interaction extension engine specifically des
 ::
 
 ::div{class="border rounded-lg shadow-md"}
-  :iframe{src="./examples/element-plus" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
+  :iframe{src="./guide/introduction" height="700" width="100%" class="rounded-lg" scrolling="no" frameborder="0"}
 ::
