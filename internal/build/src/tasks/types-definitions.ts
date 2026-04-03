@@ -5,8 +5,8 @@ import {
   excludeFiles,
   getPackageDependencies,
   projRoot,
-  vueTableTouchScrollPackage,
-  vueTableTouchScrollRoot,
+  vue3MobileTablePackage,
+  vue3MobileTableRoot,
 } from '@vue3-mobile-table/build-utils'
 import { build } from 'rolldown'
 import { dts } from 'rolldown-plugin-dts'
@@ -15,14 +15,14 @@ import { target } from '../build-info'
 import type { BuildOptions } from 'rolldown'
 
 const tsconfig = path.resolve(projRoot, 'tsconfig.web.json')
-const pkgDeps = getPackageDependencies(vueTableTouchScrollPackage)
+const pkgDeps = getPackageDependencies(vue3MobileTablePackage)
 const pkgExternal = Object.values(pkgDeps).flat()
 const external = [/^@vue/, /^vue/, ...pkgExternal]
 
 export async function generateTypesDefinitions() {
   const input = excludeFiles(
     await glob(['**/*.ts', '!**/*.d.ts'], {
-      cwd: vueTableTouchScrollRoot,
+      cwd: vue3MobileTableRoot,
       absolute: true,
       onlyFiles: true,
     })
@@ -47,7 +47,7 @@ export async function generateTypesDefinitions() {
     }),
     output: {
       preserveModules: true,
-      preserveModulesRoot: vueTableTouchScrollRoot,
+      preserveModulesRoot: vue3MobileTableRoot,
       dir: path.resolve(buildOutput, 'types'),
     },
   }

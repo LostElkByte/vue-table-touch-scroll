@@ -4,8 +4,8 @@ import vue from '@vitejs/plugin-vue'
 import {
   execCommand,
   getPackageManifest,
-  vueTableTouchScrollOutput,
-  vueTableTouchScrollRoot,
+  vue3MobileTableOutput,
+  vue3MobileTableRoot,
 } from '@vue3-mobile-table/build-utils'
 import {
   PKG_BRAND_NAME,
@@ -18,12 +18,12 @@ import type { Plugin } from 'rolldown'
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [vue() as Plugin]
   const { version } = getPackageManifest(
-    path.resolve(vueTableTouchScrollRoot, 'package.json')
+    path.resolve(vue3MobileTableRoot, 'package.json')
   )
   const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
   const bundle = await rolldown({
-    input: path.resolve(vueTableTouchScrollRoot, 'index.ts'),
+    input: path.resolve(vue3MobileTableRoot, 'index.ts'),
     plugins,
     external: generateExternal({ full: true }),
     treeshake: true,
@@ -32,7 +32,7 @@ async function buildFullEntry(minify: boolean) {
     {
       format: 'umd',
       file: path.resolve(
-        vueTableTouchScrollOutput,
+        vue3MobileTableOutput,
         'dist',
         formatBundleFilename('index.full', minify, 'js')
       ),
@@ -48,7 +48,7 @@ async function buildFullEntry(minify: boolean) {
     {
       format: 'esm',
       file: path.resolve(
-        vueTableTouchScrollOutput,
+        vue3MobileTableOutput,
         'dist',
         formatBundleFilename('index.full', minify, 'mjs')
       ),

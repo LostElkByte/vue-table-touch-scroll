@@ -1,20 +1,16 @@
-import { vTableTouchScroll } from './src/directive'
+import { vMobileTable } from './src/directive'
 
 import type { App, ObjectDirective, Plugin } from 'vue'
-import type { TableTouchScrollOptions } from './src/types'
+import type { MobileTableOptions } from './src/types'
 
 export * from './src/directive'
-export type {
-  TableTouchScrollOptions,
-  DeviceType,
-  HijackState,
-} from './src/types'
+export type { MobileTableOptions, DeviceType, HijackState } from './src/types'
 export type { TablePreset } from './src/presets'
 export { UI_LIBRARY_SELECTORS, getSelectorByPreset } from './src/presets'
 
 const installer: Plugin = {
   install(app: App) {
-    app.directive('table-touch-scroll', vTableTouchScroll)
+    app.directive('mobile-table', vMobileTable)
   },
 }
 
@@ -25,12 +21,10 @@ export default installer
 declare module 'vue' {
   export interface GlobalDirectives {
     /**
-     * Touch scroll directive for tables.
-     * Use in template as: <div v-mobile-table="{...}"></div>
+     * 移动端表格滚动增强指令
+     * Mobile table scroll enhancement directive.
+     * 模板用法 / Template: <div v-mobile-table="{...}"></div>
      */
-    'table-touch-scroll': ObjectDirective<
-      HTMLElement,
-      TableTouchScrollOptions | undefined
-    >
+    vMobileTable: ObjectDirective<HTMLElement, MobileTableOptions | undefined>
   }
 }

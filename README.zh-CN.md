@@ -40,11 +40,11 @@ yarn add vue3-mobile-table
 
 ```ts
 import { createApp } from 'vue'
-import VueTableTouchScroll from 'vue3-mobile-table'
+import Vue3MobileTable from 'vue3-mobile-table'
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(VueTableTouchScroll)
+app.use(Vue3MobileTable)
 app.mount('#app')
 ```
 
@@ -52,7 +52,7 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 </script>
 
 <template>
@@ -104,9 +104,9 @@ import { vTableTouchScroll } from 'vue3-mobile-table'
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type TableTouchScrollOptions, vTableTouchScroll } from 'vue3-mobile-table'
+import { type MobileTableOptions, vMobileTable } from 'vue3-mobile-table'
 
-const options: TableTouchScrollOptions = {
+const options: MobileTableOptions = {
   preset: 'element-plus',
   dragThreshold: 5,
   friction: 0.95,
@@ -158,11 +158,11 @@ const enabled = ref(true)
 
 ```ts
 // 默认导出：Vue 插件（用于全局注册）
-import VueTableTouchScroll from 'vue3-mobile-table'
+import Vue3MobileTable from 'vue3-mobile-table'
 // 命名导出
 import {
-  vTableTouchScroll,           // 指令
-  type TableTouchScrollOptions, // 选项类型
+  vMobileTable,           // 指令
+  type MobileTableOptions, // 选项类型
   type TablePreset,             // 预设类型
   UI_LIBRARY_SELECTORS,         // UI 库选择器映射
   getSelectorByPreset,          // 根据预设获取选择器

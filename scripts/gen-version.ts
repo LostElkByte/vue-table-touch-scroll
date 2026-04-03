@@ -22,8 +22,8 @@ import { writeFile } from 'fs/promises'
 import path from 'path'
 import { consola } from 'consola'
 import {
-  vueTableTouchScrollPackage,
-  vueTableTouchScrollRoot,
+  vue3MobileTablePackage,
+  vue3MobileTableRoot,
 } from '@vue3-mobile-table/build-utils'
 
 /**
@@ -46,7 +46,7 @@ function getVersion(): string {
   }
 
   // 从 package.json 读取版本号
-  const pkg = require(vueTableTouchScrollPackage)
+  const pkg = require(vue3MobileTablePackage)
   return pkg.version
 }
 
@@ -77,7 +77,7 @@ const version = getVersion()
 async function main(): Promise<void> {
   consola.info(`Generating version: ${version}`)
 
-  const versionFilePath = path.resolve(vueTableTouchScrollRoot, 'version.ts')
+  const versionFilePath = path.resolve(vue3MobileTableRoot, 'version.ts')
 
   await writeFile(versionFilePath, `export const version = '${version}'\n`)
 

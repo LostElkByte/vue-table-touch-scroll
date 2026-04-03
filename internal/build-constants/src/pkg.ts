@@ -18,7 +18,7 @@ export const PKG_PREFIX = '@vue3-mobile-table'
  * 用于 npm 发布和包管理
  *
  * @example
- * import { vTableTouchScroll } from 'vue3-mobile-table'
+ * import { vMobileTable } from 'vue3-mobile-table'
  */
 export const PKG_NAME = 'vue3-mobile-table'
 
@@ -28,9 +28,9 @@ export const PKG_NAME = 'vue3-mobile-table'
  *
  * @example
  * // 在浏览器中通过全局变量访问
- * window.VueTableTouchScroll
+ * window.Vue3MobileTable
  */
-export const PKG_CAMELCASE_NAME = 'VueTableTouchScroll'
+export const PKG_CAMELCASE_NAME = 'Vue3MobileTable'
 
 /**
  * 品牌名称

@@ -70,7 +70,7 @@ play/
 </template>
 
 <script setup>
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 </script>
 ```
 

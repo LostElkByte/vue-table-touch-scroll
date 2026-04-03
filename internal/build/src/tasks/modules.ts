@@ -3,7 +3,7 @@ import { glob } from 'tinyglobby'
 import { rolldown } from 'rolldown'
 import {
   excludeFiles,
-  vueTableTouchScrollRoot,
+  vue3MobileTableRoot,
 } from '@vue3-mobile-table/build-utils'
 import { generateExternal, writeBundles } from '../utils'
 import { buildConfigEntries } from '../build-info'
@@ -15,7 +15,7 @@ const plugins = [vue()]
 export async function buildModules() {
   const input = excludeFiles(
     await glob(['**/*.ts', '!**/*.d.ts'], {
-      cwd: vueTableTouchScrollRoot,
+      cwd: vue3MobileTableRoot,
       absolute: true,
       onlyFiles: true,
     })
@@ -35,7 +35,7 @@ export async function buildModules() {
         dir: config.output.path,
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: vueTableTouchScrollRoot,
+        preserveModulesRoot: vue3MobileTableRoot,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       }

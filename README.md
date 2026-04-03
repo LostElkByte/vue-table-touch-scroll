@@ -47,11 +47,11 @@ yarn add vue3-mobile-table
 
 ```ts
 import { createApp } from 'vue'
-import VueTableTouchScroll from 'vue3-mobile-table'
+import Vue3MobileTable from 'vue3-mobile-table'
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(VueTableTouchScroll)
+app.use(Vue3MobileTable)
 app.mount('#app')
 ```
 
@@ -59,7 +59,7 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 </script>
 
 <template>
@@ -111,9 +111,9 @@ import { vTableTouchScroll } from 'vue3-mobile-table'
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type TableTouchScrollOptions, vTableTouchScroll } from 'vue3-mobile-table'
+import { type MobileTableOptions, vMobileTable } from 'vue3-mobile-table'
 
-const options: TableTouchScrollOptions = {
+const options: MobileTableOptions = {
   preset: 'element-plus',
   dragThreshold: 5,
   friction: 0.95,
@@ -168,11 +168,11 @@ const enabled = ref(true)
 
 ```ts
 // Default export: Vue plugin (for global registration)
-import VueTableTouchScroll from 'vue3-mobile-table'
+import Vue3MobileTable from 'vue3-mobile-table'
 // Named exports
 import {
-  vTableTouchScroll,           // Directive
-  type TableTouchScrollOptions, // Options type
+  vMobileTable,           // Directive
+  type MobileTableOptions, // Options type
   type TablePreset,             // Preset type
   type DeviceType,              // Device type: 'mobile' | 'desktop' | 'hybrid'
   type HijackState,             // Lazy hijacking state: 'dormant' | 'standby' | 'pending-active' | 'active'

@@ -173,7 +173,7 @@ Test files are located in `packages/vue3-mobile-table/__tests__/`:
 
 ```typescript
 import { describe, expect, it } from 'vitest'
-import { vTableTouchScroll } from '../index'
+import { vMobileTable } from '../index'
 
 describe('Feature Name', () => {
   it('should do something', () => {

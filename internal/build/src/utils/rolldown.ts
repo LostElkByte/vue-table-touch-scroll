@@ -1,13 +1,13 @@
 import {
   getPackageDependencies,
-  vueTableTouchScrollPackage,
+  vue3MobileTablePackage,
 } from '@vue3-mobile-table/build-utils'
 
 import type { OutputOptions, RolldownBuild } from 'rolldown'
 
 export const generateExternal = (options: { full: boolean }) => {
   const { dependencies, peerDependencies } = getPackageDependencies(
-    vueTableTouchScrollPackage
+    vue3MobileTablePackage
   )
 
   return (id: string) => {
