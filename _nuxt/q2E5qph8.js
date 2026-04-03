@@ -1,1 +1,0 @@
-import{bd as r,ay as t,aG as s,aI as o}from"./Bkj8FO6P.js";const a={},c={class:"even:bg-muted/50 m-0 border-t p-0"};function n(e,d){return t(),s("tr",c,[o(e.$slots,"default")])}const l=r(a,[["render",n]]);export{l as default};

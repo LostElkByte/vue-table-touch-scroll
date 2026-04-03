@@ -1,1 +1,0 @@
-import{_ as e}from"./D7WGAH--.js";import{at as n,az as r,aH as c,ay as s,aI as i}from"./Bkj8FO6P.js";import"./CR5VJzQJ.js";const _=n({__name:"Callout",props:{icon:{},to:{},target:{}},setup(t){return(a,l)=>{const o=e;return s(),r(o,{icon:t.icon,to:t.to,target:t.target},{default:c(()=>[i(a.$slots,"default")]),_:3},8,["icon","to","target"])}}});export{_ as default};
