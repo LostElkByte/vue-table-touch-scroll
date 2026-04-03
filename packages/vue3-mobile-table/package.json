@@ -1,6 +1,6 @@
 {
   "name": "vue3-mobile-table",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "vue3-mobile-table is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
   "keywords": [
     "vue",
