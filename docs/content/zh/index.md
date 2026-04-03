@@ -6,7 +6,7 @@ navigation: false
 ::hero
 ---
 announcement:
-  title: 'Release v1.1.0'
+  title: 'Release v1.1.1'
   icon: '🎉'
   to: https://github.com/LostElkByte/vue3-mobile-table/releases
   target: _blank

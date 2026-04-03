@@ -1,3 +1,4 @@
+## [1.1.1](https://github.com/LostElkByte/vue3-mobile-table/compare/v1.1.0...v1.1.1) (2026-04-03)
 # [1.1.0](https://github.com/LostElkByte/vue3-mobile-table/compare/v1.0.6...v1.1.0) (2026-04-02)
 
 
