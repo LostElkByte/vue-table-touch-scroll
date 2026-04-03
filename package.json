@@ -3,21 +3,15 @@
   "version": "1.1.0",
   "private": true,
   "packageManager": "pnpm@10.18.2",
-  "description": "vue3-mobile-table is a lightweight interaction engine specifically designed to adapt Vue desktop table components for mobile devices. With perfect compatibility for major UI libraries like Element Plus, Ant Design Vue, and Vxe Table, it allows you to grant your PC tables native-grade, buttery-smooth mobile interaction experiences with just a single line of code.",
+  "description": "vue3-mobile-table is a lightweight, high-performance Vue 3 mobile table solution.",
   "keywords": [
     "vue",
     "vue3",
     "mobile-table",
+    "touch-table",
+    "table-scroll",
     "touch-scroll",
-    "inertia-scroll",
-    "scroll-sync",
-    "vue-directive",
-    "element-plus",
-    "ant-design-vue",
-    "vxe-table",
-    "移动端表格",
-    "手机表格",
-    "惯性滚动"
+    "移动端表格"
   ],
   "homepage": "https://lostelkbyte.github.io/vue3-mobile-table",
   "bugs": {
@@ -30,7 +24,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LostElkByte/vue3-mobile-table.git"
+    "url": "https://github.com/LostElkByte/vue3-mobile-table.git",
+    "directory": "packages/vue3-mobile-table"
   },
   "workspaces": [
     "packages/*",
