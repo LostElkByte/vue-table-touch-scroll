@@ -223,7 +223,7 @@ The following is for **people working in this Git repository** (fixing bugs, add
 
 ### Repository layout
 
-```
+```text
 vue3-mobile-table/
 ├── packages/vue3-mobile-table/  # Library published to npm
 │   ├── index.ts                   # Entry: plugin installer + public exports

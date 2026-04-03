@@ -23,7 +23,7 @@ actions:
 Vue3 Mobile Table
 
 #description
-vue3-mobile-table 是一款专为 Vue3 桌面端表格组件适配移动端设备所打造的轻量级交互扩展引擎。完美兼容 Element Plus、Ant Design Vue 与 VxeTable 等主流组件库，只需一行代码，即可让PC 端表格在移动端设备上具有原生级的丝滑交互体验。
+vue3-mobile-table 是一款专为 Vue3 桌面端表格组件适配移动端设备所打造的轻量级交互扩展引擎。完美兼容 Element Plus、Ant Design Vue 与 VxeTable 等主流组件库，只需一行代码，即可让 PC 端表格在移动端设备上具有原生级的丝滑交互体验。
 ::
 
 ::div{class="border rounded-lg shadow-md"}
