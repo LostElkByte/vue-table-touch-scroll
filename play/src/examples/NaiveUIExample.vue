@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { NDataTable, NConfigProvider } from 'naive-ui'
@@ -21,8 +21,8 @@ const columns: DataTableColumns = useTableColumns()
       </p>
 
       <div
-        v-table-touch-scroll="{selector: '.n-scrollbar-container'}"
-        v-mobile-table"
+        v-mobile-table="{ selector: '.n-scrollbar-container' }"
+        class="table-wrapper"
       >
         <n-data-table
           :columns="columns"

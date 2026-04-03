@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { Table as ATable, theme, ConfigProvider } from 'ant-design-vue'
@@ -7,9 +7,9 @@ import 'ant-design-vue/dist/reset.css'
 import '../styles/common.css'
 import { computed } from 'vue'
 
-const { darkAlgorithm, compactAlgorithm } = theme;
+const { darkAlgorithm, compactAlgorithm } = theme
 const darkTheme = computed(() => ({
- algorithm: [darkAlgorithm, compactAlgorithm],
+  algorithm: [darkAlgorithm, compactAlgorithm],
 }))
 
 const tableData = useTableData(30)
@@ -27,8 +27,8 @@ const columns = useTableColumns()
       <!-- 使用 preset 预设方式（推荐） -->
       <!-- 也可以使用 selector 方式: { selector: '.ant-table-body' } -->
       <div
-        v-table-touch-scroll="{ preset: 'ant-design-vue' }"
-        v-mobile-table"
+        v-mobile-table="{ preset: 'ant-design-vue' }"
+        class="table-wrapper"
       >
         <a-table
           :columns="columns"

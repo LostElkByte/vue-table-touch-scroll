@@ -4,8 +4,8 @@ import {
   buildOutput,
   execCommand,
   projRoot,
-  vueTableTouchScrollOutput,
-  vueTableTouchScrollPackage,
+  vue3MobileTableOutput,
+  vue3MobileTablePackage,
 } from '@vue3-mobile-table/build-utils'
 import {
   buildConfig,
@@ -20,16 +20,16 @@ import type { Module } from './src'
 const copyFiles = () =>
   Promise.all([
     copyFile(
-      vueTableTouchScrollPackage,
-      path.join(vueTableTouchScrollOutput, 'package.json')
+      vue3MobileTablePackage,
+      path.join(vue3MobileTableOutput, 'package.json')
     ),
     copyFile(
       path.resolve(projRoot, 'README.md'),
-      path.resolve(vueTableTouchScrollOutput, 'README.md')
+      path.resolve(vue3MobileTableOutput, 'README.md')
     ),
     copyFile(
       path.resolve(projRoot, 'LICENSE'),
-      path.resolve(vueTableTouchScrollOutput, 'LICENSE')
+      path.resolve(vue3MobileTableOutput, 'LICENSE')
     ),
   ])
 
@@ -48,7 +48,7 @@ const copyTypesDefinitions = () => {
 const makeOutput = async () => {
   await execCommand(() => run('pnpm run clean'), 'clean output')
   await execCommand(
-    () => mkdir(vueTableTouchScrollOutput, { recursive: true }),
+    () => mkdir(vue3MobileTableOutput, { recursive: true }),
     'create output'
   )
 }

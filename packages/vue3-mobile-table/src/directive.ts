@@ -1,5 +1,5 @@
 /**
- * @file vTableTouchScroll.ts
+ * @file directive.ts
  * @author lostElk
  * @license MIT
  *
@@ -49,21 +49,17 @@
 import { getSelectorByPreset } from './presets'
 
 import type { DirectiveBinding, ObjectDirective } from 'vue'
-import type {
-  DeviceType,
-  ScrollContext,
-  TableTouchScrollOptions,
-} from './types'
+import type { DeviceType, MobileTableOptions, ScrollContext } from './types'
 
 /**
  * v-mobile-table 指令类型 / v-mobile-table Directive Type
- * 接受 TableTouchScrollOptions 配置对象 / Accepts TableTouchScrollOptions configuration object
+ * 接受 MobileTableOptions 配置对象 / Accepts MobileTableOptions configuration object
  * @example
  * v-mobile-table="{ preset: 'element-plus', friction: 0.95 }"
  */
-export type VTableTouchScrollDirective = ObjectDirective<
+export type VMobileTableDirective = ObjectDirective<
   HTMLElement,
-  TableTouchScrollOptions
+  MobileTableOptions
 >
 
 /** 物理引擎默认参数配置 / Physics engine default configuration */
@@ -137,7 +133,7 @@ export function detectDeviceType(): DeviceType {
  * @example
  * <div v-mobile-table="{ selector: '.table-body', friction: 0.9 }"></div>
  */
-export const vTableTouchScroll: VTableTouchScrollDirective = {
+export const vMobileTable: VMobileTableDirective = {
   mounted(el, binding) {
     initOrUpdate(el, binding)
   },
@@ -186,7 +182,7 @@ export const vTableTouchScroll: VTableTouchScrollDirective = {
  */
 function initOrUpdate(
   el: HTMLElement,
-  binding: DirectiveBinding<TableTouchScrollOptions>
+  binding: DirectiveBinding<MobileTableOptions>
 ) {
   if (typeof window === 'undefined') return
 
@@ -213,7 +209,7 @@ function initOrUpdate(
  * - mobile: 立即 Active / Immediate Active
  * - hybrid: Standby，懒接管 / Standby, lazy hijacking
  */
-function initDirective(el: HTMLElement, options: TableTouchScrollOptions) {
+function initDirective(el: HTMLElement, options: MobileTableOptions) {
   // 优先级: selector > preset > 默认(el 本身) / Priority: selector > preset > default (el itself)
   let targetSelector: string | undefined
   if (options.selector) {

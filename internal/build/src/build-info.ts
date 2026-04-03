@@ -1,6 +1,6 @@
 import path from 'path'
 import { PKG_NAME } from '@vue3-mobile-table/build-constants'
-import { vueTableTouchScrollOutput } from '@vue3-mobile-table/build-utils'
+import { vue3MobileTableOutput } from '@vue3-mobile-table/build-utils'
 
 import type { ModuleFormat } from 'rolldown'
 
@@ -26,7 +26,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     ext: 'mjs',
     output: {
       name: 'es',
-      path: path.resolve(vueTableTouchScrollOutput, 'es'),
+      path: path.resolve(vue3MobileTableOutput, 'es'),
     },
     bundle: {
       path: `${PKG_NAME}/es`,
@@ -38,7 +38,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     ext: 'js',
     output: {
       name: 'lib',
-      path: path.resolve(vueTableTouchScrollOutput, 'lib'),
+      path: path.resolve(vue3MobileTableOutput, 'lib'),
     },
     bundle: {
       path: `${PKG_NAME}/lib`,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { VxeTable, VxeColumn } from 'vxe-table'
@@ -20,8 +20,8 @@ const columns = useTableColumns()
     </p>
 
     <div
-      v-table-touch-scroll="{selector: '.vxe-table--body-inner-wrapper'}"
-      v-mobile-table"
+      v-mobile-table="{ selector: '.vxe-table--body-inner-wrapper' }"
+      class="table-wrapper"
     >
       <vxe-table
         :data="tableData"
@@ -40,10 +40,10 @@ const columns = useTableColumns()
         />
       </vxe-table>
     </div>
-v-mobile-table
+
     <h3 style="margin-top: 30px">Big Data Virtual Scrolling (10,000 records)</h3>
     <div
-      v-table-touch-scroll="{selector: '.vxe-table--body-inner-wrapper'}"
+      v-mobile-table="{ selector: '.vxe-table--body-inner-wrapper' }"
       class="table-wrapper"
     >
       <vxe-table

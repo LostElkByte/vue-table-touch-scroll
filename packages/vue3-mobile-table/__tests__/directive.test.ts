@@ -1,29 +1,29 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { detectDeviceType, vTableTouchScroll } from '../index'
+import { detectDeviceType, vMobileTable } from '../index'
 
-import type { TableTouchScrollOptions } from '../src/types'
+import type { MobileTableOptions } from '../src/types'
 import type { DirectiveBinding } from 'vue'
 
 /**
- * vTableTouchScroll 指令全功能测试套件
- * Full functional test suite for vTableTouchScroll directive
+ * vMobileTable 指令全功能测试套件
+ * Full functional test suite for vMobileTable directive
  */
-describe('vTableTouchScroll Directive', () => {
+describe('vMobileTable directive', () => {
   let el: HTMLElement
   const mockNow = vi.spyOn(performance, 'now')
 
   // --- Utility: Create Mock Binding / 工具函数：创建模拟 Vue 指令绑定对象 ---
   function createBinding(
-    value: TableTouchScrollOptions
-  ): DirectiveBinding<TableTouchScrollOptions> {
+    value: MobileTableOptions
+  ): DirectiveBinding<MobileTableOptions> {
     return {
       value,
       oldValue: null,
       arg: undefined,
       modifiers: {},
       instance: null,
-      dir: vTableTouchScroll,
-    } as DirectiveBinding<TableTouchScrollOptions>
+      dir: vMobileTable,
+    } as DirectiveBinding<MobileTableOptions>
   }
 
   // --- Utility: Layout Mocking / 工具函数：模拟 JSDOM 中缺失的布局属性与滚动限制 ---
@@ -124,7 +124,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Basic Lifecycle / 基础生命周期', () => {
     it('should hijack styles on mounted with mode=always / 挂载时应正确劫持 CSS 样式', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -137,18 +137,18 @@ describe('vTableTouchScroll Directive', () => {
     it('should restore styles on unmounted / 卸载时应还原元素原始样式', () => {
       el.style.overflow = 'auto'
       const binding = createBinding({ mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
-      vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
+      vMobileTable.unmounted!(el, binding, {} as any, null)
       expect(el.style.overflow).toBe('auto')
     })
 
     it('should enable/disable dynamically via options / 应支持通过配置项动态启用或禁用', () => {
       const bindingEnabled = createBinding({ enabled: true, mode: 'always' })
-      vTableTouchScroll.mounted!(el, bindingEnabled, {} as any, null)
+      vMobileTable.mounted!(el, bindingEnabled, {} as any, null)
       expect(el.style.overflow).toBe('hidden')
 
       const bindingDisabled = createBinding({ enabled: false, mode: 'always' })
-      vTableTouchScroll.updated!(el, bindingDisabled, {} as any, {} as any)
+      vMobileTable.updated!(el, bindingDisabled, {} as any, {} as any)
       expect(el.style.overflow).not.toBe('hidden')
     })
   })
@@ -158,7 +158,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Direction Locking / 轴向锁定', () => {
     it('should lock to Horizontal and ignore Y axis / 水平偏移优先时应锁定水平轴，忽略垂直移动', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -175,7 +175,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should ignore movement below threshold before direction lock / 未超过阈值前应直接返回不接管', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 20, mode: 'always' }),
         {} as any,
@@ -196,7 +196,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Edge Detection / 边缘检测', () => {
     it('should not preventDefault at left edge swiping right / 在最左侧向右划动应交还控制权', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -210,7 +210,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should keep hijacking at edge when disableEdgeDetection is true / 禁用边缘检测后在边缘应继续由指令接管', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always', disableEdgeDetection: true }),
         {} as any,
@@ -232,7 +232,7 @@ describe('vTableTouchScroll Directive', () => {
         mode: 'always',
         disableEdgeDetection: false,
       })
-      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      vMobileTable.mounted!(el, binding1, {} as any, null)
 
       el.scrollLeft = 0
       dispatchTouch('touchstart', 100, 100)
@@ -248,7 +248,7 @@ describe('vTableTouchScroll Directive', () => {
         mode: 'always',
         disableEdgeDetection: false,
       }
-      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+      vMobileTable.updated!(el, binding2, {} as any, {} as any)
 
       dispatchTouch('touchstart', 100, 100)
       const moveEvt2 = dispatchTouch('touchmove', 150, 100)
@@ -262,7 +262,7 @@ describe('vTableTouchScroll Directive', () => {
         scrollWidth: 500,
         scrollHeight: 500,
       })
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         smallEl,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -276,7 +276,7 @@ describe('vTableTouchScroll Directive', () => {
 
     it('should handle native scroll when at edge and swipe outward / 在边缘向外滑动时应触发原生滚动', async () => {
       el.scrollLeft = 0
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -299,7 +299,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Physics Engine / 物理引擎', () => {
     it('should simulate inertia displacement after release / 手指释放后应产生物理惯性位移', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -319,7 +319,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should start inertia animation on touchend when no RAF is active / touchend 时若未有 RAF 应启动惯性动画', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always', dragThreshold: 5 }),
         {} as any,
@@ -342,7 +342,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should stop inertia if paused for too long before release / 惯性保护：若停顿超过阈值再松手，不应触发惯性', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -370,7 +370,7 @@ describe('vTableTouchScroll Directive', () => {
     it('should block click events after a successful drag / 正常拖拽结束后，应拦截接下来的点击事件防止误触', async () => {
       const clickSpy = vi.fn()
       el.addEventListener('click', clickSpy)
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -390,7 +390,7 @@ describe('vTableTouchScroll Directive', () => {
     it('should block click when braking during inertia / 在惯性滑动中点击"刹车"应被拦截', async () => {
       const clickSpy = vi.fn()
       el.addEventListener('click', clickSpy)
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -414,7 +414,7 @@ describe('vTableTouchScroll Directive', () => {
       const endSpy = vi.fn()
       el.addEventListener('click', clickSpy)
 
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always', onScrollEnd: endSpy }),
         {} as any,
@@ -441,7 +441,7 @@ describe('vTableTouchScroll Directive', () => {
     it('should allow normal click without movement / 没有产生位移的单纯点击不应被拦截', () => {
       const clickSpy = vi.fn()
       el.addEventListener('click', clickSpy)
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -468,7 +468,7 @@ describe('vTableTouchScroll Directive', () => {
       el.appendChild(inner)
 
       const binding = createBinding({ selector: '.my-table', mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
 
       expect(inner.style.overflow).toBe('hidden')
       expect(el.style.overflow).not.toBe('hidden')
@@ -480,7 +480,7 @@ describe('vTableTouchScroll Directive', () => {
       el.appendChild(inner)
 
       const binding = createBinding({ preset: 'element-plus', mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
 
       expect(inner.style.overflow).toBe('hidden')
       expect(el.style.overflow).not.toBe('hidden')
@@ -499,7 +499,7 @@ describe('vTableTouchScroll Directive', () => {
         selector: '.custom-selector',
         mode: 'always',
       })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
 
       expect(selectorEl.style.overflow).toBe('hidden')
       expect(presetEl.style.overflow).not.toBe('hidden')
@@ -512,7 +512,7 @@ describe('vTableTouchScroll Directive', () => {
         mode: 'always',
       })
       expect(() => {
-        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+        vMobileTable.mounted!(el, binding, {} as any, null)
       }).not.toThrow()
       expect(el.style.overflow).not.toBe('hidden')
     })
@@ -523,7 +523,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Multi-touch Handling / 多指触摸处理', () => {
     it('should not preventDefault on multi-touch to allow native pinch-to-zoom / 多指时不阻止默认行为以允许原生缩放', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -543,7 +543,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should stop ongoing animation when multi-touch starts / 多指开始时应停止正在进行的动画', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -575,7 +575,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should ignore touchmove during multi-touch mode / 多指模式下应忽略 touchmove', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -604,7 +604,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should release multi-touch lock only when all fingers leave / 所有手指离开后才解除多指锁定', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -641,7 +641,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('should ignore unrelated finger lift / 应忽略无关手指的抬起', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -668,7 +668,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Vertical Scrolling / 垂直方向滚动', () => {
     it('should handle vertical scrolling / 应支持垂直滚动', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -691,7 +691,7 @@ describe('vTableTouchScroll Directive', () => {
   describe('Advanced Edge Detection / 进阶边缘检测', () => {
     it('should handle right edge detection / 应检测右边缘', () => {
       el.scrollLeft = el.scrollWidth - el.clientWidth
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -705,7 +705,7 @@ describe('vTableTouchScroll Directive', () => {
 
     it('should handle top edge detection / 应检测上边缘', () => {
       el.scrollTop = 0
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -719,7 +719,7 @@ describe('vTableTouchScroll Directive', () => {
 
     it('should handle bottom edge detection / 应检测下边缘', () => {
       el.scrollTop = el.scrollHeight - el.clientHeight
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -747,14 +747,14 @@ describe('vTableTouchScroll Directive', () => {
         onScrollEnd: endSpy1,
         mode: 'always',
       })
-      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      vMobileTable.mounted!(el, binding1, {} as any, null)
 
       const binding2 = createBinding({
         onScrollStart: startSpy2,
         onScrollEnd: endSpy2,
         mode: 'always',
       })
-      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+      vMobileTable.updated!(el, binding2, {} as any, {} as any)
 
       dispatchTouch('touchstart', 100, 100)
       mockNow.mockReturnValue(10)
@@ -774,11 +774,11 @@ describe('vTableTouchScroll Directive', () => {
       el.appendChild(inner2)
 
       const binding1 = createBinding({ selector: '.table-1', mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      vMobileTable.mounted!(el, binding1, {} as any, null)
       expect(inner1.style.overflow).toBe('hidden')
 
       const binding2 = createBinding({ selector: '.table-2', mode: 'always' })
-      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+      vMobileTable.updated!(el, binding2, {} as any, {} as any)
 
       expect(inner1.style.overflow).not.toBe('hidden')
       expect(inner2.style.overflow).toBe('hidden')
@@ -793,14 +793,14 @@ describe('vTableTouchScroll Directive', () => {
       el.appendChild(antTable)
 
       const binding1 = createBinding({ preset: 'element-plus', mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      vMobileTable.mounted!(el, binding1, {} as any, null)
       expect(elPlus.style.overflow).toBe('hidden')
 
       const binding2 = createBinding({
         preset: 'ant-design-vue',
         mode: 'always',
       })
-      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+      vMobileTable.updated!(el, binding2, {} as any, {} as any)
 
       expect(elPlus.style.overflow).not.toBe('hidden')
       expect(antTable.style.overflow).toBe('hidden')
@@ -812,7 +812,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Disable Inertia / 禁用惯性', () => {
     it('should not apply inertia when disabled / 禁用时不应产生惯性', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({
           disableInertia: true,
@@ -840,7 +840,7 @@ describe('vTableTouchScroll Directive', () => {
   describe('touchAction Style / touchAction 样式', () => {
     it('should reset touchAction when it is none / 当 touchAction 为 none 时应重置为 auto', () => {
       el.style.touchAction = 'none'
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ mode: 'always' }),
         {} as any,
@@ -855,7 +855,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('Touch Cancel / 触摸取消', () => {
     it('should handle touchcancel event / 应处理 touchcancel 事件', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always' }),
         {} as any,
@@ -886,7 +886,7 @@ describe('vTableTouchScroll Directive', () => {
         dragThreshold: 5,
         mode: 'always',
       })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
 
       dispatchTouch('touchstart', 100, 100)
       mockNow.mockReturnValue(10)
@@ -895,7 +895,7 @@ describe('vTableTouchScroll Directive', () => {
       dispatchTouch('touchend', 80, 100)
 
       await advanceFrames(16, 1)
-      vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+      vMobileTable.unmounted!(el, binding, {} as any, null)
       expect(endSpy).toHaveBeenCalled()
     })
 
@@ -904,10 +904,10 @@ describe('vTableTouchScroll Directive', () => {
       el.style.willChange = 'transform'
 
       const binding = createBinding({ mode: 'always' })
-      vTableTouchScroll.mounted!(el, binding, {} as any, null)
+      vMobileTable.mounted!(el, binding, {} as any, null)
       expect(el.style.overflow).toBe('hidden')
 
-      vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+      vMobileTable.unmounted!(el, binding, {} as any, null)
       expect(el.style.overflow).toBe('scroll')
       expect(el.style.willChange).toBe('transform')
     })
@@ -924,7 +924,7 @@ describe('vTableTouchScroll Directive', () => {
 
       const binding = createBinding({})
       expect(() => {
-        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+        vMobileTable.mounted!(el, binding, {} as any, null)
       }).not.toThrow()
 
       globalThis.window = originalWindow
@@ -975,7 +975,7 @@ describe('vTableTouchScroll Directive', () => {
     describe('Dormant State (Pure PC) / 休眠状态（纯 PC）', () => {
       it('should not modify styles in auto mode on desktop / 纯 PC 下 auto 模式不应改变任何样式', () => {
         const originalOverflow = el.style.overflow
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ mode: 'auto' }),
           {} as any,
@@ -986,22 +986,22 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should not modify styles with default mode on desktop / 默认模式在 desktop 不应改变样式', () => {
-        vTableTouchScroll.mounted!(el, createBinding({}), {} as any, null)
+        vMobileTable.mounted!(el, createBinding({}), {} as any, null)
         expect(el.style.overflow).not.toBe('hidden')
       })
 
       it('should cleanup gracefully from dormant state / 休眠状态下也应正常清理', () => {
         const binding = createBinding({})
-        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+        vMobileTable.mounted!(el, binding, {} as any, null)
         expect(() => {
-          vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+          vMobileTable.unmounted!(el, binding, {} as any, null)
         }).not.toThrow()
       })
     })
 
     describe('mode=always Backward Compatibility / mode=always 向后兼容', () => {
       it('should always activate regardless of device type / 无论设备类型都应激活', () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ mode: 'always' }),
           {} as any,
@@ -1013,13 +1013,13 @@ describe('vTableTouchScroll Directive', () => {
 
       it('should reinitialize when mode changes / mode 改变时应重新初始化', () => {
         const binding1 = createBinding({ mode: 'always' })
-        vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+        vMobileTable.mounted!(el, binding1, {} as any, null)
         expect(el.style.overflow).toBe('hidden')
 
         // 从 always 切换到 auto（在 JSDOM 中会进入 dormant）
         const binding2 = createBinding({ mode: 'auto' })
         ;(binding2 as any).oldValue = { mode: 'always' }
-        vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+        vMobileTable.updated!(el, binding2, {} as any, {} as any)
         expect(el.style.overflow).not.toBe('hidden')
       })
     })
@@ -1061,13 +1061,13 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should enter standby without hijacking styles / 进入 standby 不应劫持样式', () => {
-        vTableTouchScroll.mounted!(el, createBinding({}), {} as any, null)
+        vMobileTable.mounted!(el, createBinding({}), {} as any, null)
         expect(el.style.overflow).not.toBe('hidden')
         expect(el.style.willChange).not.toBe('scroll-position')
       })
 
       it('should remain in standby on pure click (touchstart → touchend) / 纯点击不应激活', () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1084,7 +1084,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should reset pending-active tracking on touchend / pending-active 结束时应清理 activeTouchId', () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 8 }),
           {} as any,
@@ -1103,7 +1103,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should remain in standby on small movement below threshold / 小幅移动未超阈值不应激活', () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 10 }),
           {} as any,
@@ -1120,7 +1120,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should activate when touchmove exceeds threshold / touchmove 超阈值应激活', async () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1140,7 +1140,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should deactivate on wheel and restore styles / wheel 应夺回控制权并还原样式', async () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1162,7 +1162,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should stop inertia immediately on wheel / wheel 应立即停止惯性动画', async () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1189,7 +1189,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should sync scroll position on deactivate to prevent snap / deactivate 时应同步位置防闪烁', async () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1211,7 +1211,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should allow re-activation after wheel deactivation / wheel 退出后应允许再次激活', async () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ dragThreshold: 5 }),
           {} as any,
@@ -1237,17 +1237,17 @@ describe('vTableTouchScroll Directive', () => {
 
       it('should cleanup correctly from standby state / standby 状态下应正确清理', () => {
         const binding = createBinding({ dragThreshold: 5 })
-        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+        vMobileTable.mounted!(el, binding, {} as any, null)
         expect(el.style.overflow).not.toBe('hidden')
 
         expect(() => {
-          vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+          vMobileTable.unmounted!(el, binding, {} as any, null)
         }).not.toThrow()
       })
 
       it('should cleanup correctly from active state / active 状态下应正确清理', async () => {
         const binding = createBinding({ dragThreshold: 5 })
-        vTableTouchScroll.mounted!(el, binding, {} as any, null)
+        vMobileTable.mounted!(el, binding, {} as any, null)
 
         dispatchTouch('touchstart', 100, 100)
         mockNow.mockReturnValue(10)
@@ -1255,7 +1255,7 @@ describe('vTableTouchScroll Directive', () => {
         await advanceFrames(16, 1)
 
         expect(el.style.overflow).toBe('hidden')
-        vTableTouchScroll.unmounted!(el, binding, {} as any, null)
+        vMobileTable.unmounted!(el, binding, {} as any, null)
         expect(el.style.overflow).not.toBe('hidden')
       })
     })
@@ -1293,7 +1293,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should hijack styles immediately in auto mode / auto 模式移动端应立即劫持样式', () => {
-        vTableTouchScroll.mounted!(
+        vMobileTable.mounted!(
           el,
           createBinding({ mode: 'auto' }),
           {} as any,
@@ -1304,7 +1304,7 @@ describe('vTableTouchScroll Directive', () => {
       })
 
       it('should hijack styles immediately with default mode / 默认模式移动端应立即劫持样式', () => {
-        vTableTouchScroll.mounted!(el, createBinding({}), {} as any, null)
+        vMobileTable.mounted!(el, createBinding({}), {} as any, null)
         expect(el.style.overflow).toBe('hidden')
       })
     })
@@ -1315,7 +1315,7 @@ describe('vTableTouchScroll Directive', () => {
   // ═══════════════════════════════════════════════════════════════════════
   describe('CSS Rotation Support / CSS 旋转横屏支持', () => {
     it('rotation=0 时行为不变（回归保护）/ rotation=0 should not change behavior', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: 0 }),
         {} as any,
@@ -1332,7 +1332,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('rotation=90 时水平触摸映射到垂直滚动 / rotation=90 maps horizontal swipe to vertical scroll', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
         {} as any,
@@ -1353,7 +1353,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('rotation=-90 时水平触摸映射到反向垂直滚动 / rotation=-90 maps horizontal swipe to reversed vertical scroll', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: -90 }),
         {} as any,
@@ -1374,7 +1374,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('rotation=180 时触摸方向完全反转 / rotation=180 reverses both axes', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: 180 }),
         {} as any,
@@ -1398,7 +1398,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('旋转状态下边缘检测仍正确工作 / edge detection works correctly under rotation', () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
         {} as any,
@@ -1418,7 +1418,7 @@ describe('vTableTouchScroll Directive', () => {
     })
 
     it('旋转状态下惯性方向正确 / inertia direction is correct under rotation', async () => {
-      vTableTouchScroll.mounted!(
+      vMobileTable.mounted!(
         el,
         createBinding({ dragThreshold: 5, mode: 'always', rotation: 90 }),
         {} as any,
@@ -1448,7 +1448,7 @@ describe('vTableTouchScroll Directive', () => {
         mode: 'always',
         rotation: 0,
       })
-      vTableTouchScroll.mounted!(el, binding1, {} as any, null)
+      vMobileTable.mounted!(el, binding1, {} as any, null)
 
       // rotation=0 时，水平滑动应产生水平滚动
       dispatchTouch('touchstart', 100, 100)
@@ -1473,7 +1473,7 @@ describe('vTableTouchScroll Directive', () => {
         mode: 'always',
         rotation: 90,
       })
-      vTableTouchScroll.updated!(el, binding2, {} as any, {} as any)
+      vMobileTable.updated!(el, binding2, {} as any, {} as any)
 
       // rotation=90: x=clientY, y=-clientX
       // 手指向右滑（clientX 增大）→ y=-clientX 减小 → scrollTop 增加

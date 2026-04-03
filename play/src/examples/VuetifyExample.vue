@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import { computed } from 'vue'
@@ -29,10 +29,9 @@ const headers = computed(() =>
     </p>
 
     <div
-      v-table-touch-scroll="{ selector: '.v-table__wrapper tbody' }"
+      v-mobile-table="{ selector: '.v-table__wrapper tbody' }"
       class="table-wrapper"
     >
-      v-mobile-table
       <v-data-table
         theme="dark"
         size="small"

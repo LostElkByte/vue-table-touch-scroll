@@ -21,7 +21,7 @@ export type HijackState = 'dormant' | 'standby' | 'pending-active' | 'active'
  * v-mobile-table 指令配置项
  * Configuration options for the v-mobile-table directive
  */
-export interface TableTouchScrollOptions {
+export interface MobileTableOptions {
   /**
    * 是否启用自定义滚动
    * Whether to enable custom scrolling

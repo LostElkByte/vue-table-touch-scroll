@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vTableTouchScroll } from 'vue3-mobile-table'
+import { vMobileTable } from 'vue3-mobile-table'
 import { useTableData } from '../composables/useTableData'
 import { useTableColumns } from '../composables/useTableColumns'
 import DataTable from 'primevue/datatable'
@@ -18,10 +18,9 @@ const columns = useTableColumns()
     </p>
 
     <div
-      v-table-touch-scroll="{ selector: '.p-datatable-table-container' }"
+      v-mobile-table="{ selector: '.p-datatable-table-container' }"
       class="table-wrapper"
     >
-      v-mobile-table
       <DataTable
         :value="tableData"
         :scrollable="true"
