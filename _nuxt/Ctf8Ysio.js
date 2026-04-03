@@ -1,1 +1,0 @@
-import{bd as s,ay as t,aG as a,aS as o,aI as l}from"./BtZonePM.js";const c={},r={class:"w-full overflow-y-auto [&:not(:first-child)]:mt-6 [&:not(:last-child)]:mb-6"},n={class:"w-full"};function d(e,f){return t(),a("div",r,[o("table",n,[l(e.$slots,"default")])])}const i=s(c,[["render",d]]);export{i as default};
