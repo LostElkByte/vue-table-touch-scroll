@@ -1,0 +1,1 @@
+import{bd as s,ay as e,aG as o,aI as c}from"./CZtD738A.js";const l={},r={class:"ml-6 list-disc [&:not(:first-child)]:mt-6 [&:not(:last-child)]:mb-6 [&>li:not(:first-child)]:mt-2"};function a(t,n){return e(),o("ul",r,[c(t.$slots,"default")])}const d=s(l,[["render",a]]);export{d as default};
