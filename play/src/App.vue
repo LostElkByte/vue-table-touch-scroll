@@ -7,6 +7,7 @@ import NaiveUIExample from './examples/NaiveUIExample.vue'
 import VuetifyExample from './examples/VuetifyExample.vue'
 import ArcoExample from './examples/ArcoExample.vue'
 import PrimeVueExample from './examples/PrimeVueExample.vue'
+import NestedTableExample from './examples/NestedTableExample.vue'
 
 interface Tab {
   name: string
@@ -49,6 +50,11 @@ const tabs: Tab[] = [
     name: 'PrimeVue',
     component: PrimeVueExample,
     description: 'Rich Vue UI component library',
+  },
+  {
+    name: 'Nested Table',
+    component: NestedTableExample,
+    description: 'Nested table gesture arbitration demo',
   },
 ]
 
