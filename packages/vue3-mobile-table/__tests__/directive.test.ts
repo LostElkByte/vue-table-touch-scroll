@@ -1750,5 +1750,100 @@ describe('vMobileTable directive', () => {
       // 父表应该在同帧接管并开始滚动（零丢帧）
       expect(parentEl.scrollLeft).toBeGreaterThan(0)
     })
+
+    it('sentinel 模式下子表已占据手势时父表应回退 standby / sentinel parent should revert to standby when child owns gesture', async () => {
+      // 父表使用 auto 模式（sentinel / lazy hijacking），子表使用 always 模式
+      parentEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 1000,
+        scrollHeight: 1000,
+      })
+      document.body.appendChild(parentEl)
+
+      childEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 800,
+        scrollHeight: 800,
+      })
+      parentEl.appendChild(childEl)
+
+      vMobileTable.mounted!(
+        parentEl,
+        createBinding({ mode: 'auto', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+      vMobileTable.mounted!(
+        childEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      // 子表 touchstart + touchmove → 子表 claim gestureOwner
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 子表应滚动，父表不应滚动（sentinel 路径被阻塞回退 standby）
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      expect(parentEl.scrollLeft).toBe(0)
+    })
+
+    it('中途穿透祖先遍历应跨越中间 DOM 层 / mid-gesture ancestor traversal should cross intermediate DOM layers', async () => {
+      // 构建 parentEl > wrapper > childEl（中间有非 v-mobile-table 层）
+      parentEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 1000,
+        scrollHeight: 1000,
+      })
+      document.body.appendChild(parentEl)
+
+      const wrapper = document.createElement('div')
+      parentEl.appendChild(wrapper)
+
+      childEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 300,
+        scrollHeight: 200,
+      })
+      wrapper.appendChild(childEl)
+
+      vMobileTable.mounted!(
+        parentEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+      vMobileTable.mounted!(
+        childEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      // 子表向左划 → claim
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+
+      // 子表置于右边界
+      childEl.scrollLeft = 100 // max = 300 - 200 = 100
+
+      // 继续向左划 → 中途边界检测 → 遍历 wrapper → 找到 parentEl → 释放 → 父表接管
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchmove', 40, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(parentEl.scrollLeft).toBeGreaterThan(0)
+    })
   })
 })
