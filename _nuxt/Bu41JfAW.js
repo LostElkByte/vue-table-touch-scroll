@@ -1,1 +1,0 @@
-import{bd as o,ay as n,aG as t,aI as a}from"./CZtD738A.js";const r={},c={class:"inline-code bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono"};function s(e,d){return n(),t("code",c,[a(e.$slots,"default",{},void 0,!0)])}const l=o(r,[["render",s],["__scopeId","data-v-a18175ab"]]);export{l as default};

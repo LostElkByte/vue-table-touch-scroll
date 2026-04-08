@@ -1,1 +1,0 @@
-import{at as r,ay as n,aG as o,aI as l,aM as t,aA as c,aN as p}from"./CZtD738A.js";const d=r({__name:"CardHeader",props:{class:{type:[Boolean,null,String,Object,Array]}},setup(a){const e=a;return(s,f)=>(n(),o("div",{class:t(c(p)("flex flex-col gap-y-1.5 p-6",e.class))},[l(s.$slots,"default")],2))}});export{d as _};
