@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/LostElkByte/vue3-mobile-table/compare/v1.1.1...v1.1.2) (2026-04-08)
+
+
+### Features
+
+* Nested Table Gesture Arbitration ([8a7fb07](https://github.com/LostElkByte/vue3-mobile-table/commit/8a7fb07d271ea58091eec1192756b7e22fc33fad))
 ## [1.1.1](https://github.com/LostElkByte/vue3-mobile-table/compare/v1.1.0...v1.1.1) (2026-04-03)
 # [1.1.0](https://github.com/LostElkByte/vue3-mobile-table/compare/v1.0.6...v1.1.0) (2026-04-02)
 
