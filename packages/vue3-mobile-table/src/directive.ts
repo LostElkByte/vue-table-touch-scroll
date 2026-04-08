@@ -75,6 +75,18 @@ const STYLE_PROPS = ['overflow', 'willChange', 'touchAction'] as const // 需要
 const contexts = new WeakMap<HTMLElement, ScrollContext>()
 
 /**
+ * 嵌套实例手势仲裁：当前拥有手势所有权的滚动上下文
+ * Nested instance gesture arbitration: the ScrollContext that currently owns the active gesture.
+ *
+ * 所有权在 touchmove 方向锁定阶段通过"先到先得"竞争获取（内层冒泡先触发），
+ * 在 touchend（所有手指离开）时释放。惯性阶段不持有所有权。
+ * Ownership is claimed during the touchmove direction-lock phase via first-come-first-served
+ * (inner element fires first due to bubbling), and released on touchend (all fingers up).
+ * The inertia phase does not hold ownership.
+ */
+let gestureOwner: ScrollContext | null = null
+
+/**
  * 触摸坐标逆变换：将屏幕物理坐标系映射到旋转后的元素坐标系
  * Inverse-transforms touch coordinates from screen physical space to rotated element space.
  *
@@ -362,6 +374,19 @@ function onSentinelTouchMove(e: TouchEvent, ctx: ScrollContext) {
   const dy = Math.abs(y - ctx.pendingStartY)
 
   if (dx > ctx.dragThreshold || dy > ctx.dragThreshold) {
+    // 嵌套实例仲裁：过期所有权自动释放 / Auto-release stale owner
+    if (gestureOwner && !gestureOwner.el.isConnected) {
+      gestureOwner = null
+    }
+    // 嵌套实例仲裁：已被其他实例占据则回退 standby，不激活
+    // Nested arbitration: if another instance owns the gesture, revert to standby
+    if (gestureOwner && gestureOwner !== ctx) {
+      ctx.hijackState = 'standby'
+      ctx.isTouching = false
+      ctx.activeTouchId = null
+      return
+    }
+
     // 确认为真实拖拽 → 劫持样式，正式进入 Active
     // Confirmed as real drag → hijack styles, officially enter Active
     activateHijacking(ctx)
@@ -381,6 +406,8 @@ function onSentinelTouchEnd(ctx: ScrollContext) {
     // 清理 onTouchStart 设置的追踪状态 / Clean up tracking state set by onTouchStart
     ctx.isTouching = false
     ctx.activeTouchId = null
+    // 嵌套实例仲裁：释放手势所有权 / Nested arbitration: release gesture ownership
+    if (gestureOwner === ctx) gestureOwner = null
   }
 }
 
@@ -490,6 +517,9 @@ function cleanup(el: HTMLElement) {
   const wasScrolling = ctx.rafId !== null
 
   if (ctx.rafId) cancelAnimationFrame(ctx.rafId)
+
+  // 嵌套实例仲裁：释放手势所有权 / Nested arbitration: release gesture ownership
+  if (gestureOwner === ctx) gestureOwner = null
 
   // 销毁所有事件：哨兵 + Active / Destroy all events: sentinel + Active
   ctx.sentinelAbort.abort()
@@ -688,6 +718,19 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
 
   // 1. 初始方向锁定判定 / Initial axis locking determination
   if (!ctx.gestureDirection) {
+    // 嵌套实例仲裁：过期所有权自动释放（持有者已从 DOM 断开）
+    // Nested arbitration: auto-release stale owner (element disconnected from DOM)
+    if (gestureOwner && !gestureOwner.el.isConnected) {
+      gestureOwner = null
+    }
+    // 嵌套实例仲裁：已被其他实例占据则被动跟踪后退出（保持 lastTouchX/Y 与手指同步，以便接管时 incX 天然正确）
+    // Nested arbitration: passively track touch position before exiting (keeps lastTouchX/Y in sync for seamless takeover)
+    if (gestureOwner && gestureOwner !== ctx) {
+      ctx.lastTouchX = x
+      ctx.lastTouchY = y
+      return
+    }
+
     const currentThreshold = ctx.dragThreshold
     if (Math.abs(dx) > currentThreshold || Math.abs(dy) > currentThreshold) {
       const isHorizontal = Math.abs(dx) > Math.abs(dy)
@@ -716,6 +759,10 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
         return
       }
 
+      // 嵌套实例仲裁：正式获取手势所有权（先到先得）
+      // Nested arbitration: claim gesture ownership (first-come-first-served)
+      gestureOwner = ctx
+
       // 正式锁定方向，接管滚动 / Lock direction and take over scrolling
       ctx.gestureDirection = isHorizontal ? 'horizontal' : 'vertical'
       ctx.lockedDirection = ctx.gestureDirection
@@ -733,7 +780,51 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
     }
   }
 
-  // 2. 接管之后阻止默认页面滚动行为 / Prevent default page scroll after hijacking
+  // 2. 嵌套实例仲裁：中途边界检测，到达边界时释放所有权让父表接管
+  // Nested arbitration: mid-gesture edge detection, release ownership at boundary for parent takeover
+  if (gestureOwner === ctx && !ctx.disableEdgeDetection) {
+    const _el = ctx.scrollEl
+    const _incX = x - ctx.lastTouchX
+    const _incY = y - ctx.lastTouchY
+    let atEdgeMidGesture = false
+
+    if (ctx.lockedDirection === 'horizontal') {
+      const max = _el.scrollWidth - _el.clientWidth
+      atEdgeMidGesture =
+        (_el.scrollLeft <= 1 && _incX > 0) ||
+        (_el.scrollLeft >= max - 1 && _incX < 0) ||
+        max <= 0
+    } else if (ctx.lockedDirection === 'vertical') {
+      const max = _el.scrollHeight - _el.clientHeight
+      atEdgeMidGesture =
+        (_el.scrollTop <= 1 && _incY > 0) ||
+        (_el.scrollTop >= max - 1 && _incY < 0) ||
+        max <= 0
+    }
+
+    if (atEdgeMidGesture) {
+      // 仅在嵌套场景（存在父级 v-mobile-table 实例）时才释放，避免单表格场景边界处误终止手势
+      // Only release in nested scenarios (ancestor has v-mobile-table) to avoid premature gesture termination for standalone tables
+      let hasParent = false
+      let parent = ctx.el.parentElement
+      while (parent) {
+        if (contexts.has(parent)) {
+          hasParent = true
+          break
+        }
+        parent = parent.parentElement
+      }
+
+      if (hasParent) {
+        gestureOwner = null
+        ctx.isNativeScroll = true
+        stopAnimation(ctx)
+        return // 不调用 preventDefault，让事件冒泡给父表 / Skip preventDefault, let event bubble to parent
+      }
+    }
+  }
+
+  // 3. 接管之后阻止默认页面滚动行为 / Prevent default page scroll after hijacking
   if (e.cancelable) {
     e.preventDefault()
   }
@@ -741,7 +832,7 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
   const incX = x - ctx.lastTouchX
   const incY = y - ctx.lastTouchY
 
-  // 3. 计算目标位移增量 (阶段一：手动跟随) / Calculate displacement increment (Phase 1: Manual Follow)
+  // 4. 计算目标位移增量 (阶段一：手动跟随) / Calculate displacement increment (Phase 1: Manual Follow)
   if (ctx.gestureDirection === 'horizontal') {
     const max = ctx.scrollEl.scrollWidth - ctx.scrollEl.clientWidth
     ctx.targetScrollLeft = Math.max(
@@ -753,7 +844,7 @@ function onTouchMove(e: TouchEvent, ctx: ScrollContext) {
     ctx.targetScrollTop = Math.max(0, Math.min(max, ctx.targetScrollTop - incY))
   }
 
-  // 4. 采用历史轨迹队列法计算真实惯性速度（阶段二：为松手后的惯性做准备）
+  // 5. 采用历史轨迹队列法计算真实惯性速度（阶段二：为松手后的惯性做准备）
   // Calculate real inertial velocity (Phase 2: Preparing for release)
   ctx.touchTracker.push({ time: now, x, y })
   // 仅保留最近 50ms 内的触摸点，过滤掉低端机硬件采样抖动，且无惧 60/120Hz 差异
@@ -788,6 +879,9 @@ function onTouchEnd(e: TouchEvent, ctx: ScrollContext) {
   if (e.touches.length === 0) {
     // 所有手指都离开屏幕，解除多指锁定 / All fingers left, release multi-touch lock
     ctx.isMultiTouching = false
+    // 嵌套实例仲裁：释放手势所有权，允许下次 touchstart 重新竞争
+    // Nested arbitration: release gesture ownership for next gesture competition
+    if (gestureOwner === ctx) gestureOwner = null
   }
   if (ctx.isMultiTouching) {
     // 仍有手指在屏幕上且处于多指模式，直接忽略 / Still in multi-touch mode, ignore

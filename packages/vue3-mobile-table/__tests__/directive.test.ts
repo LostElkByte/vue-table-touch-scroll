@@ -1486,4 +1486,364 @@ describe('vMobileTable directive', () => {
       expect(el.scrollTop).toBeGreaterThan(0)
     })
   })
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // 嵌套表格手势仲裁测试 / Nested Table Gesture Arbitration
+  // ═══════════════════════════════════════════════════════════════════════
+  describe('Nested Table / 嵌套表格手势仲裁', () => {
+    let parentEl: HTMLElement
+    let childEl: HTMLElement
+
+    /**
+     * 构建嵌套结构：parentEl > childEl，两者都绑定 v-mobile-table
+     * Build nested structure: parentEl > childEl, both bound to v-mobile-table
+     */
+    function setupNested(
+      parentOpts: { scrollWidth?: number; scrollHeight?: number } = {},
+      childOpts: { scrollWidth?: number; scrollHeight?: number } = {}
+    ) {
+      // 父表
+      parentEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: parentOpts.scrollWidth ?? 1000,
+        scrollHeight: parentOpts.scrollHeight ?? 1000,
+      })
+      document.body.appendChild(parentEl)
+
+      // 子表（挂在父表内部）
+      childEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: childOpts.scrollWidth ?? 800,
+        scrollHeight: childOpts.scrollHeight ?? 800,
+      })
+      parentEl.appendChild(childEl)
+
+      vMobileTable.mounted!(
+        parentEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+      vMobileTable.mounted!(
+        childEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+    }
+
+    afterEach(() => {
+      if (childEl) {
+        vMobileTable.unmounted!(
+          childEl,
+          createBinding({ mode: 'always' }),
+          {} as any,
+          null
+        )
+      }
+      if (parentEl) {
+        vMobileTable.unmounted!(
+          parentEl,
+          createBinding({ mode: 'always' }),
+          {} as any,
+          null
+        )
+      }
+    })
+
+    it('子表滑动时父表不应跟随滚动 / child scroll should not cause parent scroll', async () => {
+      setupNested()
+
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 子表应滚动
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      // 父表不应滚动
+      expect(parentEl.scrollLeft).toBe(0)
+    })
+
+    it('子表惯性阶段父表不应滚动 / parent should not scroll during child inertia', async () => {
+      setupNested()
+
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 50, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 松手触发惯性
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 50, 100, childEl)
+      await advanceFrames(16, 3)
+
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      expect(parentEl.scrollLeft).toBe(0)
+    })
+
+    it('子表手势结束后新触摸父表可正常滚动 / parent should work after child gesture ends', async () => {
+      setupNested()
+
+      // 先在子表上完成一次手势
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 70, 100, childEl)
+
+      // 等待惯性停止
+      mockNow.mockReturnValue(500)
+      vi.advanceTimersByTime(500)
+      await Promise.resolve()
+
+      // 新手势在父表上
+      mockNow.mockReturnValue(600)
+      dispatchTouch('touchstart', 100, 100, parentEl)
+      mockNow.mockReturnValue(610)
+      dispatchTouch('touchmove', 70, 100, parentEl)
+      await advanceFrames(16, 1)
+
+      expect(parentEl.scrollLeft).toBeGreaterThan(0)
+    })
+
+    it('子表在边界且父表也在边界时应交还浏览器 / both at edge should hand to browser', async () => {
+      setupNested()
+
+      // 子表和父表都在最左边界
+      childEl.scrollLeft = 0
+      parentEl.scrollLeft = 0
+
+      // 向右划（dx > 0），两者都在左边界 → 无人 claim → 交给浏览器
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 130, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(childEl.scrollLeft).toBe(0)
+      expect(parentEl.scrollLeft).toBe(0)
+    })
+
+    it('子表在边界且父表可滚动时手势穿透给父表 / edge passthrough to scrollable parent', async () => {
+      setupNested()
+
+      // 子表在最左边界，父表在中间位置
+      childEl.scrollLeft = 0
+      parentEl.scrollLeft = 200
+
+      // 向左划（dx < 0），子表可以滚动 → 子表 claim
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      expect(parentEl.scrollLeft).toBe(200)
+
+      // 结束手势
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 70, 100, childEl)
+      mockNow.mockReturnValue(500)
+      vi.advanceTimersByTime(500)
+      await Promise.resolve()
+
+      // 子表不可横向滚动的场景：宽度一样，无需滚动
+      // 重新构建一个子表不可滚动的场景
+      vMobileTable.unmounted!(
+        childEl,
+        createBinding({ mode: 'always' }),
+        {} as any,
+        null
+      )
+      vMobileTable.unmounted!(
+        parentEl,
+        createBinding({ mode: 'always' }),
+        {} as any,
+        null
+      )
+
+      setupNested(
+        { scrollWidth: 1000 },
+        { scrollWidth: 200 } // 子表 scrollWidth === clientWidth，无需滚动
+      )
+      parentEl.scrollLeft = 200
+
+      mockNow.mockReturnValue(600)
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(610)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 子表无需横向滚动 → 不 claim → 父表接管
+      expect(parentEl.scrollLeft).toBeGreaterThan(200)
+    })
+
+    it('父表惯性中触碰子表区域应刹停父表惯性 / touching child during parent inertia should stop parent', async () => {
+      setupNested()
+
+      // 在父表上发起手势（直接在 parentEl 上，不经过 childEl）
+      dispatchTouch('touchstart', 100, 100, parentEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 50, 100, parentEl)
+      await advanceFrames(16, 1)
+
+      // 松手进入惯性
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchend', 50, 100, parentEl)
+
+      const parentScrollAfterEnd = parentEl.scrollLeft
+      expect(parentScrollAfterEnd).toBeGreaterThan(0)
+
+      // 短暂惯性
+      await advanceFrames(16, 2)
+      const parentScrollDuringInertia = parentEl.scrollLeft
+      expect(parentScrollDuringInertia).toBeGreaterThanOrEqual(
+        parentScrollAfterEnd
+      )
+
+      // 此时触碰子表 → 父表惯性应被 touchstart 中的 stopAnimation 刹停
+      mockNow.mockReturnValue(100)
+      dispatchTouch('touchstart', 100, 100, childEl)
+
+      // 等待确认父表惯性已停
+      await advanceFrames(16, 3)
+      const parentScrollAfterChildTouch = parentEl.scrollLeft
+
+      // 在子表上滑动
+      mockNow.mockReturnValue(110)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 子表应滚动
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      // 父表在子表触碰后不应再增长
+      expect(parentEl.scrollLeft).toBe(parentScrollAfterChildTouch)
+    })
+
+    it('子表中途到达边界后手势应无缝穿透给父表 / mid-gesture edge handover to parent', async () => {
+      setupNested(
+        { scrollWidth: 1000 },
+        { scrollWidth: 300 } // 子表只有 100px 可滚动空间（300 - 200）
+      )
+
+      // 子表初始在左侧，向左划让子表滚到右边界
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      // 向左划 30px → 子表 scrollLeft 从 0 到 30
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      expect(parentEl.scrollLeft).toBe(0)
+
+      // 将子表直接置于右边界以模拟已滚到底
+      childEl.scrollLeft = 100 // max = 300 - 200 = 100
+
+      // 继续同方向划动（向左），子表已到右边界 → 中途释放 → 父表同帧接管（被动跟踪保证 incX 正确）
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchmove', 40, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 父表应该在同帧接管并开始滚动（零丢帧）
+      expect(parentEl.scrollLeft).toBeGreaterThan(0)
+    })
+
+    it('sentinel 模式下子表已占据手势时父表应回退 standby / sentinel parent should revert to standby when child owns gesture', async () => {
+      // 父表使用 auto 模式（sentinel / lazy hijacking），子表使用 always 模式
+      parentEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 1000,
+        scrollHeight: 1000,
+      })
+      document.body.appendChild(parentEl)
+
+      childEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 800,
+        scrollHeight: 800,
+      })
+      parentEl.appendChild(childEl)
+
+      vMobileTable.mounted!(
+        parentEl,
+        createBinding({ mode: 'auto', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+      vMobileTable.mounted!(
+        childEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      // 子表 touchstart + touchmove → 子表 claim gestureOwner
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      // 子表应滚动，父表不应滚动（sentinel 路径被阻塞回退 standby）
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+      expect(parentEl.scrollLeft).toBe(0)
+    })
+
+    it('中途穿透祖先遍历应跨越中间 DOM 层 / mid-gesture ancestor traversal should cross intermediate DOM layers', async () => {
+      // 构建 parentEl > wrapper > childEl（中间有非 v-mobile-table 层）
+      parentEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 1000,
+        scrollHeight: 1000,
+      })
+      document.body.appendChild(parentEl)
+
+      const wrapper = document.createElement('div')
+      parentEl.appendChild(wrapper)
+
+      childEl = createMockElement({
+        width: 200,
+        height: 200,
+        scrollWidth: 300,
+        scrollHeight: 200,
+      })
+      wrapper.appendChild(childEl)
+
+      vMobileTable.mounted!(
+        parentEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+      vMobileTable.mounted!(
+        childEl,
+        createBinding({ mode: 'always', dragThreshold: 5 }),
+        {} as any,
+        null
+      )
+
+      // 子表向左划 → claim
+      dispatchTouch('touchstart', 100, 100, childEl)
+      mockNow.mockReturnValue(10)
+      dispatchTouch('touchmove', 70, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(childEl.scrollLeft).toBeGreaterThan(0)
+
+      // 子表置于右边界
+      childEl.scrollLeft = 100 // max = 300 - 200 = 100
+
+      // 继续向左划 → 中途边界检测 → 遍历 wrapper → 找到 parentEl → 释放 → 父表接管
+      mockNow.mockReturnValue(20)
+      dispatchTouch('touchmove', 40, 100, childEl)
+      await advanceFrames(16, 1)
+
+      expect(parentEl.scrollLeft).toBeGreaterThan(0)
+    })
+  })
 })
